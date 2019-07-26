@@ -3,8 +3,14 @@
     <div class="find-me">
         <input type="text" id="findPlace" class="grey-text" placeholder="Inserisci il luogo"/>
         <div class="text-center mt-4">
-          <button class="btn btn-unique">Cerca</button>
-          <button class="btn btn-unique">Trovami</button>
+          <button class="btn btn-unique">
+            Cerca
+            <v-icon name="search"></v-icon>
+          </button>
+          <button class="btn btn-unique">
+            Trovami
+            <v-icon name="send"></v-icon>
+          </button>
         </div>
     </div>
 </template>
@@ -38,10 +44,15 @@ export default {
 }
 
 .btn {
-  text-align: center;
+  align-self: auto;
   width: 36%;
   height: 40px;
   border-radius: 0.30em;
+}
+
+.icon{
+  margin-left: 4%;
+  height: 100%;
 }
 
 </style>
