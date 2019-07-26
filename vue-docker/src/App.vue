@@ -1,8 +1,7 @@
 <template>
   <div>
     <HelloWorld></HelloWorld>
-    <div><FindMe></FindMe></div>
-    
+      <div><FindMe></FindMe></div>
   </div>
 </template>
 
@@ -21,7 +20,12 @@ export default {
 
 <style>
 :root{
-  background-color: #008000
+  background-image: url('~@/assets/init_background.jpg');
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #008000;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
