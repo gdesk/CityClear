@@ -1,18 +1,18 @@
 <template>
   <div id="app" style="resize: horizontal; overflow: hidden">
-      <HelloWorld ></HelloWorld>
-      <FindMe></FindMe>
+      <nav-bar ></nav-bar>
+      <find-me></find-me>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavBar from './components/NavBar.vue'
 import FindMe from './components/FindMe.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
+    NavBar,
     FindMe
   }
 }

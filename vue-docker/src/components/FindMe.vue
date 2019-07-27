@@ -4,12 +4,10 @@
     <div class="find-me">
         <input type="text" id="findPlace" class="input" placeholder="  Inserisci il luogo"/>
         <div class="text-center mt-4">
-          <button class="btn btn-unique" dark>
-            Cerca 
+          <button class="btn btn-unique" dark> Cerca 
             <v-icon name="search"></v-icon>
           </button>
-          <button class="btn btn-unique">
-            Trovami 
+          <button class="btn btn-unique"> Trovami 
             <v-icon name="send"></v-icon>
           </button>
         </div>
@@ -20,7 +18,7 @@
 <script>
 import { mdbBtn } from "mdbvue";
 export default {
-    name: 'Basic',
+    name: 'find-me',
     component: {
       mdbBtn
     } 
@@ -30,7 +28,7 @@ export default {
 <style scoped>
 @media only screen and (max-width: 450px){
   #findme{
-  width: 350px;
+    width: 350px;
     height: 200px;
     position: absolute;
     top: 50%;
@@ -40,6 +38,7 @@ export default {
   } 
   .input:focus + .find{
     bottom: 0%;
+    position: absolute
   }
 }
 .find-me{
