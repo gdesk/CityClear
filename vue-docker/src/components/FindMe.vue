@@ -1,6 +1,4 @@
 <template>
-  <!-- Default form register -->
-  <div id="findme" class="find">
     <div class="find-me">
         <input type="text" id="findPlace" class="input" placeholder="  Inserisci il luogo"/>
         <div class="text-center mt-4">
@@ -12,7 +10,6 @@
           </button>
         </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -27,21 +24,23 @@ export default {
 
 <style scoped>
 @media only screen and (max-width: 450px){
-  #findme{
-    width: 350px;
+  .find-me{
+  width: 400px;
     height: 200px;
+    text-align: center;
     position: absolute;
     top: 50%;
     left: 50%;
-    right: 50%;
-    margin: -100px 0 0 -175px;
+    margin-top: -100px;
+    margin-left: -200px;
   } 
   .input:focus + .find{
     top: 70%;
-    position: absolute
+    position: absolute;
   }
 }
-.find-me{
+@media only screen and (min-width: 450px){
+  .find-me{
     width: 400px;
     height: 200px;
     text-align: center;
@@ -51,6 +50,9 @@ export default {
     margin-top: -100px;
     margin-left: -200px;
 }
+}
+
+
 
 .input {
   margin-top: 10%;

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="resize: horizontal; overflow: hidden">
+  <div id="home" style="resize: horizontal; overflow: hidden">
       <find-me></find-me>
   </div>
 </template>
