@@ -6,8 +6,11 @@ import 'mdbvue/build/css/mdb.css';
 import feather from 'vue-icon'
 Vue.use(feather, 'v-icon')
 
+import router from './router/router.js'
+
 Vue.config.productionTip = false
 
 new Vue({
+  router,
   render: h => h(App),
 }).$mount('#app')

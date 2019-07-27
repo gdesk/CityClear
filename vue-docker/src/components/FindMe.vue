@@ -37,7 +37,7 @@ export default {
     margin: -100px 0 0 -175px;
   } 
   .input:focus + .find{
-    bottom: 0%;
+    top: 70%;
     position: absolute
   }
 }

@@ -1,13 +1,13 @@
 <template>
   <div class="header" style="resize: horizontal; overflow: hidden">
     <mdb-navbar color="white" light>
-      <mdb-navbar-brand href="#">
+      <mdb-navbar-brand>
         <img class="img-responsive" src="../assets/images/logo.png">
       </mdb-navbar-brand>
       <mdb-navbar-toggler>
           <mdb-navbar-nav right>
-              <mdb-nav-item class="item-nav" href="#">Accedi</mdb-nav-item>
-              <mdb-nav-item class="item-nav" href="#">About</mdb-nav-item>
+              <mdb-nav-item class="item-nav">Accedi</mdb-nav-item>
+              <mdb-nav-item class="item-nav" link="/about">About</mdb-nav-item>
           </mdb-navbar-nav>
       </mdb-navbar-toggler>
     </mdb-navbar>
