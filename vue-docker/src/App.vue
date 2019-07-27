@@ -1,6 +1,7 @@
 <template>
   <div id="app" style="resize: horizontal; overflow: hidden">
       <Responsive></Responsive>
+      <HelloWorld></HelloWorld>
       <div><FindMe></FindMe></div>
   </div>
 </template>

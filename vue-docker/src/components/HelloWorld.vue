@@ -1,8 +1,10 @@
 <template>
-  <mdb-navbar class="responsive-component" color="transparent" light>
+<div id="app" style="resize: horizontal; overflow: hidden">
+  <Responsive></Responsive>
+  <mdb-navbar color="transparent" light>
     <!-- Navbar brand -->
     <mdb-navbar-brand href="#">
-      <img class="img-responsive" src="../assets/images/logo.png" >
+      <img class="img-responsive" src="../assets/images/logo.png">
     </mdb-navbar-brand>
     <mdb-navbar-toggler>
         <mdb-navbar-nav right>
@@ -11,6 +13,7 @@
         </mdb-navbar-nav>
     </mdb-navbar-toggler>
   </mdb-navbar>
+</div>
 </template>
 
 <script>

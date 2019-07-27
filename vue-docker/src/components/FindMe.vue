@@ -1,5 +1,7 @@
 <template>
   <!-- Default form register -->
+  <div id="app" style="resize: horizontal; overflow: hidden">
+      <Responsive></Responsive>
     <div class="find-me">
         <input type="text" id="findPlace" class="input" placeholder="  Inserisci il luogo"/>
         <div class="text-center mt-4">
@@ -13,6 +15,7 @@
           </button>
         </div>
     </div>
+  </div>
 </template>
 
 <script>
