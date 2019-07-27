@@ -1,9 +1,9 @@
 <template>
   <!-- Default form register -->
     <div class="find-me">
-        <input type="text" id="findPlace" class="grey-text" placeholder="Inserisci il luogo"/>
+        <input type="text" id="findPlace" class="input" placeholder="  Inserisci il luogo"/>
         <div class="text-center mt-4">
-          <button class="btn btn-unique">
+          <button class="btn btn-unique" dark>
             Cerca
             <v-icon name="search"></v-icon>
           </button>
@@ -16,8 +16,12 @@
 </template>
 
 <script>
+import { mdbBtn } from "mdbvue";
 export default {
-    
+    name: 'Basic',
+    component: {
+      mdbBtn
+    } 
 }
 </script>
 
@@ -33,7 +37,7 @@ export default {
     margin-left: -200px;
 }
 
-.grey-text {
+.input {
   margin-top: 10%;
   align-self: auto;
   width: 300px;
@@ -41,13 +45,14 @@ export default {
   border: 1px solid #cfd9db;
   background-color: #ffffff;
   border-radius: 0.25em;
+  color: black;
 }
 
 .btn {
   align-self: auto;
   width: 36%;
   height: 40px;
-  border-radius: 0.30em;
+  border-radius: 0.9em;
 }
 
 .icon{
