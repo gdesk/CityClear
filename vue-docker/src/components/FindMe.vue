@@ -4,11 +4,11 @@
         <input type="text" id="findPlace" class="input" placeholder="  Inserisci il luogo"/>
         <div class="text-center mt-4">
           <button class="btn btn-unique" dark>
-            Cerca
+            Cerca 
             <v-icon name="search"></v-icon>
           </button>
           <button class="btn btn-unique">
-            Trovami
+            Trovami 
             <v-icon name="send"></v-icon>
           </button>
         </div>
@@ -56,7 +56,6 @@ export default {
 }
 
 .icon{
-  margin-left: 4%;
   height: 100%;
 }
 

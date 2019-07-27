@@ -1,8 +1,8 @@
 <template>
-  <mdb-navbar  expand="large" color="transparent" light>
+  <mdb-navbar class="responsive-component" color="transparent" light>
     <!-- Navbar brand -->
     <mdb-navbar-brand href="#">
-      <img class="img-responsive" src="../assets/logo.png" >
+      <img class="img-responsive" src="../assets/images/logo.png" >
     </mdb-navbar-brand>
     <mdb-navbar-toggler>
         <mdb-navbar-nav right>
