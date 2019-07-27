@@ -1,27 +1,26 @@
 <template>
   <div id="app" style="resize: horizontal; overflow: hidden">
-      <Responsive></Responsive>
-      <HelloWorld></HelloWorld>
-      <div><FindMe></FindMe></div>
+      <HelloWorld ></HelloWorld>
+      <FindMe></FindMe>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import FindMe from './components/FindMe.vue'
-import Responsive from './components/Responsive.vue'
 
 export default {
   name: 'app',
   components: {
     HelloWorld,
-    FindMe,
-    Responsive
+    FindMe
   }
 }
 </script>
 
 <style>
+
+
 :root {
   background-image: url('~@/assets/images/init_background.jpg');
   background-position: bottom, bottom;

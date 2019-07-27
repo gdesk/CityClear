@@ -1,7 +1,6 @@
 <template>
   <!-- Default form register -->
-  <div id="app" style="resize: horizontal; overflow: hidden">
-      <Responsive></Responsive>
+  <div id="findme" class="find">
     <div class="find-me">
         <input type="text" id="findPlace" class="input" placeholder="  Inserisci il luogo"/>
         <div class="text-center mt-4">
@@ -29,6 +28,20 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (max-width: 450px){
+  #findme{
+  width: 350px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    margin: -100px 0 0 -175px;
+  } 
+  .input:focus + .find{
+    bottom: 0%;
+  }
+}
 .find-me{
     width: 400px;
     height: 200px;

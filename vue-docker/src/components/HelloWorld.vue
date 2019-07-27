@@ -1,7 +1,6 @@
 <template>
-<div id="app" style="resize: horizontal; overflow: hidden">
-  <Responsive></Responsive>
-  <mdb-navbar color="transparent" light>
+<div id="nav" class="header" style="resize: horizontal; overflow: hidden">
+   <mdb-navbar color="white" light>
     <!-- Navbar brand -->
     <mdb-navbar-brand href="#">
       <img class="img-responsive" src="../assets/images/logo.png">
@@ -32,9 +31,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .header{
+  position: absolute;
+  top: 0%;
+  width: 100%;
+  }
+
   .img-responsive{
     width: 35%;
-    height: 35%;
+    height: 10%;
   }
 
   .item-nav{
