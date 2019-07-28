@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-       <div class="header" style="resize: horizontal; overflow: hidden">
+    <div class="header" style="resize: horizontal; overflow: hidden">
     <mdb-navbar color="white" light>
       <mdb-navbar-brand>
         <img class="img-responsive" src="./assets/images/logo.png">
@@ -14,12 +14,12 @@
     </mdb-navbar>
   </div>
       
-      <div class="container">
-       <transition name="moveInUp">
-         <router-view/>
-       </transition>
-        
-      </div>
+  <div class="container">
+  <transition name="moveInUp">
+    <router-view/>
+  </transition>
+    
+  </div>
     
   </div>
 </template>
@@ -39,41 +39,18 @@ import { mdbNavbar, mdbNavbarBrand, mdbNavbarToggler, mdbNavbarNav, mdbNavItem }
 </script>
 
 <style>
-
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.moveInUp-enter-active{
-  animation: fadeIn 2s ease-in;
-}
-@keyframes fadeIn{
-  0%{
-    opacity: 0;
+  * {
+    box-sizing: border-box;
   }
-  50%{
-    opacity: 0.5;
+  
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
   }
-  100%{
-    opacity: 1;
-  }
-}
-.moveInUp-leave-active{
-  animation: moveInUp .3s ease-in;
-}
-@keyframes moveInUp{
- 0%{
-  transform: translateY(0);
- }
-  100%{
-  transform: translateY(-400px);
- }
-}
-
 
   .header{
     position: absolute;
@@ -90,14 +67,29 @@ import { mdbNavbar, mdbNavbarBrand, mdbNavbarToggler, mdbNavbarNav, mdbNavItem }
   .item-nav{
     font-size: 130%;
   }
-  :root {
-    background-image: url('~@/assets/images/init_background.jpg');
-    background-position: bottom, bottom;
-    background-repeat: no-repeat, no-repeat;
-    background-attachment: fixed, fixed;
-    background-size: cover, cover;
-    background-color: #008000;
-    height: 100%;
+
+  @media only screen and (max-width: 450px){
+      :root {
+        background-image: url('~@/assets/images/init_background.jpg');
+        background-position: right;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-size: cover;
+        background-color: #008000;
+        height: 100%;
+      }
+  }
+
+  @media only screen and (min-width: 451px){
+     :root {
+        background-image: url('~@/assets/images/init_background.jpg');
+        background-position: bottom;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-color: #008000;
+        height: 100%;
+      }
   }
 
   #app {

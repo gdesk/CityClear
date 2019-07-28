@@ -43,5 +43,4 @@
   .item-nav{
     font-size: 130%;
   }
-
 </style>

@@ -2,7 +2,7 @@
   <!-- Default form register -->
   <div id="findme">
     <div class="find-me">
-        <input type="text" id="findPlace" class="input" placeholder="  Inserisci il luogo"/>
+        <input type="text" id="findPlace" class="input" placeholder=" Inserisci il luogo"/>
         <div class="text-center mt-4">
           <button class="btn btn-unique" dark> Cerca 
             <v-icon name="search"></v-icon>
@@ -30,12 +30,12 @@ export default {
   #findme{
     width: 350px;
     height: 200px;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     right: 50%;
     margin: -100px -175px;
-    margin-top: -75px;
+    margin-top: 0vw;
   } 
   .input:focus + .find{
     top: 70%;
@@ -43,7 +43,7 @@ export default {
   }
 }
 
-@media only screen and (mix-width: 451px){
+@media only screen and (min-width: 451px){
   #findme{
     width: 350px;
     height: 200px;
