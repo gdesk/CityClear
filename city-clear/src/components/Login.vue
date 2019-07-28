@@ -1,29 +1,39 @@
 <template>
   <div class="login">
-	<container class="login-form">
-		<span>Crea un nuovo Account:</span> <br>
-			<v-icon name="mail"></v-icon>
-			<input v-model="email" type="email" placeholder="email@domain.it" required/><br>
-			<v-icon name="user"></v-icon>
-			<input v-model="text" type="text" placeholder="Maria Rossi" required/><br>
-			<v-icon name="gift"></v-icon>
-			<input v-model="date" type="date" required/><br>
-			<v-icon name="lock"></v-icon>
-			<input v-model="password" type="password" placeholder="password" required/><br>
-			<v-icon name="lock"></v-icon>
-			<input v-model="password" type="password" placeholder="password" required/><br>
-			<b-button pill variant="success"> Iscriviti </b-button>
-	</container>
+		<b-container fluid class ="login-form">
+			<b-row order="1">
+				<span>Login:</span> <br>
+				<v-icon name="mail"></v-icon>
+				<input v-model="email" type="email" placeholder="email@domain.it" required/><br>
+				<v-icon name="lock"></v-icon>
+				<input v-model="password" type="password" placeholder="password" required/><br>
+				<b-button pill variant="success"> Accedi </b-button>
+			</b-row>	
+			<b-row order="2">
+				<span>Crea un nuovo account:</span> <br>
+				<v-icon name="mail"></v-icon>
+				<input v-model="email" type="email" placeholder="email@domain.it" required/> <br>
+				<v-icon name="user"></v-icon>
+				<input v-model="text" type="text" placeholder="Maria Rossi" required/> <br>
+				<v-icon name="gift"></v-icon>
+				<input v-model="date" type="date" required/> <br>
+				<v-icon name="lock"></v-icon>
+				<input v-model="password" type="password" placeholder="password" required/> <br>
+				<v-icon name="lock"></v-icon>
+				<input v-model="password" type="password" placeholder="password" required/><br>
+				<b-button pill variant="success"> Iscriviti </b-button>	
+			</b-row>
+		</b-container>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Login',
-  props: {
-    
-  }
-}
+	export default {
+		name: 'Login',
+		props: {
+			
+		}
+	}
 </script>
 
 	<style scoped lang="scss">
@@ -31,11 +41,30 @@ export default {
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
 
+	.login-form{
+		width: 100%;
+		height: auto;
+		animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+	}
+
+	.row{
+		width: 50%;
+		height: auto;
+		display: inline-block;
+	}
+
+	@media (max-width: 600px) {
+		.row {
+			width: 100%;
+			align-content: center;
+		}
+  }
+
 	span {
 		font-weight: bolder; 
 	}
 
-  input {
+	input {
     outline: 0;
     border: 0;
     padding: 15px;
@@ -55,9 +84,9 @@ export default {
   .btn {
     width: 140px;
     height: 40px;
-    border-radius: 0.9em;
     text-align: center;
 		margin-top: 20px;
+		margin-bottom: 20px;
   }
 
   .icon{
@@ -65,6 +94,5 @@ export default {
     width: 20px;
     height: 100%;
     text-align: center;
-    vertical-align: middle;
   }
 </style>
