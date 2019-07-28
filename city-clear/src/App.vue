@@ -51,7 +51,7 @@ export default {
     color: #2c3e50;
     margin-top: 60px;
   }
-  
+
   #nav {
     top: 0;
     left: 0;

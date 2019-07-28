@@ -52,8 +52,8 @@
 		height: auto;
 		display: inline-block;
 	}
-
-	@media (max-width: 600px) {
+	
+	@media (max-width: 800px) {
 		.row {
 			width: 100%;
 			align-content: center;
@@ -87,6 +87,17 @@
     text-align: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
+  }
+
+	@media (max-width: 340px) {
+    input {
+      width: 250px;
+    }
+
+    .btn {
+      width: 120px;
+    }
+
   }
 
   .icon{
