@@ -54,7 +54,7 @@ export default {
       margin-top: 50%;
     }
   }
-
+	
 	@media (max-width: 340px) {
     input {
       width: 250px;

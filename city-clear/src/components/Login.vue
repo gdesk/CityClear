@@ -52,13 +52,6 @@
 		height: auto;
 		display: inline-block;
 	}
-	
-	@media (max-width: 800px) {
-		.row {
-			width: 100%;
-			align-content: center;
-		}
-  }
 
 	span {
 		font-weight: bolder; 
@@ -81,12 +74,30 @@
     color: black;
   }
 
+	@media (max-width: 800px) {
+		.row {
+			width: 100%;
+			align-content: center;
+		}
+
+		input {
+			width: 270px;
+		}
+  }
+
   .btn {
     width: 140px;
     height: 40px;
     text-align: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
+  }
+
+  .icon{
+    margin-right: 20px;
+    width: 20px;
+    height: 100%;
+    text-align: center;
   }
 
 	@media (max-width: 340px) {
@@ -98,12 +109,9 @@
       width: 120px;
     }
 
-  }
+		.icon{
+			margin-top: 10px;
+		}
 
-  .icon{
-    margin-right: 20px;
-    width: 20px;
-    height: 100%;
-    text-align: center;
   }
 </style>
