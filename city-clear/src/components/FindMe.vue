@@ -1,15 +1,15 @@
 <template>
-  <div class="hello">
+  <div class="find-me">
     <b-container class="find-place">
       <input type="text" placeholder="Inserisci il luogo"/>
         <div class="text-center mt-4">
-          <button class="btn btn-unique" dark> Cerca 
+          <b-button pill variant="success" > Cerca 
             <v-icon name="search"></v-icon>
-          </button>
+          </b-button>
           &ensp;
-          <button class="btn btn-unique"> Trovami 
+          <b-button pill variant="success" > Trovami 
             <v-icon name="send"></v-icon>
-          </button>
+          </b-button>
         </div>
     </b-container>
   </div>
@@ -25,6 +25,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
   input {
     outline: 0;
     border: 0;
@@ -37,7 +39,7 @@ export default {
     height: 40px;
     margin-bottom: 20px;
     border: 1px solid #cfd9db;
-    background-color: #ffffff;
+    background-color: white;
     border-radius: 0.25em;
     color: black;
   }

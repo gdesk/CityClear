@@ -9,7 +9,18 @@
   </div>
 </template>
 
+<script>
+// custom.scss
+
+export default {
+  name:"app"
+}
+</script>
+
+
 <style lang="scss">
+
+
   :root{
     background-image: url('./assets/init_background.jpg');
     background-position: bottom;

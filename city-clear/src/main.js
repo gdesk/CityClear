@@ -4,7 +4,9 @@ import router from './router'
 import './registerServiceWorker'
 import feather from 'vue-icon'
 Vue.use(feather, 'v-icon')
+import BootstrapVue from 'bootstrap-vue'
 
+Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 new Vue({
