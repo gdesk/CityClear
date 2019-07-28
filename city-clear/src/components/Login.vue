@@ -41,16 +41,10 @@
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
 
-	.login-form{
-		width: 100%;
-		height: auto;
-		animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-	}
-
 	.row{
 		width: 50%;
 		height: auto;
-		display: inline-block;
+		display: inline-table;
 	}
 
 	span {
