@@ -36,7 +36,7 @@ export default {
       background-image: url('./assets/init_background.jpg');
       background-position: right;
       background-repeat: no-repeat;
-      background-attachment: scroll;
+      background-attachment: fixed;
       background-size: cover;
       background-color: #008000;
       height: 100%;
