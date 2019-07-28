@@ -1,31 +1,19 @@
 <template>
   <div class="login">
-	<b-container class="login-form">
-		<b-row>
+	<container class="login-form">
+		<span>Crea un nuovo Account:</span> <br>
 			<v-icon name="mail"></v-icon>
-			<input v-model="email" type="email" placeholder="email@domain.it" required/>
-		</b-row>
-		<b-row>
+			<input v-model="email" type="email" placeholder="email@domain.it" required/><br>
 			<v-icon name="user"></v-icon>
-			<input v-model="text" type="text" placeholder="Maria Rossi" required/>
-		</b-row>
-		<b-row>
-			<v-icon name="calendar"></v-icon>
-			<input v-model="date" type="date" placeholder="gg/mm/aaaa" required/>
-		</b-row>
-		<b-row>
+			<input v-model="text" type="text" placeholder="Maria Rossi" required/><br>
+			<v-icon name="gift"></v-icon>
+			<input v-model="date" type="date" required/><br>
 			<v-icon name="lock"></v-icon>
-			<input v-model="password" type="password" placeholder="password" required/>
-		</b-row>
-		<b-row>
+			<input v-model="password" type="password" placeholder="password" required/><br>
 			<v-icon name="lock"></v-icon>
-			<input v-model="password" type="password" placeholder="password" required/>
-		</b-row>
-		<b-row>
-			<input v-model="password" type="password" placeholder="password" required/>
-			<button class="btn btn-unique"> Iscriviti </button>
-		</b-row>
-	</b-container>
+			<input v-model="password" type="password" placeholder="password" required/><br>
+			<b-button pill variant="success"> Iscriviti </b-button>
+	</container>
   </div>
 </template>
 
@@ -38,9 +26,14 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-  .login-form {
-  }
+	<style scoped lang="scss">
+
+	@import 'node_modules/bootstrap/scss/bootstrap';
+	@import 'node_modules/bootstrap-vue/src/index.scss';
+
+	span {
+		font-weight: bolder; 
+	}
 
   input {
     outline: 0;
@@ -48,10 +41,10 @@ export default {
     padding: 15px;
     box-sizing: border-box;
     font-size: 14px;
-    margin-top: 10%;
-    align-self: auto;
+    align-self: center;
     width: 300px;
     height: 40px;
+		margin-top: 15px;
     margin-bottom: 1px;
     border: 1px solid #cfd9db;
     background-color: #ffffff;
@@ -60,12 +53,11 @@ export default {
   }
 
   .btn {
-    align-self: auto;
     width: 140px;
     height: 40px;
     border-radius: 0.9em;
     text-align: center;
-	margin-top: 20px;
+		margin-top: 20px;
   }
 
   .icon{
