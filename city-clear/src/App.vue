@@ -40,6 +40,7 @@
     color: #2c3e50;
     margin-top: 60px;
   }
+  
   #nav {
     top: 0;
     left: 0;
@@ -61,14 +62,11 @@
       padding: 6px 10px;
       text-decoration: none;
       font-size: 15px;
-      &:hover::before{ 
-        background-color: greenyellow;
-      }
-      &:hover:not(.router-link-active) {
-        background-color: white;
-        cursor: pointer;
+      &:hover:active{ 
+        background-color: #9ee000;
       }
     }
+
     img{
       width: 20px;
       
