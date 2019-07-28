@@ -1,0 +1,119 @@
+<template>
+  <div class="about">
+    <b-container class="container">
+      <b-row>
+        <b-col>
+          <img alt="Vue logo" src="../assets/logo.png"> <br>
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+           blabla
+           blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          blabla
+          </b-col>
+      </b-row>
+    </b-container>
+  </div>
+</template>
+
+<script>
+  export default {
+  }
+</script>
+>
+
+<style scoped lang="scss">
+  .about{
+    background: wheat;
+}
+
+</style>

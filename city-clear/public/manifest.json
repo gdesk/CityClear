@@ -1,6 +1,6 @@
 {
-  "name": "project",
-  "short_name": "project",
+  "name": "city-clear",
+  "short_name": "city-clear",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
