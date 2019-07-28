@@ -3,11 +3,11 @@
     <b-container class="find-place">
       <input type="text" placeholder="Inserisci il luogo"/>
         <div class="text-center mt-4">
-          <b-button pill variant="success" > Cerca 
+          <b-button pill variant="success" to="{ name: 'map', params: { address: 1234 } }"  > Cerca 
             <v-icon name="search"></v-icon>
           </b-button>
           &ensp;
-          <b-button pill variant="success" > Trovami 
+          <b-button pill variant="success" to="/map" > Trovami 
             <v-icon name="send"></v-icon>
           </b-button>
         </div>

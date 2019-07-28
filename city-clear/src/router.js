@@ -22,6 +22,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "login" */ './components/Login.vue')
+    },
+    {
+      path: '/map/:address',
+      name: 'map',
+      component: () => import(/* webpackChunkName: "login" */ './components/DecorMap.vue')
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: () => import(/* webpackChunkName: "login" */ './components/DecorMap.vue')
     }
   ]
 })
