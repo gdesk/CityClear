@@ -20,7 +20,7 @@
 				<v-icon name="lock"></v-icon>
 				<input v-model="password" type="password" placeholder="password" required/> <br>
 				<v-icon name="lock"></v-icon>
-				<input v-model="password" type="password" placeholder="password" required/><br>
+				<input v-model="password" type="password" placeholder="confirm password" required/><br>
 				<b-button pill variant="success"> Iscriviti </b-button>	
 			</b-row>
 		</b-container>

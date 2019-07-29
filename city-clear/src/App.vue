@@ -17,11 +17,8 @@ export default {
 }
 </script>
 
-
 <style lang="scss">
-
-
-  :root{
+  :root:only-child{
     background-image: url('./assets/init_background.jpg');
     background-position: bottom;
     background-repeat: no-repeat;
@@ -32,7 +29,7 @@ export default {
   }
 
   @media (max-width: 600px) {
-    :root {
+    :root:only-child {
       background-image: url('./assets/init_background.jpg');
       background-position: right;
       background-repeat: no-repeat;

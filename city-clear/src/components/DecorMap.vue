@@ -1,5 +1,7 @@
 <template>
-  <div id="mapContainer"></div>
+  <div class="map" required>
+    <div id="map-container"/>
+  </div>  
 </template>
 
 <script>
@@ -14,7 +16,7 @@ export default {
     };
   },
   mounted() {
-    this.map = L.map("mapContainer").setView([51.959, -8.623], 12);
+    this.map = L.map("map-container").setView([51.959, -8.623], 12);
     L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -30,20 +32,20 @@ export default {
 
 <style scoped>
 
-  #mapContainer {
+  #map-container {
     width: 99vw;
     height: 90vh;
   }
 
   @media (max-width: 800px) {
-    #mapContainer {
+    #map-container {
       width: 98vw;
       height: 89vh;
     }
   }
 
   @media (max-width: 500px) {
-    #mapContainer {
+    #map-container {
       width: 95vw;
       height: 89vh;
   }
