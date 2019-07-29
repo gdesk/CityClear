@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './components/Home.vue'
+import Home from '../components/Home.vue'
 
 Vue.use(Router)
 
@@ -16,22 +16,22 @@ export default new Router({
     {
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './components/About.vue')
+      component: () => import(/* webpackChunkName: "about" */ '../components/About.vue')
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ './components/Login.vue')
+      component: () => import(/* webpackChunkName: "login" */ '../components/Login.vue')
     },
     {
       path: '/map/:address',
       name: 'map',
-      component: () => import(/* webpackChunkName: "login" */ './components/DecorMap.vue')
+      component: () => import(/* webpackChunkName: "login" */ '../components/DecorMap.vue')
     },
     {
       path: '/map',
       name: 'map',
-      component: () => import(/* webpackChunkName: "login" */ './components/DecorMap.vue')
+      component: () => import(/* webpackChunkName: "login" */ '../components/DecorMap.vue')
     }
   ]
 })
