@@ -1,3 +1,5 @@
+import { STATUS_CODES } from 'http';
+
 const MongoClient = require("mongodb").MongoClient;
 const url = "mongodb://asw-19:asw-19@ds159963.mlab.com:59963/asw-19";
 
@@ -14,5 +16,17 @@ module.exports = (function() {
     routers.post("/users", function(req, res, next) {
         if (!req.body.email || !req.body.name || !req.body.birtdate || !req.body.password)
             console.log("Eror request, gestione codice errore.")
+
+        var userData = {
+            email: req.body.email,
+            name: req.body.name,
+            birtdate: req.body.birtdate,
+            password: req.body.password
+        }
+            
+        mongoConnection.collection("users").insertOne(userData, function(err, insertOperation) {
+            if(err) console.log("gestire http error, devo guardarci");
+            res.send("Succeded create user.")
+        })
     });
 })

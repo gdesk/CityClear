@@ -4,8 +4,9 @@ const routing = require('../router/routers.js')
 
 var app = express();
 
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use('/', routing);
 
 
