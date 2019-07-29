@@ -1,5 +1,3 @@
-import { STATUS_CODES } from 'http';
-
 const MongoClient = require("mongodb").MongoClient;
 const url = "mongodb://asw-19:asw-19@ds159963.mlab.com:59963/asw-19";
 
@@ -29,4 +27,5 @@ module.exports = (function() {
             res.send("Succeded create user.")
         })
     });
-})
+    return routers
+})();
