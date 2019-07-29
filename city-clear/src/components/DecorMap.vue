@@ -29,8 +29,23 @@ export default {
 </script>
 
 <style scoped>
+
+  #mapContainer {
+    width: 99vw;
+    height: 90vh;
+  }
+
+  @media (max-width: 800px) {
     #mapContainer {
-    width: 100vw;
-    height: 100vh
-        }
+      width: 98vw;
+      height: 89vh;
+    }
+  }
+
+  @media (max-width: 500px) {
+    #mapContainer {
+      width: 95vw;
+      height: 89vh;
+  }
+}
 </style>
