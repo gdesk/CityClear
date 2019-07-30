@@ -49,9 +49,9 @@ const axios = require("axios");
 			}
 		},
 		methods: {
-			//checkPassword() {
-			//	return this.registerPassword == this.registerConfirmPassword;
-			//},
+			checkPassword() {
+				return this.registerPassword == this.registerConfirmPassword;
+			},
 			onRegister(event) {
 				event.preventDefault();
 				let currentObj = this;
@@ -66,6 +66,12 @@ const axios = require("axios");
 					})
 					.then(response => {
 						currentObj.output = response.data;
+						this.registerEmail = "",
+						this.registerName = "",
+						this.registerDate = "",
+						this.registerPassword = "",
+						this.registerConfirmPassword = "",
+						console.log(this.checkPassword())
 					})
 					.catch(error => {
 						currentObj.output = error;
