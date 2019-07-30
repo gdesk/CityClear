@@ -3,8 +3,6 @@ const URL = "mongodb://asw-19:asw-19@ds159963.mlab.com:59963/asw-19";
 
 const USERS_PATH = "/users"; 
 const USERS_COLLECTION = "users";
-const LOG_CLIENT_ERRORS = true;
-const LOG_SERVER_EVENTS = false;
 
 MongoClient.connect(URL, function(err, db) {
     if (err) throw err;
