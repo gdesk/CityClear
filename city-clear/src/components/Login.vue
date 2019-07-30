@@ -10,6 +10,9 @@
 					<input v-model="loginPassword" type="password" placeholder="password" required/><br>
 					<b-button type="submit" pill variant="success"> Accedi </b-button>
 				</form>
+				<span>
+					<br><p>{{outputLogin}}</p>
+				</span>
 			</b-row>	
 			<b-row order="2">
 				<span>Crea un nuovo account:</span> <br>
@@ -50,7 +53,8 @@
 				registerDate: "",
 				registerPassword: "",
 				registerConfirmPassword: "",
-				output: ""
+				output: "",
+				outputLogin: ""
 			}
 		},
 		methods: {
@@ -63,13 +67,13 @@
 						password: this.loginPassword
 					})
 					.then(response => {
-						currentObj.output = response.data;
+						currentObj.outputLogin = response.data;
 					})
 					.catch(error => {
 						if (error.response)
-							currentObj.output = " Errore, dati inseriti non corretti!";
+							currentObj.outputLogin = " Errore, dati inseriti non corretti!";
 						else
-							currentObj.output = error.message;
+							currentObj.outputLogin = error.message;
 					})
 			},
 			checkPassword() {
