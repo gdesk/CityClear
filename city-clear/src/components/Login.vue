@@ -50,36 +50,37 @@ const axios = require("axios");
 		},
 		methods: {
 			checkPassword() {
-				return this.registerPassword == this.registerConfirmPassword;
+				return this.registerPassword === this.registerConfirmPassword;
 			},
 			onRegister(event) {
 				event.preventDefault();
 				let currentObj = this;
 				const BASE_PATH = "http://localhost:5051";
 				const CREATE_USER_PATH = `${BASE_PATH}/users`;
-				axios
-					.post(CREATE_USER_PATH, {
-						email: this.registerEmail,
-						name: this.registerName,
-						birtdate: this.registerDate,
-						password: this.registerPassword
-					})
-					.then(response => {
-						currentObj.output = response.data;
-						this.registerEmail = "",
-						this.registerName = "",
-						this.registerDate = "",
-						this.registerPassword = "",
-						this.registerConfirmPassword = "",
-						console.log(this.checkPassword())
-					})
-					.catch(error => {
-						if (error.response)
-							//TODO: è imbrogliare
-							currentObj.output = this.registerEmail + " already exist!";
-						else
-							currentObj.output = error.message;
-					})
+				if(this.checkPassword()) {
+					axios
+						.post(CREATE_USER_PATH, {
+							email: this.registerEmail,
+							name: this.registerName,
+							birtdate: this.registerDate,
+							password: this.registerPassword
+						})
+						.then(response => {
+							currentObj.output = response.data;
+							this.registerEmail = "",
+							this.registerName = "",
+							this.registerDate = "",
+							this.registerPassword = "",
+							this.registerConfirmPassword = ""
+						})
+						.catch(error => {
+							if (error.response)
+								//TODO: è imbrogliare
+								currentObj.output = this.registerEmail + " already exist!";
+							else
+								currentObj.output = error.message;
+						})
+				} else currentObj.output = "Le password non corrispondono";
 			}
 		}
 	}
