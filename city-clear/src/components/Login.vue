@@ -4,34 +4,74 @@
 			<b-row order="1">
 				<span>Login:</span> <br>
 				<v-icon name="mail"></v-icon>
-				<input v-model="email" type="email" placeholder="email@domain.it" required/><br>
+				<input v-model="loginEmail" type="email" placeholder="email@domain.it" required/><br>
 				<v-icon name="lock"></v-icon>
-				<input v-model="password" type="password" placeholder="password" required/><br>
+				<input v-model="loginPassword" type="password" placeholder="password" required/><br>
 				<b-button pill variant="success"> Accedi </b-button>
 			</b-row>	
 			<b-row order="2">
 				<span>Crea un nuovo account:</span> <br>
-				<v-icon name="mail"></v-icon>
-				<input v-model="email" type="email" placeholder="email@domain.it" required/> <br>
-				<v-icon name="user"></v-icon>
-				<input v-model="text" type="text" placeholder="Maria Rossi" required/> <br>
-				<v-icon name="gift"></v-icon>
-				<input v-model="date" type="date" required/> <br>
-				<v-icon name="lock"></v-icon>
-				<input v-model="password" type="password" placeholder="password" required/> <br>
-				<v-icon name="lock"></v-icon>
-				<input v-model="password" type="password" placeholder="confirm password" required/><br>
-				<b-button pill variant="success"> Iscriviti </b-button>	
+				<form @submit="register">
+					<v-icon name="mail"></v-icon>
+					<input v-model="registerEmail" type="email" placeholder="email@domain.it" required/> <br>
+					<v-icon name="user"></v-icon>
+					<input v-model="registerName" type="text" placeholder="Maria Rossi" required/> <br>
+					<v-icon name="gift"></v-icon>
+					<input v-model="registerDate" type="date" required/> <br>
+					<v-icon name="lock"></v-icon>
+					<input v-model="registerPassword" type="password" placeholder="password" required/> <br>
+					<v-icon name="lock"></v-icon>
+					<input v-model="registerConfirmPassword" type="password" placeholder="confirm password" required/><br>
+					<button pill variant="success"> Iscriviti </button>	
+				</form>
+				<strong>Output:</strong>
+                        <pre>
+                        {{output}}
+                        </pre>
 			</b-row>
 		</b-container>
   </div>
 </template>
 
 <script>
+const axios = require("axios");
+
 	export default {
 		name: 'Login',
-		props: {
-			
+		props: {},
+		data() {
+			return{
+				registerEmail: "",
+				registerName: "",
+				registerDate: "",
+				registerPassword: "",
+				registerConfirmPassword: "",
+				output: ""
+			}
+		},
+		methods: {
+			//checkPassword() {
+			//	return this.registerPassword == this.registerConfirmPassword;
+			//},
+			register(event) {
+				event.preventDefault();
+				let currentObj = this;
+				//const baseDomain = "http://localhost:5051/users";
+				//const baseURL = `${baseDomain}/users`;
+				axios
+					.post("http://localhost:5051/users", {
+						email: this.registerEmail,
+						name: this.registerName,
+						birtdate: this.registerDate,
+						password: this.registerPassword
+					})
+					.then(response => {
+						currentObj.output = response.data;
+					})
+					.catch(error => {
+						currentObj.output = error;
+					});
+			}
 		}
 	}
 </script>

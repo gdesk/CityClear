@@ -6,8 +6,8 @@ import feather from 'vue-icon'
 import 'leaflet/dist/leaflet.css'; 
 Vue.use(feather, 'v-icon')
 import BootstrapVue from 'bootstrap-vue'
-
 Vue.use(BootstrapVue)
+
 Vue.config.productionTip = false
 
 new Vue({
