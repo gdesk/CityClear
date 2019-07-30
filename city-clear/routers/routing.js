@@ -49,16 +49,25 @@ module.exports = (function() {
         console.log("Receive get user request");
         if (!req.body.email || !req.body.password)
             return next(boom.badData("Inerimento incompleto!"));
-        var userData = {
-            email: req.body.email,
-            password: req.body.password
-        }
-        var loginData = {$set: { isLogin: true}};
+
         mongoConnection
             .collection(USERS_COLLECTION)
-            .updateOne(userData, loginData, function (err, updateOperation) {
+            .findOne({ "email": req.body.email }, function (err, findOperation) {
                 if (err) return next(boom.badImplementation(err));
-                res.send("ok");
+                if (findOperation == null) {
+                    return next(boom.unauthorized(req.body.email + " Errore, dati non corretti"));
+                }
+            var userData = {
+                email: req.body.email,
+                password: req.body.password
+            }
+            var loginData = {$set: { isLogin: true}};
+            mongoConnection
+                .collection(USERS_COLLECTION)
+                .updateOne(userData, loginData, function (err, updateOperation) {
+                    if (err) return next(boom.badImplementation(err));
+                    res.send("ok");
+            });
         });
     });
 

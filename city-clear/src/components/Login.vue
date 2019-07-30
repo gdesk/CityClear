@@ -67,8 +67,7 @@
 					})
 					.catch(error => {
 						if (error.response)
-							//TODO: è imbrogliare
-							currentObj.output = error.message;
+							currentObj.output = " Errore, dati inseriti non corretti!";
 						else
 							currentObj.output = error.message;
 					})
