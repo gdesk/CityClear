@@ -55,10 +55,10 @@ const axios = require("axios");
 			onRegister(event) {
 				event.preventDefault();
 				let currentObj = this;
-				//const baseDomain = "http://localhost:5051/users";
-				//const baseURL = `${baseDomain}/users`;
+				const BASE_PATH = "http://localhost:5051";
+				const CREATE_USER_PATH = `${BASE_PATH}/users`;
 				axios
-					.post("http://localhost:5051/users", {
+					.post(CREATE_USER_PATH, {
 						email: this.registerEmail,
 						name: this.registerName,
 						birtdate: this.registerDate,
@@ -74,8 +74,12 @@ const axios = require("axios");
 						console.log(this.checkPassword())
 					})
 					.catch(error => {
-						currentObj.output = error;
-					});
+						if (error.response)
+							//TODO: è imbrogliare
+							currentObj.output = this.registerEmail + " already exist!";
+						else
+							currentObj.output = error.message;
+					})
 			}
 		}
 	}

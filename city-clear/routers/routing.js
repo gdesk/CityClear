@@ -1,5 +1,6 @@
 const MongoClient = require("mongodb").MongoClient;
 const URL = "mongodb://asw-19:asw-19@ds159963.mlab.com:59963/asw-19";
+const boom = require('boom');
 
 const USERS_PATH = "/users"; 
 const USERS_COLLECTION = "users";
@@ -17,19 +18,28 @@ module.exports = (function() {
     routers.post(USERS_PATH, function(req, res, next) {
         console.log("Receive create new user request");
         if (!req.body.email || !req.body.name || !req.body.birtdate || !req.body.password)
-            console.log("Error request, gestione codice errore.")
-
-        var userData = {
-            email: req.body.email,
-            name: req.body.name,
-            birtdate: req.body.birtdate,
-            password: req.body.password
-        }
+            console.log("Error request, gestione codice errore.")         
 
         mongoConnection
-            .collection(USERS_COLLECTION).insertOne(userData, function(err, insertOperation) {
-                if(err) console.log("gestire http error, devo guardarci");
-                res.send("Succeded create user.")
+            .collection(USERS_COLLECTION)
+            .findOne({ "email": req.body.email }, function (err, findOperation) {
+            if (err) console.log("Error");
+            if (findOperation != null) {
+                return next(boom.badRequest(req.body.email + " already exist!"));
+            }
+            
+            var userData = {
+                email: req.body.email,
+                name: req.body.name,
+                birtdate: req.body.birtdate,
+                password: req.body.password
+            }
+
+            mongoConnection
+                .collection(USERS_COLLECTION).insertOne(userData, function(err, insertOperation) {
+                    if(err) console.log("gestire http error, devo guardarci");
+                    res.send("Succeded create user.")
+            });
         });
     });
 
