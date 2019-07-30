@@ -19,7 +19,7 @@ module.exports = (function() {
     routers.post(USERS_PATH, function(req, res, next) {
         console.log("Receive create new user request");
         if (!req.body.email || !req.body.name || !req.body.birtdate || !req.body.password)
-            console.log("Eror request, gestione codice errore.")
+            console.log("Error request, gestione codice errore.")
 
         var userData = {
             email: req.body.email,
