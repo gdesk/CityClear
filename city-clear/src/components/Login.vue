@@ -3,11 +3,13 @@
 		<b-container fluid class ="login-form">
 			<b-row order="1">
 				<span>Login:</span> <br>
-				<v-icon name="mail"></v-icon>
-				<input v-model="loginEmail" type="email" placeholder="email@domain.it" required/><br>
-				<v-icon name="lock"></v-icon>
-				<input v-model="loginPassword" type="password" placeholder="password" required/><br>
-				<b-button pill variant="success"> Accedi </b-button>
+				<form @submit="onLogin">
+					<v-icon name="mail"></v-icon>
+					<input v-model="loginEmail" type="email" placeholder="email@domain.it" required/><br>
+					<v-icon name="lock"></v-icon>
+					<input v-model="loginPassword" type="password" placeholder="password" required/><br>
+					<b-button type="submit" pill variant="success"> Accedi </b-button>
+				</form>
 			</b-row>	
 			<b-row order="2">
 				<span>Crea un nuovo account:</span> <br>
@@ -33,13 +35,16 @@
 </template>
 
 <script>
-const axios = require("axios");
-
+	const axios = require("axios");
+	const BASE_PATH = "http://localhost:5051";
+	const USER_PATH = `${BASE_PATH}/users`;
 	export default {
 		name: 'Login',
 		props: {},
 		data() {
 			return{
+				loginEmail: "",
+				loginPassword: "",
 				registerEmail: "",
 				registerName: "",
 				registerDate: "",
@@ -49,17 +54,34 @@ const axios = require("axios");
 			}
 		},
 		methods: {
+			onLogin(event){
+				event.preventDefault();
+				let currentObj = this;
+				axios
+					.patch(USER_PATH, {
+						email: this.loginEmail,
+						password: this.loginPassword
+					})
+					.then(response => {
+						currentObj.output = response.data;
+					})
+					.catch(error => {
+						if (error.response)
+							//TODO: è imbrogliare
+							currentObj.output = error.message;
+						else
+							currentObj.output = error.message;
+					})
+			},
 			checkPassword() {
 				return this.registerPassword === this.registerConfirmPassword;
 			},
 			onRegister(event) {
 				event.preventDefault();
 				let currentObj = this;
-				const BASE_PATH = "http://localhost:5051";
-				const CREATE_USER_PATH = `${BASE_PATH}/users`;
 				if(this.checkPassword()) {
 					axios
-						.post(CREATE_USER_PATH, {
+						.post(USER_PATH, {
 							email: this.registerEmail,
 							name: this.registerName,
 							birtdate: this.registerDate,
@@ -76,7 +98,7 @@ const axios = require("axios");
 						.catch(error => {
 							if (error.response)
 								//TODO: è imbrogliare
-								currentObj.output = this.registerEmail + " already exist!";
+								currentObj.output = this.registerEmail + " già utilizzato!";
 							else
 								currentObj.output = error.message;
 						})
@@ -86,7 +108,7 @@ const axios = require("axios");
 	}
 </script>
 
-	<style scoped lang="scss">
+<style scoped lang="scss">
 
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';

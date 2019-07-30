@@ -18,33 +18,49 @@ module.exports = (function() {
     routers.post(USERS_PATH, function(req, res, next) {
         console.log("Receive create new user request");
         if (!req.body.email || !req.body.name || !req.body.birtdate || !req.body.password)
-            console.log("Error request, gestione codice errore.")         
+            return next(boom.badData("Inerimento incompleto!"));         
 
         mongoConnection
             .collection(USERS_COLLECTION)
             .findOne({ "email": req.body.email }, function (err, findOperation) {
-            if (err) console.log("Error");
-            if (findOperation != null) {
-                return next(boom.badRequest(req.body.email + " already exist!"));
-            }
+                if (err) return next(boom.badImplementation(err));
+                if (findOperation != null) 
+                    return next(boom.badRequest(req.body.email + " already exist!"));
             
-            var userData = {
-                email: req.body.email,
-                name: req.body.name,
-                birtdate: req.body.birtdate,
-                password: req.body.password
-            }
+                var userData = {
+                    email: req.body.email,
+                    name: req.body.name,
+                    birtdate: req.body.birtdate,
+                    password: req.body.password,
+                    isLogin: false
+                }
 
-            mongoConnection
-                .collection(USERS_COLLECTION).insertOne(userData, function(err, insertOperation) {
-                    if(err) console.log("gestire http error, devo guardarci");
-                    res.send("Succeded create user.")
-            });
+                mongoConnection
+                    .collection(USERS_COLLECTION)
+                    .insertOne(userData, function(err, insertOperation) {
+                        if(err) return next(boom.badImplementation(err));
+                        res.send("Utente creato correttamente. Effettua il login.")
+                });
         });
     });
 
-    //routers.get(USERS_PATH, function(req, res, next) {
-    //});
+    routers.patch(USERS_PATH, function(req, res, next) {
+        console.log(req.body.email + " " + req.body.password)
+        console.log("Receive get user request");
+        if (!req.body.email || !req.body.password)
+            return next(boom.badData("Inerimento incompleto!"));
+        var userData = {
+            email: req.body.email,
+            password: req.body.password
+        }
+        var loginData = {$set: { isLogin: true}};
+        mongoConnection
+            .collection(USERS_COLLECTION)
+            .updateOne(userData, loginData, function (err, updateOperation) {
+                if (err) return next(boom.badImplementation(err));
+                res.send("ok");
+        });
+    });
 
     return routers
 })();
