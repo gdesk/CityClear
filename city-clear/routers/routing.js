@@ -52,7 +52,7 @@ module.exports = (function() {
 
         mongoConnection
             .collection(USERS_COLLECTION)
-            .findOne({ "email": req.body.email }, function (err, findOperation) {
+            .findOne({ "email": req.body.email, "password": req.body.password }, function (err, findOperation) {
                 if (err) return next(boom.badImplementation(err));
                 if (findOperation == null) {
                     return next(boom.unauthorized(req.body.email + " Errore, dati non corretti"));

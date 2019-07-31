@@ -68,6 +68,7 @@
 					})
 					.then(response => {
 						currentObj.outputLogin = response.data;
+						currentObj.$router.push('./urban-decore-tag') 
 					})
 					.catch(error => {
 						if (error.response)

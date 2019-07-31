@@ -32,6 +32,11 @@ export default new Router({
       path: '/map',
       name: 'map',
       component: () => import(/* webpackChunkName: "login" */ '../components/DecorMap.vue')
+    },
+    {
+      path: '/urban-decore-tag',
+      name: 'urban-decore-tag',
+      component: () => import(/* webpackChunkName: "login" */ '../components/DecorMap.vue')
     }
   ]
 })
