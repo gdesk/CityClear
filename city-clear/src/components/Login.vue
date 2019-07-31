@@ -23,6 +23,11 @@
 					<input v-model="registerName" type="text" placeholder="Maria Rossi" required/> <br>
 					<v-icon name="gift"></v-icon>
 					<input v-model="registerDate" type="date" required/> <br>
+					<v-icon name="home"></v-icon>
+					<select v-model="districtRegister">
+						<option disabled value="">Comune di interesse</option>
+						<option>Cesena</option>
+					</select> <br>
 					<v-icon name="lock"></v-icon>
 					<input v-model="registerPassword" type="password" placeholder="password" required/> <br>
 					<v-icon name="lock"></v-icon>
@@ -51,6 +56,7 @@
 				registerEmail: "",
 				registerName: "",
 				registerDate: "",
+				districtRegister: "",
 				registerPassword: "",
 				registerConfirmPassword: "",
 				output: "",
@@ -89,6 +95,7 @@
 							email: this.registerEmail,
 							name: this.registerName,
 							birtdate: this.registerDate,
+							district: this.districtRegister,
 							password: this.registerPassword
 						})
 						.then(response => {
@@ -96,6 +103,7 @@
 							this.registerEmail = "",
 							this.registerName = "",
 							this.registerDate = "",
+							this.districtRegister = "",
 							this.registerPassword = "",
 							this.registerConfirmPassword = ""
 						})
@@ -133,10 +141,8 @@
 		color: #000000;
 	}
 
-	input {
+	input, select {
 		outline: 0;
-		border: 0;
-		padding: 15px;
 		box-sizing: border-box;
 		font-size: 14px;
 		align-self: center;
@@ -150,13 +156,17 @@
 		color: black;
 	}
 
+	input {
+		padding: 5px;
+	}
+
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;
 			align-content: center;
 		}
 
-		input {
+		input, select {
 			width: 270px;
 		}
 	}
@@ -177,12 +187,12 @@
 	}
 
 	@media (max-width: 340px) {
-		input {
-		width: 250px;
+		input, select {
+			width: 250px;
 		}
 
 		.btn {
-		width: 120px;
+			width: 120px;
 		}
 
 		.icon{

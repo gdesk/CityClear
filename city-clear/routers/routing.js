@@ -31,6 +31,7 @@ module.exports = (function() {
                     email: req.body.email,
                     name: req.body.name,
                     birtdate: req.body.birtdate,
+                    district: req.body.district,
                     password: req.body.password,
                     isLogin: false
                 }
