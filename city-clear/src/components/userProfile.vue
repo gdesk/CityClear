@@ -48,7 +48,7 @@
 			}
         },
         mounted() {
-            //this.getUser();
+            this.getUser();
         },
 		methods: {
             getUser(){
@@ -66,6 +66,10 @@
 				EventBus.$emit("logout");
 				this.$router.push('/');
 			},
+			checkPassword() {
+				return this.modifierPassword === this.modifierConfirmPassword;
+			}
+			//TODO modifica password
 		}
 	}
 </script>
