@@ -29,6 +29,10 @@ export default {
       this.logged = true;
       sessionStorage.logged = JSON.stringify(true);
     });
+    EventBus.$on("logout", () => {
+      this.logged = false;
+      sessionStorage.logged = JSON.stringify(false);
+    });
   }
 }
 </script>

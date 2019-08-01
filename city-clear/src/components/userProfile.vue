@@ -11,7 +11,7 @@
                 {{birtdate}} <br>
                 <v-icon name="home"></v-icon>
                 {{district}} <br><br><br>
-				<b-button type="submit" pill variant="success"> Logout </b-button>
+				<b-button @click="onLogout" pill variant="success"> Logout </b-button>
 			</b-row>
 			<b-row>
 				<span>Modifica password</span>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+	import { EventBus } from "../main.js"
 	const axios = require("axios");
 	const BASE_PATH = "http://localhost:5051";
 	const USER_PATH = `${BASE_PATH}/users`;
@@ -59,7 +60,12 @@
                         this.birtdate = response.data.birtdate,
                         this.district = response.data.district
                     })
-            }
+			},
+			onLogout(event) {
+				event.preventDefault();
+				EventBus.$emit("logout");
+				this.$router.push('/');
+			},
 		}
 	}
 </script>
