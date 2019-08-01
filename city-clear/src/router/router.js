@@ -24,6 +24,11 @@ export default new Router({
       component: () => import('../components/Login.vue')
     },
     {
+      path: '/district-login',
+      name: 'district-login',
+      component: () => import('../components/DistrictLogin.vue')
+    },
+    {
       path: '/map/:address',
       name: 'map',
       component: () => import('../components/DecorMap.vue')

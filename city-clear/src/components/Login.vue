@@ -25,7 +25,7 @@
 					<v-icon name="gift"></v-icon>
 					<input v-model="registerDate" type="date" required/> <br>
 					<v-icon name="home"></v-icon>
-					<select v-model="districtRegister">
+					<select v-model="districtRegister" required>
 						<option disabled value="">Comune di interesse</option>
 						<option>Cesena</option>
 					</select> <br>

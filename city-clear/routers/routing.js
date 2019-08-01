@@ -5,6 +5,9 @@ const boom = require('boom');
 const USERS_PATH = "/users"; 
 const USERS_COLLECTION = "users";
 
+const DISTRICT_PATH = "/district"; 
+const DISTRICT_COLLECTION = "district";
+
 MongoClient.connect(URL, function(err, db) {
     if (err) throw err;
     mongoConnection = db.db(db.s.options.dbName);
@@ -73,7 +76,7 @@ module.exports = (function() {
 
     routers.get(USERS_PATH, function(req, res, next) {
         console.log("Receive get user info request");
-        console.log("cazzo merda -- " + req.session)
+        console.log("session -- " + req.session)
         if (req.session.user == null) {
             return next(boom.badRequest("Errore di caricamento"));
         }
@@ -82,6 +85,23 @@ module.exports = (function() {
             .findOne(req.session.email, function (err, findOperation) {
                 if (err) return next(boom.unauthorized(err));
                 res.send(findOperation);
+        });
+    });
+
+    routers.put(DISTRICT_PATH, function(req, res, next) {
+        console.log("Receive district login request");
+        console.log("data: " + req.body.email + " " + req.body.district + " " + req.body.password);
+        if (!req.body.email || !req.body.district || !req.body.password)
+            return next(boom.badData("Inerimento incompleto!"));
+
+        mongoConnection
+            .collection(DISTRICT_COLLECTION)
+            .findOne({ "email": req.body.email, "district": req.body.district, "password": req.body.password }, function (err, findOperation) {
+                if (err) return next(boom.badImplementation(err));
+                if (findOperation == null) {
+                    return next(boom.unauthorized(req.body.email + " Errore, dati non corretti"));
+                }
+                res.send(findOperation.email);
         });
     });
 

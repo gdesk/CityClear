@@ -1,14 +1,20 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link v-if="logged === false" to="/"><img src="./assets/logo.png"/></router-link>
-      <router-link v-if="logged === false" to="/login" >Accedi</router-link>
-      <router-link v-if="logged === false" to="/about">About</router-link>
+      <router-link v-if="logged === false && districtLogged === false" to="/"><img src="./assets/logo.png"/></router-link>
+      <router-link v-if="logged === false && districtLogged === false" to="/login" >Accedi</router-link>
+      <router-link v-if="logged === false && districtLogged === false" to="/about">About</router-link>
+
       <router-link v-if="logged === true" to="/urban-decore-tag"><img src="./assets/logo.png"/></router-link>
       <router-link v-if="logged === true" to="/user-profile">Profilo</router-link>
       <router-link v-if="logged === true" to="/forum">Forum</router-link>
       <router-link v-if="logged === true" to="/add">Aggiungi</router-link>
       <router-link v-if="logged === true" to="/logout">Logout</router-link>
+
+      <router-link v-if="districtLogged === true" to="/urban-decore-tag"><img src="./assets/logo.png"/></router-link>
+      <router-link v-if="districtLogged === true" to="/user-profile">Profilo</router-link>
+      <router-link v-if="districtLogged === true" to="/forum">Forum</router-link>
+      <router-link v-if="districtLogged === true" to="/logout">Analisi</router-link>
     </div>
     <router-view/>
   </div>
@@ -21,7 +27,8 @@ export default {
   name:"app", 
    data() {
       return {
-        logged: (sessionStorage.getItem("logged") === null) ? false : JSON.parse(sessionStorage.logged)
+        logged: (sessionStorage.getItem("logged") === null) ? false : JSON.parse(sessionStorage.logged),
+        districtLogged: (sessionStorage.getItem("districtLogged") === null) ? false : JSON.parse(sessionStorage.districtLogged)
       }
   },
   created() {
@@ -32,6 +39,12 @@ export default {
     EventBus.$on("logout", () => {
       this.logged = false;
       sessionStorage.logged = JSON.stringify(false);
+      this.districtLogged = false;
+      sessionStorage.districtLogged = JSON.stringify(false);
+    });
+    EventBus.$on("districtLogin", () => {
+      this.districtLogged = true;
+      sessionStorage.districtLogged = JSON.stringify(true);
     });
   }
 }
