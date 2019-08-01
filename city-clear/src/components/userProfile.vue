@@ -1,8 +1,8 @@
 <template>
   <div class="user-profile">
 		<b-container fluid class ="login-form">
-            <img src="../assets/user_profile.png"/>
-            <form @submit="onRegister">
+            <b-row>
+				<img src="../assets/user_profile.png"/> <br><br><br>
                 <v-icon name="mail"></v-icon>
                 {{email}} <br>
                 <v-icon name="user"></v-icon>
@@ -11,6 +11,11 @@
                 {{birtdate}} <br>
                 <v-icon name="home"></v-icon>
                 {{district}} <br><br><br>
+				<b-button type="submit" pill variant="success"> Logout </b-button>
+			</b-row>
+			<b-row>
+				<span>Modifica password</span>
+				<form @submit="onModifierPassword">
                 <v-icon name="lock"></v-icon>
                 <input v-model="modifierPassword" type="password" placeholder="nuova password" required/> <br>
                 <v-icon name="lock"></v-icon>
@@ -20,6 +25,7 @@
             <span>
                 <br><p>{{output}}</p>
             </span>
+			</b-row>
 		</b-container>
   </div>
 </template>
@@ -63,6 +69,12 @@
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
 
+	.row{
+		width: 50%;
+		height: auto;
+		display: inline-table;
+	}
+
 	span {
 		font-weight: bolder; 
 	}
@@ -74,7 +86,7 @@
 	}
 
     img {
-        width: 15%;
+        width: 25%;
         height: auto;
     }
 
@@ -98,8 +110,14 @@
 	}
 
 	@media (max-width: 800px) {
+		.row {
+			width: 100%;
+		}
 		input {
 			width: 270px;
+		}
+		img {
+			width: 30%;
 		}
 	}
 
@@ -122,11 +140,9 @@
 		input {
 			width: 250px;
 		}
-
 		.btn {
 			width: 120px;
 		}
-
 		.icon{
 			margin-top: 10px;
 		}
