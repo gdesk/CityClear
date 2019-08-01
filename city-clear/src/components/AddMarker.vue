@@ -98,8 +98,8 @@ import L from "leaflet";
     }
 
     #map-container {
-        width: 30vw;
-        height: 40vh;
+        width: 40vw;
+        height: 60vh;
         display: inline-table;
     }  
 
@@ -115,8 +115,8 @@ import L from "leaflet";
             width: 240px;
         }
         #map-container {
-            width: 50vw;
-            height: 30vh;
+            width: 70vw;
+            height: 40vh;
         }
 	}
 
