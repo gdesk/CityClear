@@ -13,6 +13,7 @@
 				<span>
 					<br><p>{{outputLogin}}</p>
 				</span>
+				<router-link to="/district-login" class="district-link">Sei un comune? Clicca qui per accedere</router-link>
 			</b-row>	
 			<b-row order="2">
 				<span>Crea un nuovo account:</span> <br>
@@ -138,7 +139,7 @@
 		font-weight: bolder; 
 	}
 
-	p {
+	p, .district-link {
 		font-size: 15px;
 		font-weight: bolder; 
 		color: #000000;
