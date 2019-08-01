@@ -25,7 +25,6 @@
 </template>
 
 <script>
-	import { EventBus } from "../main.js"
 	const axios = require("axios");
 	const BASE_PATH = "http://localhost:5051";
 	const USER_PATH = `${BASE_PATH}/users`;
@@ -39,10 +38,22 @@
 				district: "",
 				modifierPassword: "",
 				modifierConfirmPassword: "",
-				output: "",
 			}
-		},
+        },
+        mounted() {
+            //this.getUser();
+        },
 		methods: {
+            getUser(){
+                axios
+                    .get(USER_PATH)
+                    .then(response => {
+                        this.email = response.data.email,
+                        this.name = response.data.name,
+                        this.birtdate = response.data.birtdate,
+                        this.district = response.data.district
+                    })
+            }
 		}
 	}
 </script>

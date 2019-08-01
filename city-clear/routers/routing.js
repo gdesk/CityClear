@@ -40,14 +40,13 @@ module.exports = (function() {
                     .collection(USERS_COLLECTION)
                     .insertOne(userData, function(err, insertOperation) {
                         if(err) return next(boom.badImplementation(err));
-                        res.send("Utente creato correttamente. Effettua il login.")
+                        res.send("Utente creato correttamente. Effettua il login.");
                 });
         });
     });
 
     routers.patch(USERS_PATH, function(req, res, next) {
-        console.log(req.body.email + " " + req.body.password)
-        console.log("Receive get user request");
+        console.log("Receive login request");
         if (!req.body.email || !req.body.password)
             return next(boom.badData("Inerimento incompleto!"));
 
@@ -67,8 +66,22 @@ module.exports = (function() {
                 .collection(USERS_COLLECTION)
                 .updateOne(userData, loginData, function (err, updateOperation) {
                     if (err) return next(boom.badImplementation(err));
-                    res.send("ok");
+                    res.send(findOperation.email);
             });
+        });
+    });
+
+    routers.get(USERS_PATH, function(req, res, next) {
+        console.log("Receive get user info request");
+        console.log("cazzo merda -- " + req.session)
+        if (req.session.user == null) {
+            return next(boom.badRequest("Errore di caricamento"));
+        }
+        mongoConnection
+            .collection(USERS_COLLECTION)
+            .findOne(req.session.email, function (err, findOperation) {
+                if (err) return next(boom.unauthorized(err));
+                res.send(findOperation);
         });
     });
 

@@ -76,7 +76,7 @@
 					.then(response => {
 						currentObj.outputLogin = response.data;
 						EventBus.$emit("login");
-						sessionStorage.myUserId = response.data;
+						sessionStorage.user = response.data;
 						currentObj.$router.push('./urban-decore-tag') 
 					})
 					.catch(error => {

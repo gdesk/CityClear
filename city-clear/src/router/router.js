@@ -26,7 +26,7 @@ export default new Router({
     {
       path: '/map/:address',
       name: 'map',
-      component: () => import(/* webpackChunkName: "login" */ '../components/DecorMap.vue')
+      component: () => import(/* webpackChunkName: "map" */ '../components/DecorMap.vue')
     },
     {
       path: '/map',
@@ -36,12 +36,12 @@ export default new Router({
     {
       path: '/urban-decore-tag',
       name: 'urban-decore-tag',
-      component: () => import(/* webpackChunkName: "login" */ '../components/UrbanDecorTag.vue')
+      component: () => import(/* webpackChunkName: "ubanDecore" */ '../components/UrbanDecorTag.vue')
     },
     {
       path: '/user-profile',
       name: 'user-profile',
-      component: () => import(/* webpackChunkName: "login" */ '../components/userProfile.vue')
+      component: () => import(/* webpackChunkName: "profile" */ '../components/UserProfile.vue')
     }
   ]
 })
