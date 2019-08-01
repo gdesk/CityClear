@@ -74,7 +74,7 @@
 	}
 
     img {
-        width: 25%;
+        width: 15%;
         height: auto;
     }
 

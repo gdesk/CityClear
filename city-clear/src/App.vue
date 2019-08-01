@@ -93,7 +93,6 @@ export default {
 
     img{
       width: 20px;
-      
     }
 }
 </style>

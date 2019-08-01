@@ -21,27 +21,32 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ '../components/Login.vue')
+      component: () => import('../components/Login.vue')
     },
     {
       path: '/map/:address',
       name: 'map',
-      component: () => import(/* webpackChunkName: "map" */ '../components/DecorMap.vue')
+      component: () => import('../components/DecorMap.vue')
     },
     {
       path: '/map',
       name: 'map',
-      component: () => import(/* webpackChunkName: "login" */ '../components/DecorMap.vue')
+      component: () => import('../components/DecorMap.vue')
     },
     {
       path: '/urban-decore-tag',
       name: 'urban-decore-tag',
-      component: () => import(/* webpackChunkName: "ubanDecore" */ '../components/UrbanDecorTag.vue')
+      component: () => import('../components/UrbanDecorTag.vue')
     },
     {
       path: '/user-profile',
       name: 'user-profile',
-      component: () => import(/* webpackChunkName: "profile" */ '../components/UserProfile.vue')
+      component: () => import('../components/UserProfile.vue')
+    }, 
+    {
+      path: '/add',
+      name: 'add-marker',
+      component: () => import('../components/AddMarker.vue')
     }
   ]
 })
