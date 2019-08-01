@@ -37,6 +37,11 @@ export default new Router({
       path: '/urban-decore-tag',
       name: 'urban-decore-tag',
       component: () => import(/* webpackChunkName: "login" */ '../components/UrbanDecorTag.vue')
+    },
+    {
+      path: '/user-profile',
+      name: 'user-profile',
+      component: () => import(/* webpackChunkName: "login" */ '../components/userProfile.vue')
     }
   ]
 })
