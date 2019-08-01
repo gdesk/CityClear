@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/"><img src="./assets/logo.png"/></router-link>
-      <router-link to="/login">Accedi</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link v-if="logged === false" to="/"><img src="./assets/logo.png"/></router-link>
+      <router-link v-if="logged === false" to="/login" >Accedi</router-link>
+      <router-link v-if="logged === false" to="/about">About</router-link>
+      <router-link v-if="logged === true" to="/urban-decore-tag">Prova</router-link>
     </div>
     <router-view/>
   </div>
@@ -11,9 +12,13 @@
 
 <script>
 // custom.scss
-
 export default {
-  name:"app"
+  name:"app", 
+   data() {
+      return {
+        logged: (sessionStorage.getItem("logged") === null) ? false : JSON.parse(sessionStorage.logged)
+      }
+  }
 }
 </script>
 
