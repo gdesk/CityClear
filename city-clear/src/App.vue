@@ -11,13 +11,20 @@
 </template>
 
 <script>
-// custom.scss
+import { EventBus } from "./main.js" 
+
 export default {
   name:"app", 
    data() {
       return {
         logged: (sessionStorage.getItem("logged") === null) ? false : JSON.parse(sessionStorage.logged)
       }
+  },
+  created() {
+    EventBus.$on("login", () => {
+      this.logged = true;
+      sessionStorage.logged = JSON.stringify(true);
+    });
   }
 }
 </script>

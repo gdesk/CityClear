@@ -8,9 +8,12 @@ Vue.use(feather, 'v-icon')
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
+export const EventBus = new Vue();
+
 Vue.config.productionTip = false
 
 new Vue({
   router,
+  created(){},
   render: h => h(App)
 }).$mount('#app')

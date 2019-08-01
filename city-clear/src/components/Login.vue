@@ -43,12 +43,13 @@
 </template>
 
 <script>
+	import { EventBus } from "../main.js"
 	const axios = require("axios");
 	const BASE_PATH = "http://localhost:5051";
 	const USER_PATH = `${BASE_PATH}/users`;
 	export default {
 		name: 'Login',
-		props: {},
+		props: ["logged"],
 		data() {
 			return{
 				loginEmail: "",
@@ -74,11 +75,13 @@
 					})
 					.then(response => {
 						currentObj.outputLogin = response.data;
+						EventBus.$emit("login");
+						sessionStorage.myUserId = response.data;
 						currentObj.$router.push('./urban-decore-tag') 
 					})
 					.catch(error => {
 						if (error.response)
-							currentObj.outputLogin = " Errore, dati inseriti non corretti!";
+							currentObj.outputLogin = "Errore, dati inseriti non corretti!";
 						else
 							currentObj.outputLogin = error.message;
 					})
