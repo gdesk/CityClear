@@ -1,4 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
+const ObjectId = require("mongodb").ObjectId;
 const URL = "mongodb://asw-19:asw-19@ds159963.mlab.com:59963/asw-19";
 const boom = require('boom');
 
@@ -8,7 +9,7 @@ const USERS_COLLECTION = "users";
 const DISTRICT_PATH = "/district"; 
 const DISTRICT_COLLECTION = "district";
 
-MongoClient.connect(URL, function(err, db) {
+MongoClient.connect(URL,  { useNewUrlParser: true }, function(err, db) {
     if (err) throw err;
     mongoConnection = db.db(db.s.options.dbName);
 });
@@ -48,7 +49,7 @@ module.exports = (function() {
         });
     });
 
-    routers.patch(USERS_PATH, function(req, res, next) {
+    routers.put("/login", function(req, res, next) {
         console.log("Receive login request");
         if (!req.body.email || !req.body.password)
             return next(boom.badData("Inerimento incompleto!"));
@@ -60,37 +61,67 @@ module.exports = (function() {
                 if (findOperation == null) {
                     return next(boom.unauthorized(req.body.email + " Errore, dati non corretti"));
                 }
-            var userData = {
-                email: req.body.email,
-                password: req.body.password
-            }
-            var loginData = {$set: { isLogin: true}};
-            mongoConnection
-                .collection(USERS_COLLECTION)
-                .updateOne(userData, loginData, function (err, updateOperation) {
-                    if (err) return next(boom.badImplementation(err));
-                    res.send(findOperation.email);
+                console.log("session: " + req.session)
+                req.session.user = findOperation.email;
+                console.log("user " + req.session.user)
+                res.send(req.session.user);
             });
-        });
     });
 
     routers.get(USERS_PATH, function(req, res, next) {
         console.log("Receive get user info request");
-        console.log("session -- " + req.session)
-        if (req.session.user == null) {
-            return next(boom.badRequest("Errore di caricamento"));
-        }
+        console.log("session.user: " + req.session.user);
+        console.log("session: " + req.session)
         mongoConnection
             .collection(USERS_COLLECTION)
-            .findOne(req.session.email, function (err, findOperation) {
+            .findOne(new ObjectId(req.session.user), function (err, findOperation) {
+                console.log("Dati: " + findOperation);
                 if (err) return next(boom.unauthorized(err));
                 res.send(findOperation);
         });
     });
 
+    routers.put("/logout", function (req, res, next) {
+        console.log("Receive logout request");
+        console.log("User : " + req.session.user);
+        if (req.session.user == null) {
+            console.log("error");
+            return next(boom.badRequest("Cannot logout if not logged-in"));
+        }
+        req.session.destroy(function (err) {
+          if (err) return next(boom.badImplementation(err));
+          console.log("ok");
+          res.send("ok");
+        });
+    });
+
+    routers.patch(USERS_PATH, function(req, res, next) {
+        console.log("Receive modifier user password request");
+        if (req.session.user == null)
+            return next(boom.badImplementation("Errore nella sessione utente!"));
+
+        mongoConnection
+            .collection(USERS_COLLECTION)
+            .findOne({ "email": req.session.user }, function (err, findOperation) {
+                if (err) return next(boom.badImplementation(err));
+                if (findOperation == null) {
+                    return next(boom.unauthorized( req.session.user + " Errore, dati non corretti"));
+                }
+            var userData = {
+                email: req.session.user
+            }
+            var passwordData = {$set: { "password": req.body.password}};
+            mongoConnection
+                .collection(USERS_COLLECTION)
+                .updateOne(userData, passwordData, function (err, updateOperation) {
+                    if (err) return next(boom.badImplementation(err));
+                    res.send("Password modificata correttamente.");
+            });
+        });
+    });
+
     routers.put(DISTRICT_PATH, function(req, res, next) {
         console.log("Receive district login request");
-        console.log("data: " + req.body.email + " " + req.body.district + " " + req.body.password);
         if (!req.body.email || !req.body.district || !req.body.password)
             return next(boom.badData("Inerimento incompleto!"));
 

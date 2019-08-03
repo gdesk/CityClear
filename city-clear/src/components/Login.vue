@@ -13,7 +13,7 @@
 				<span>
 					<br><p>{{outputLogin}}</p>
 				</span>
-				<router-link to="/district-login" class="district-link">Sei un comune? Clicca qui per accedere</router-link>
+				<router-link to="/district-login" class="district-link">Sei un comune? Clicca qui per accedere</router-link> <br><br><br>
 			</b-row>	
 			<b-row order="2">
 				<span>Crea un nuovo account:</span> <br>
@@ -46,7 +46,7 @@
 <script>
 	import { EventBus } from "../main.js"
 	const axios = require("axios");
-	const BASE_PATH = "http://localhost:5051";
+	const BASE_PATH = "http://127.0.0.1:5051";
 	const USER_PATH = `${BASE_PATH}/users`;
 	export default {
 		name: 'Login',
@@ -70,14 +70,15 @@
 				event.preventDefault();
 				let currentObj = this;
 				axios
-					.patch(USER_PATH, {
+					.put( `${BASE_PATH}/login`, {
 						email: this.loginEmail,
 						password: this.loginPassword
 					})
 					.then(response => {
-						currentObj.outputLogin = response.data;
+						//currentObj.outputLogin = response.data;
 						EventBus.$emit("login");
-						sessionStorage.user = response.data;
+						sessionStorage.setItem("user", response.data);
+						//currentObj.outputLogin = sessionStorage.user;
 						currentObj.$router.push('./urban-decore-tag') 
 					})
 					.catch(error => {
@@ -113,7 +114,6 @@
 						})
 						.catch(error => {
 							if (error.response)
-								//TODO: è imbrogliare
 								currentObj.output = this.registerEmail + " già utilizzato!";
 							else
 								currentObj.output = error.message;

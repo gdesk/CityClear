@@ -33,7 +33,7 @@
 <script>
 	import { EventBus } from "../main.js"
 	const axios = require("axios");
-	const BASE_PATH = "http://localhost:5051";
+	const BASE_PATH = "http://127.0.0.1:5051";
 	const USER_PATH = `${BASE_PATH}/users`;
 	export default {
 		name: 'UserProfile',
@@ -45,6 +45,7 @@
 				district: "",
 				modifierPassword: "",
 				modifierConfirmPassword: "",
+				output: ""
 			}
         },
         mounted() {
@@ -59,17 +60,34 @@
                         this.name = response.data.name,
                         this.birtdate = response.data.birtdate,
                         this.district = response.data.district
-                    })
+					})
 			},
 			onLogout(event) {
+				axios
+					.put(`${BASE_PATH}/logout`)
 				event.preventDefault();
 				EventBus.$emit("logout");
 				this.$router.push('/');
 			},
 			checkPassword() {
 				return this.modifierPassword === this.modifierConfirmPassword;
+			},
+			onModifierPassword(event){
+				event.preventDefault();
+				let currentObj = this;
+				if(this.checkPassword()) {
+					axios
+						.patch(USER_PATH, {
+							password: this.modifierPassword
+						})
+						.then(response => {
+							currentObj.outputLogin = response.data;
+						})
+						.catch(error => {
+							currentObj.outputLogin = error.message;
+					})
+				} else currentObj.output = "Le password non corrispondono";
 			}
-			//TODO modifica password
 		}
 	}
 </script>

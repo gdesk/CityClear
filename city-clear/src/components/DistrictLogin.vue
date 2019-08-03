@@ -18,7 +18,7 @@
 				<span>
 					<br><p>{{output}}</p>
 				</span>
-				<router-link to="/login" class="user-link">Sei un cittadino? Clicca qui per accedere</router-link>
+				<router-link to="/login" class="user-link">Sei un cittadino? Clicca qui per accedere</router-link><br><br>
 			</b-row>	
 			<b-row order="2">
 				<span>Crea un nuovo account:</span> <br>
