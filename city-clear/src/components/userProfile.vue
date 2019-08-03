@@ -7,8 +7,8 @@
                 {{email}} <br>
                 <v-icon name="user"></v-icon>
                 {{name}} <br>
-                <v-icon name="gift"></v-icon>
-                {{birtdate}} <br>
+                <!--<v-icon name="gift"></v-icon>
+                {{birtdate}} <br>-->
                 <v-icon name="home"></v-icon>
                 {{district}} <br><br><br>
 				<b-button @click="onLogout" pill variant="success"> Logout </b-button>
@@ -150,7 +150,7 @@
 	}
 
 	.btn {
-		width: auto;
+		width: 250px;
 		height: 40px;
 		text-align: center;
 		margin-top: 20px;
