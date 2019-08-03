@@ -52,6 +52,11 @@ export default new Router({
       path: '/add',
       name: 'add-marker',
       component: () => import('../components/AddMarker.vue')
+    },
+    {
+      path: '/forum',
+      name: 'forum',
+      component: () => import('../components/Forum.vue')
     }
   ]
 })

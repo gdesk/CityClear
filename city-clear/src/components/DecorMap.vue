@@ -44,7 +44,7 @@ export default {
           };
         }
       }, function() {
-        console.log('Error: The Geolocation service failed.');
+        console.log('Geolocalization failed.');
       }, { 
         enableHighAccuracy: false,
         maximumAge: 1800000
@@ -53,7 +53,6 @@ export default {
     } else {
       alert("Geolocation not supported by this browser.");
     }
-    this.setlocation();
   },
   methods: {
     initMap() {

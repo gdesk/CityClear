@@ -3,7 +3,7 @@
 		<b-container fluid class ="login-form">
             <b-row>
 				<img src="../assets/user_profile.png"/> <br><br><br>
-                <v-icon name="mail"></v-icon>
+				<v-icon name="mail"></v-icon>
                 {{email}} <br>
                 <v-icon name="user"></v-icon>
                 {{name}} <br>
@@ -39,17 +39,17 @@
 		name: 'UserProfile',
 		data() {
 			return{
-				email: "",
-				name: "",
-				birtdate: "",
-				district: "",
+				email: "Email",
+				name: "Nome Cognome",
+				//birtdate: "",
+				district: "Cesena",
 				modifierPassword: "",
 				modifierConfirmPassword: "",
 				output: ""
 			}
         },
         mounted() {
-            this.getUser();
+            //this.getUser();
         },
 		methods: {
             getUser(){

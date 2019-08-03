@@ -8,12 +8,11 @@
 					<input v-model="description" type="text" placeholder="Descrizione" required/> <br>
 					<input v-model="tag" type="text" placeholder="Tag" required/> <br>
                     <input type="file" id="file" @change="previewFiles" multiple> <br>
-                    <input id="place" v-model="place" type="text" placeholder="Inserire indirizzo" required/> &nbsp; <img src="../assets/find.png"/> <br>
+                    <input id="place" v-model="place" type="text" placeholder="Inserire indirizzo" required/> 
+					&nbsp; 
+					<b-button id="find-button"  @click="getPosition" pill variant="success"><img src="../assets/find.png"/></b-button> <br>
 					<b-button type="submit" pill variant="success"> Aggiungi </b-button>	
 				</form>
-				<span>
-					<br><p>{{output}}</p>
-				</span>
 			</b-row>
             <b-row order="2">
                 <div id=map-container></div>
@@ -23,34 +22,87 @@
 </template>
 
 <script>
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-    export default {
-        data() {
-            return {
-                files: [],
-                map: null
-            }
-        },
-         mounted() {
-            this.map = L.map("map-container").setView([44.139, 12.243], 5);
-            L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-            attribution:
-                '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(this.map);
-        },
-        beforeDestroy() {
-            if (this.map) {
-            this.map.remove();
-            }
-        },
-        methods: {
-            previewFiles() {
-                this.files = this.$refs.myFiles.files
-            }
-        }
+export default {
+  name: "LeafletMap",
+  data() {
+    return {
+		files: [],
+		location: null,
+		map: null,
+		tileLayer: null,
+		marker: null,
+		output: "",
+		place: ""
+    };
+  },
+  mounted() {
+    this.initMap();
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+    if(!this.location == null){
+		this.addMarker();
     }
+  },
+  methods: {
+    initMap() {
+      this.map = L.map("map-container",  {
+        attributionControl: false,
+        dragging: false,
+        scrollWheelZoom: 'center',
+        doubleClickZoom: 'center',
+        touchZoom:       'center'
+      });
+      const point = this.location ? [this.location.lat, this.location.lng] : [44.1391000, 12.2431500];
+      const zoom = this.location ? 5 : 15;
+      this.map.setView(point, zoom);
+	},
+	getPosition() {
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(position => {
+		this.location = { 
+			lat: position.coords.latitude,
+			lng: position.coords.longitude
+		};
+		//TODO: SCRIVERE POS IN LABEL
+		document.getElementById('place').value = `${this.location.lat} ${this.location.lng}`;
+      }, function() {
+        console.log('Geolocalization failed.');
+      }, { 
+        enableHighAccuracy: false,
+        maximumAge: 1800000
+      }
+      );
+    } else {
+      alert("Geolocation not supported by this browser.");
+    }
+    this.setlocation();
+  },
+    addMarker() {
+      L.marker([this.location.lat, this.location.lng]).addTo(this.map)
+        .bindPopup('Sei qui.')
+        .openPopup();
+	},
+	previewFiles() {
+		this.files = this.$refs.myFiles.files
+    }  
+  },
+   watch: {
+    location: {
+      handler() {
+        if (this.marker == null) {
+          this.addMarker();
+        } else {
+          this.marker.setLatLng([this.location.lat, this.location.lng]);
+        }
+        this.map.setView([this.location.lat, this.location.lng]);
+      },
+      deep: true
+    }
+   }
+};
 </script>
 
 <style scoped lang="scss">
@@ -94,7 +146,7 @@ import L from "leaflet";
 	}
     
     #place {
-        width: 265px;
+        width: 240px;
     }
 
     #map-container {
@@ -126,6 +178,12 @@ import L from "leaflet";
 		text-align: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
+	}
+
+	#find-button {
+		width: 50px;
+		height: 40px;
+		margin-left: 0%;
 	}
 
 	.icon{
