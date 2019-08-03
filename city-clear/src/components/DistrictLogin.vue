@@ -32,10 +32,10 @@
 	import { EventBus } from "../main.js"
 	const axios = require("axios");
 	const BASE_PATH = "http://localhost:5051";
-	const DISTRICT_PATH = `${BASE_PATH}/district`;
+	const DISTRICT_PATH = `${BASE_PATH}/loginDistrict`;
 	export default {
 		name: 'Login',
-		props: ["logged"],
+		props: ["districtLogged"],
 		data() {
 			return{
                 loginEmail: "",
@@ -57,7 +57,7 @@
 					.then(response => {
 						currentObj.output = response.data;
 						EventBus.$emit("districtLogin");
-						sessionStorage.user = response.data;
+						window.sessionStorage.setItem("user", response.data);
 						currentObj.$router.push('./urban-decore-tag') 
 					})
 					.catch(error => {

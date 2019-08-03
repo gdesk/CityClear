@@ -62,7 +62,6 @@ module.exports = (function() {
                     return next(boom.unauthorized(req.body.email + " Errore, dati non corretti"));
                 }
                 console.log("session: " + req.session.save.name)
-                req.session.save;
                 req.session.user = findOperation.email;
                 console.log("user " + req.session.user)
                 res.send(req.session.user);
@@ -125,7 +124,7 @@ module.exports = (function() {
         });
     });
 
-    routers.put(DISTRICT_PATH, function(req, res, next) {
+    routers.put("/loginDistrict", function(req, res, next) {
         console.log("Receive district login request");
         if (!req.body.email || !req.body.district || !req.body.password)
             return next(boom.badData("Inerimento incompleto!"));

@@ -37,7 +37,7 @@
 	const USER_PATH = `${BASE_PATH}/users`;
 	export default {
 		name: 'UserProfile',
-		props: ['logged'],
+		props: ['logged', 'districtLogged'],
 		data() {
 			return{
 				email: "Email",
