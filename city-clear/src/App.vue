@@ -21,14 +21,16 @@
 </template>
 
 <script>
-import { EventBus } from "./main.js" 
+import { EventBus } from "./main.js";
 
 export default {
   name:"app", 
-   data() {
+  
+  data() {
       return {
         logged: (sessionStorage.getItem("logged") === null) ? false : JSON.parse(sessionStorage.logged),
-        districtLogged: (sessionStorage.getItem("districtLogged") === null) ? false : JSON.parse(sessionStorage.districtLogged)
+        districtLogged: (sessionStorage.getItem("districtLogged") === null) ? false : JSON.parse(sessionStorage.districtLogged),
+        location: ""
       }
   },
   created() {
