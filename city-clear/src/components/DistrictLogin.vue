@@ -116,7 +116,6 @@
 			width: 100%;
 			align-content: center;
 		}
-
 		input, select {
 			width: 270px;
 		}
@@ -141,11 +140,9 @@
 		input, select {
 			width: 250px;
 		}
-
 		.btn {
 			width: 120px;
 		}
-
 		.icon{
 			margin-top: 10px;
 		}
