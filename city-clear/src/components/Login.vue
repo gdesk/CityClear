@@ -77,7 +77,7 @@
 					.then(response => {
 						//currentObj.outputLogin = response.data;
 						EventBus.$emit("login");
-						sessionStorage.setItem("user", response.data);
+						window.sessionStorage.setItem("user", response.data);
 						//currentObj.outputLogin = sessionStorage.user;
 						currentObj.$router.push('./urban-decore-tag') 
 					})

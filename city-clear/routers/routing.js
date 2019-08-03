@@ -61,20 +61,24 @@ module.exports = (function() {
                 if (findOperation == null) {
                     return next(boom.unauthorized(req.body.email + " Errore, dati non corretti"));
                 }
-                console.log("session: " + req.session)
+                console.log("session: " + req.session.save.name)
+                req.session.save;
                 req.session.user = findOperation.email;
                 console.log("user " + req.session.user)
                 res.send(req.session.user);
             });
     });
 
-    routers.get(USERS_PATH, function(req, res, next) {
+    routers.put(USERS_PATH, function(req, res, next) {
         console.log("Receive get user info request");
-        console.log("session.user: " + req.session.user);
+        console.log("session.user: " + req.session.user + " " + req.body.user);
         console.log("session: " + req.session)
+        if(!req.body.user)
+            return next(boom.badData("Inerimento incompleto!"));
+
         mongoConnection
             .collection(USERS_COLLECTION)
-            .findOne(new ObjectId(req.session.user), function (err, findOperation) {
+            .findOne({"email": req.body.user}, function (err, findOperation) {
                 console.log("Dati: " + findOperation);
                 if (err) return next(boom.unauthorized(err));
                 res.send(findOperation);
@@ -83,11 +87,10 @@ module.exports = (function() {
 
     routers.put("/logout", function (req, res, next) {
         console.log("Receive logout request");
-        console.log("User : " + req.session.user);
-        if (req.session.user == null) {
+        /* if (req.session.user == null) {
             console.log("error");
             return next(boom.badRequest("Cannot logout if not logged-in"));
-        }
+        } */
         req.session.destroy(function (err) {
           if (err) return next(boom.badImplementation(err));
           console.log("ok");
@@ -97,18 +100,20 @@ module.exports = (function() {
 
     routers.patch(USERS_PATH, function(req, res, next) {
         console.log("Receive modifier user password request");
-        if (req.session.user == null)
-            return next(boom.badImplementation("Errore nella sessione utente!"));
-
+        console.log("user " + req.body.user + " " + req.body.password)
+        /*if (req.session.user == null)
+            return next(boom.badImplementation("Errore nella sessione utente!"));*/
+        if(!req.body.user)
+            return next(boom.badData("Inerimento incompleto!"));
         mongoConnection
             .collection(USERS_COLLECTION)
-            .findOne({ "email": req.session.user }, function (err, findOperation) {
+            .findOne({ "email": req.body.user }, function (err, findOperation) {
                 if (err) return next(boom.badImplementation(err));
                 if (findOperation == null) {
                     return next(boom.unauthorized( req.session.user + " Errore, dati non corretti"));
                 }
             var userData = {
-                email: req.session.user
+                email: req.body.user
             }
             var passwordData = {$set: { "password": req.body.password}};
             mongoConnection

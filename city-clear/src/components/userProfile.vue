@@ -50,12 +50,14 @@
 			}
         },
         mounted() {
-            //this.getUser();
+            this.getUser();
         },
 		methods: {
             getUser(){
                 axios
-                    .get(USER_PATH)
+                    .put(USER_PATH, {
+						user: window.sessionStorage.getItem("user")
+					})
                     .then(response => {
                         this.email = response.data.email,
                         this.name = response.data.name,
@@ -64,9 +66,10 @@
 					})
 			},
 			onLogout(event) {
+				event.preventDefault();
 				axios
 					.put(`${BASE_PATH}/logout`)
-				event.preventDefault();
+				window.sessionStorage.clear();
 				EventBus.$emit("logout");
 				this.$router.push('/');
 			},
@@ -79,13 +82,16 @@
 				if(this.checkPassword()) {
 					axios
 						.patch(USER_PATH, {
+							user: window.sessionStorage.getItem("user"),
 							password: this.modifierPassword
 						})
 						.then(response => {
-							currentObj.outputLogin = response.data;
+							currentObj.output = response.data;
+							this.modifierPassword = "";
+							this.modifierConfirmPassword = "";
 						})
 						.catch(error => {
-							currentObj.outputLogin = error.message;
+							currentObj.output = error.message;
 					})
 				} else currentObj.output = "Le password non corrispondono";
 			}

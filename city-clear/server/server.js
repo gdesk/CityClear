@@ -7,7 +7,7 @@ var cors = require('cors');
 var app = express();
 
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/components'));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -16,15 +16,13 @@ app.use(function(req, res, next) {
   next();
 });
 
-//var routesArray = ['/login', '/logout'];
+//var routesArray = ['/login', '/logout', '/user-profile'];
 
 app.use(session({
   secret: 'secret secret',
   resave: true,
   saveUninitialized: false,
   cookie: {
-    secure: false,
-    httpOnly: false,
     maxAge: TWO_HOURS
   }
 }));
@@ -37,7 +35,7 @@ app.use(routing);
 
 
 app.all('/*', function(req, res) {
-  res.sendFile('index.html', { root: __dirname + '/public' });
+  res.sendFile('index.html', { root: __dirname + '/components' });
 });
 
 const port = process.env.PORT || 5051;
