@@ -160,6 +160,7 @@
 		outline: 0;
 		box-sizing: border-box;
 		font-size: 14px;
+		padding: 5px;
 		align-self: center;
 		width: 300px;
 		height: 40px;
@@ -169,10 +170,6 @@
 		background-color: #ffffff;
 		border-radius: 0.25em;
 		color: black;
-	}
-
-	input {
-		padding: 5px;
 	}
 
 	@media (max-width: 800px) {

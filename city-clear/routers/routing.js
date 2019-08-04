@@ -37,7 +37,8 @@ module.exports = (function() {
                     birtdate: req.body.birtdate,
                     district: req.body.district,
                     password: req.body.password,
-                    isLogin: false
+                    level: 1,
+                    point: 5
                 }
 
                 mongoConnection

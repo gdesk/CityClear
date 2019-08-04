@@ -57,6 +57,11 @@ export default new Router({
       path: '/forum',
       name: 'forum',
       component: () => import('../components/Forum.vue')
+    },
+    {
+      path: '/avatar',
+      name: 'avata',
+      component: () => import('../components/Avatar.vue')
     }
   ]
 })
