@@ -2,7 +2,12 @@
   <div class="user-profile">
 		<b-container fluid class ="login-form">
             <b-row>
-				<img src="../assets/user_profile.png"/> <br><br><br>
+				<img :src="photo" class="user-img"/><br>
+				<input style="display: none" accept="image/*" type="file" @change="uploadImage" ref="input"> 
+				<b-button id="add-photo" @click="$refs.input.click()" pill variant="success">
+					<v-icon name="plus"></v-icon> 
+				</b-button>
+				<br><br><br>
 				<v-icon name="mail"></v-icon>
                 {{email}} <br>
                 <v-icon name="user"></v-icon>
@@ -43,10 +48,11 @@
 		props: ['logged', 'districtLogged'],
 		data() {
 			return{
+				photo: require("../assets/user_profile.png"),
 				email: "Email",
 				name: "Nome Cognome",
-				//birtdate: "",
-				district: "Cesena",
+				birtdate: "Compleanno",
+				district: "Comune",
 				modifierPassword: "",
 				modifierConfirmPassword: "",
 				output: ""
@@ -56,12 +62,34 @@
             this.getUser();
         },
 		methods: {
+			uploadImage(event) {
+				const image = event.target.files[0];
+				const reader = new FileReader();
+				reader.readAsDataURL(image);
+				reader.onload = e =>{
+					this.photo = e.target.result;
+					console.log(this.previewImage);
+				};
+				
+				// TODO: richiesta va bene ma photo in db = {}.
+				axios
+					.patch(`${USER_PATH}/uploadFile`, {
+						user: window.sessionStorage.getItem("user"),
+						photo: image
+					})
+					.then(response =>{
+						console.log(response.data);
+					})
+			},
             getUser(){
                 axios
                     .put(USER_PATH, {
 						user: window.sessionStorage.getItem("user")
 					})
                     .then(response => {
+						if(response.data.photo != null) {
+							this.photo = response.data.photo
+						}
                         this.email = response.data.email,
                         this.name = response.data.name,
                         this.birtdate = response.data.birtdate,
@@ -169,10 +197,13 @@
 	}
 
 	.icon{
-		margin-right: 20px;
 		width: 20px;
 		height: 100%;
 		text-align: center;
+	}
+
+	#add-photo{
+		width: 50px;
 	}
 
 	@media (max-width: 340px) {

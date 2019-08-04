@@ -99,7 +99,7 @@ module.exports = (function() {
 
     routers.patch(USERS_PATH, function(req, res, next) {
         console.log("Receive modifier user password request");
-        console.log("user " + req.body.user + " " + req.body.password)
+        console.log("user " + req.body.user + " " + req.body.password);
         /*if (req.session.user == null)
             return next(boom.badImplementation("Errore nella sessione utente!"));*/
         if(!req.body.user)
@@ -120,6 +120,32 @@ module.exports = (function() {
                 .updateOne(userData, passwordData, function (err, updateOperation) {
                     if (err) return next(boom.badImplementation(err));
                     res.send("Password modificata correttamente.");
+            });
+        });
+    });
+
+    routers.patch("/users/uploadFile", function(req, res, next) {
+        console.log("Receive modifier user photo request");
+        /*if (req.session.user == null)
+            return next(boom.badImplementation("Errore nella sessione utente!"));*/
+        if(!req.body.user)
+            return next(boom.badData("Inerimento incompleto!"));
+        mongoConnection
+            .collection(USERS_COLLECTION)
+            .findOne({ "email": req.body.user }, function (err, findOperation) {
+                if (err) return next(boom.badImplementation(err));
+                if (findOperation == null) {
+                    return next(boom.unauthorized( req.session.user + " Errore, dati non corretti"));
+                }
+            var userData = {
+                email: req.body.user
+            }
+            var photo = {$set: { "photo": req.body.photo}};
+            mongoConnection
+                .collection(USERS_COLLECTION)
+                .updateOne(userData, photo, function (err, updateOperation) {
+                    if (err) return next(boom.badImplementation(err));
+                    res.send("Foto modificata correttamente.");
             });
         });
     });
