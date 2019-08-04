@@ -11,7 +11,10 @@
                 {{birtdate}} <br>
                 <v-icon name="home"></v-icon>
                 {{district}} <br><br><br>
-				<b-button @click="onLogout" pill variant="success"> Logout </b-button>
+				<b-button @click="onLogout" pill variant="success"> 
+					Logout &nbsp; 
+					<v-icon name="power"></v-icon>
+				</b-button>
 			</b-row>
 			<b-row>
 				<span>Modifica password</span>
@@ -20,7 +23,7 @@
                 <input v-model="modifierPassword" type="password" placeholder="nuova password" required/> <br>
                 <v-icon name="lock"></v-icon>
                 <input v-model="modifierConfirmPassword" type="password" placeholder="conferma password" required/><br>
-                <b-button type="submit" pill variant="success"> Modifica password </b-button>	
+                <b-button type="submit" pill variant="success"> Modifica password</b-button>	
             </form>
             <span>
                 <br><p>{{output}}</p>
@@ -160,6 +163,7 @@
 		width: 250px;
 		height: 40px;
 		text-align: center;
+		justify-content: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
