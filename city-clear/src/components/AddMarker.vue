@@ -59,7 +59,7 @@ export default {
         touchZoom:       'center'
       });
       const point = this.location ? [this.location.lat, this.location.lng] : [44.1391000, 12.2431500];
-      const zoom = this.location ? 15 : 15;
+      const zoom = this.location ? 15 : 5;
       this.map.setView(point, zoom);
 	},
 	getPosition() {
@@ -100,7 +100,7 @@ export default {
         } else {
           this.marker.setLatLng([this.location.lat, this.location.lng]);
         }
-        this.map.setView([this.location.lat, this.location.lng]);
+        this.map.setView([this.location.lat, this.location.lng], 15);
       },
       deep: true
     }
