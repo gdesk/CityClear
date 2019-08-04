@@ -2,7 +2,7 @@
   <div class="user-profile">
 		<b-container fluid class ="login-form">
             <b-row>
-				<img :src="photo" class="user-img"/><br>
+				<img :src="photo" class="user-img"/> &nbsp;
 				<input style="display: none" accept="image/*" type="file" @change="uploadImage" ref="input"> 
 				<b-button id="add-photo" @click="$refs.input.click()" pill variant="success">
 					<v-icon name="plus"></v-icon> 
