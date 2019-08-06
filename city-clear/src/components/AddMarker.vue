@@ -6,10 +6,16 @@
 		<b-container fluid class ="add-marker-form">
             <b-row order="1">
 				<span>Aggiunta punto caldo:</span> <br>
-				<form @submit="onRegister">
+				<form @submit="onAdd">
 					<input v-model="title" type="text" placeholder="Titolo" required/> <br>
 					<input v-model="description" type="text" placeholder="Descrizione" required/> <br>
-					<input v-model="tag" type="text" placeholder="Tag" required/> <br>
+					<select v-model="districtRegister" required>
+						<option disabled value="">Inserisci il tag</option>
+						<option>Spazzatura</option>
+						<option>Strada dissestata</option>
+						<option>Patrimonio culturale o artistico</option>
+						<option>Altro</option>
+					</select> <br>
                     <input type="file" id="file" @change="previewFiles" multiple> <br>
                     <input id="place" v-model="place" type="text" placeholder="Inserire indirizzo" required/> 
 					&nbsp; 
@@ -61,6 +67,9 @@ export default {
       const point = this.location ? [this.location.lat, this.location.lng] : [44.1391000, 12.2431500];
       const zoom = this.location ? 15 : 5;
       this.map.setView(point, zoom);
+	},
+	onAdd() {
+
 	},
 	getPosition() {
     if (navigator.geolocation) {
@@ -129,7 +138,7 @@ export default {
 		color: #000000;
 	}
 
-	input {
+	input, select {
 		outline: 0;
 		box-sizing: border-box;
 		font-size: 14px;
@@ -163,11 +172,11 @@ export default {
 			width: 100%;
 			align-content: center;
 		}
-		input {
+		input, select {
 			width: 270px;
 		}
         #place {
-            width: 240px;
+            width: 210px;
         }
         #map-container {
             width: 70vw;
@@ -202,7 +211,7 @@ export default {
         }
 
 	@media (max-width: 340px) {
-		input {
+		input, select {
 			width: 250px;
 		}
         #place {
