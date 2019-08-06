@@ -6,10 +6,10 @@
 		<b-container fluid class ="add-marker-form">
             <b-row order="1">
 				<span>Aggiunta punto caldo:</span> <br>
-				<form @submit="onAdd">
+				<form @submit="onAddMarker">
 					<input v-model="title" type="text" placeholder="Titolo" required/> <br>
 					<input v-model="description" type="text" placeholder="Descrizione" required/> <br>
-					<select v-model="districtRegister" required>
+					<select v-model="tag" required>
 						<option disabled value="">Inserisci il tag</option>
 						<option>Spazzatura</option>
 						<option>Strada dissestata</option>
@@ -22,6 +22,9 @@
 					<b-button id="find-button"  @click="getPosition" pill variant="success"><img src="../assets/find.png"/></b-button> <br>
 					<b-button type="submit" pill variant="success"> Aggiungi </b-button>	
 				</form>
+				<span>
+					<br><p>{{output}}</p>
+				</span>
 			</b-row>
             <b-row order="2">
                 <div id=map-container></div>
@@ -32,7 +35,9 @@
 
 <script>
 import L from "leaflet";
-
+const axios = require("axios");
+const BASE_PATH = "http://127.0.0.1:5051";
+const MARKER_PATH = `${BASE_PATH}/point/add`;
 export default {
   name: "LeafletMap",
   data() {
@@ -43,6 +48,10 @@ export default {
 		tileLayer: null,
 		marker: null,
 		output: "",
+		title:"",
+		description: "",
+		tag: "",
+		//image
 		place: ""
     };
   },
@@ -68,8 +77,25 @@ export default {
       const zoom = this.location ? 15 : 5;
       this.map.setView(point, zoom);
 	},
-	onAdd() {
-
+	onAddMarker(event) {
+		event.preventDefault();
+		let currentObj = this;
+		axios
+			.post(MARKER_PATH, {
+				user: window.sessionStorage.getItem("user"),
+				title: this.title,
+				description: this.description,
+				tag: this.tag,
+				// image
+				lat: this.location.lat,
+				lng: this.location.lng
+			})
+			.then(response => {
+				currentObj.output = response.data;
+			})
+			.catch(error => {
+				currentObj.output = error.message;
+			})
 	},
 	getPosition() {
     if (navigator.geolocation) {

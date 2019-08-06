@@ -1,13 +1,13 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+//const multer = require('multer');
+
 const TWO_HOURS = 1000*60*60*2;
-var cors = require('cors');
 
 var app = express();
 
-
-app.use(express.static(__dirname + '/components'));
+//app.use(express.static(__dirname + '/image'));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -34,9 +34,9 @@ const routing = require('../routers/routing.js');
 app.use(routing);
 
 
-app.all('/*', function(req, res) {
-  res.sendFile('index.html', { root: __dirname + '/components' });
-});
+//app.all('/*', function(req, res) {
+//  res.sendFile('index.html', { root: __dirname + '/image' });
+//});
 
 const port = process.env.PORT || 5051;
 app.listen(port, function() {

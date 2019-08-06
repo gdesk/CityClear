@@ -73,10 +73,12 @@
 				
 				// TODO: richiesta va bene ma photo in db = {}.
 				const storePhoto = new FormData();
-				storePhoto.append("photo",this.image);
-				const user = window.sessionStorage.getItem("user")
+				storePhoto.append(this.image);
 				axios
-					.patch(`${USER_PATH}/uploadFile`, storePhoto, user)
+					.patch(`${USER_PATH}/uploadFile`, {
+						user: window.sessionStorage.getItem("user"),
+						photo: storePhoto
+					})
 					.then(response =>{
 						console.log(response.data);
 					})

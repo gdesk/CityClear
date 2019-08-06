@@ -1,10 +1,13 @@
 const MongoClient = require("mongodb").MongoClient;
-const ObjectId = require("mongodb").ObjectId;
-const URL = "mongodb://asw-19:asw-19@ds159963.mlab.com:59963/asw-19";
 const boom = require('boom');
+
+const URL = "mongodb://asw-19:asw-19@ds159963.mlab.com:59963/asw-19";
 
 const USERS_PATH = "/users"; 
 const USERS_COLLECTION = "users";
+
+const POINT_PATH = "/point/add"; 
+const POINT_COLLECTION = "point";
 
 const DISTRICT_PATH = "/district"; 
 const DISTRICT_COLLECTION = "district";
@@ -127,10 +130,23 @@ module.exports = (function() {
 
     routers.patch("/users/uploadFile", function(req, res, next) {
         console.log("Receive modifier user photo request");
+        console.log("Email: " + req.body.user + " photo: " + req.body.photo);
         /*if (req.session.user == null)
             return next(boom.badImplementation("Errore nella sessione utente!"));*/
         if(!req.body.user)
             return next(boom.badData("Inerimento incompleto!"));
+        
+        var pic = new PicSchema({
+            image: {
+                data: Buffer, 
+                contentType: String
+            }
+        });
+
+        var newPic = new pic();
+        newPic.image.data = fs.readFileSync(req.files.userPhoto.path)
+        newPic.image.contentType = 'image/png';
+        newPic.save();
         mongoConnection
             .collection(USERS_COLLECTION)
             .findOne({ "email": req.body.user }, function (err, findOperation) {
@@ -148,6 +164,37 @@ module.exports = (function() {
                     if (err) return next(boom.badImplementation(err));
                     res.send("Foto modificata correttamente.");
             });
+        });
+    });
+
+    routers.post(POINT_PATH, function(req, res, next) {
+        console.log("Receive create new point request");
+        if (!req.body.user || !req.body.title || !req.body.description || !req.body.tag || !req.body.lat || !req.body.lng)
+            return next(boom.badData("Inerimento incompleto!"));         
+
+        mongoConnection
+            .collection(USERS_COLLECTION)
+            .findOne({ "email": req.body.email }, function (err, findOperation) {
+                if (err) return next(boom.badImplementation(err));
+                if (findOperation != null) 
+                    return next(boom.badRequest(req.body.email + " non esiste!"));
+            
+                var pointData = {
+                    user: req.body.user,
+                    title: req.body.title,
+                    description: req.body.description,
+                    //image
+                    tag: req.body.tag,
+                    lat: req.body.lat,
+                    lng: req.body.lng
+                }
+
+                mongoConnection
+                    .collection(POINT_COLLECTION)
+                    .insertOne(pointData, function(err, insertOperation) {
+                        if(err) return next(boom.badImplementation(err));
+                        res.send("Punto caldo creato correttamente.");
+                });
         });
     });
 
