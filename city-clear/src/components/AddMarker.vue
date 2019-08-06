@@ -96,33 +96,31 @@ export default {
 				this.description = "",
 				this.tag = "",
 				// image
-				this.place = "",
-				this.location = ""
+				this.place = ""
 			})
 			.catch(error => {
 				currentObj.output = error.message;
 			})
 	},
 	getPosition() {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(position => {
-		this.location = { 
-			lat: position.coords.latitude,
-			lng: position.coords.longitude
-		};
-		//TODO: SCRIVERE POS IN LABEL
-		document.getElementById('place').value = `${this.location.lat} ${this.location.lng}`;
-      }, function() {
-        console.log('Geolocalization failed.');
-      }, { 
-        enableHighAccuracy: false,
-        maximumAge: 1800000
-      }
-      );
-    } else {
-      alert("Geolocation not supported by this browser.");
-    }
-    this.setlocation();
+		if (navigator.geolocation) {
+			navigator.geolocation.watchPosition(position => {
+				this.location = { 
+					lat: position.coords.latitude,
+					lng: position.coords.longitude
+				};
+				//TODO: SCRIVERE POS IN LABEL
+				document.getElementById('place').value = `${this.location.lat} ${this.location.lng}`;
+		}, function() {
+			console.log('Geolocalization failed.');
+		}, { 
+			enableHighAccuracy: false,
+			maximumAge: 1800000
+		}
+		);
+		} else {
+		alert("Geolocation not supported by this browser.");
+		}
   },
     addMarker() {
       L.marker([this.location.lat, this.location.lng]).addTo(this.map)
