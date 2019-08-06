@@ -92,6 +92,11 @@ export default {
 			})
 			.then(response => {
 				currentObj.output = response.data;
+				this.title = "",
+				this.description = "",
+				this.tag = "",
+				// image
+				this.location = ""
 			})
 			.catch(error => {
 				currentObj.output = error.message;
