@@ -96,6 +96,7 @@ export default {
 				this.description = "",
 				this.tag = "",
 				// image
+				this.place = "",
 				this.location = ""
 			})
 			.catch(error => {

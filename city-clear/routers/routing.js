@@ -143,10 +143,10 @@ module.exports = (function() {
             }
         });
 
-        var newPic = new pic();
-        newPic.image.data = fs.readFileSync(req.files.userPhoto.path)
-        newPic.image.contentType = 'image/png';
-        newPic.save();
+        //var newPic = new pic();
+        //newPic.image.data = fs.readFileSync(req.files.userPhoto.path)
+        //newPic.image.contentType = 'image/png';
+        //newPic.save();
         mongoConnection
             .collection(USERS_COLLECTION)
             .findOne({ "email": req.body.user }, function (err, findOperation) {
@@ -178,7 +178,7 @@ module.exports = (function() {
                 if (err) return next(boom.badImplementation(err));
                 if (findOperation != null) 
                     return next(boom.badRequest(req.body.email + " non esiste!"));
-            
+
                 var pointData = {
                     user: req.body.user,
                     title: req.body.title,
@@ -186,7 +186,9 @@ module.exports = (function() {
                     //image
                     tag: req.body.tag,
                     lat: req.body.lat,
-                    lng: req.body.lng
+                    lng: req.body.lng,
+                    district: "Cesena" // TODO: METTERE A POSTO
+
                 }
 
                 mongoConnection
