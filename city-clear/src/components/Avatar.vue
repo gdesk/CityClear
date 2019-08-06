@@ -7,9 +7,8 @@
                 <v-icon name="user"></v-icon>
                 {{name}} <br><br>
 				<div>
-					<!-- Esprime in percentualle il livello di completamento del livello -->
 					<b-progress show-value striped :max="max" class="mb-3">
-						<b-progress-bar variant="primary" :value="values" animated show-progress></b-progress-bar>
+						<b-progress-bar variant="primary" :value="values" :label="`${values}`" animated show-progress></b-progress-bar>
 					</b-progress>
 				</div>
 				<br><br><br><br>
