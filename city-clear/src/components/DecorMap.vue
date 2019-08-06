@@ -80,7 +80,7 @@ export default {
         } else {
           this.marker.setLatLng([this.location.lat, this.location.lng]);
         }
-        this.map.setView([this.location.lat, this.location.lng]);
+        this.map.setView([this.location.lat, this.location.lng], 13);
       },
       deep: true
     }

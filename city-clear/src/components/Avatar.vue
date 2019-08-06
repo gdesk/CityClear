@@ -32,7 +32,7 @@
                 level: "1",
 				point: 0, 
 				values: 0,
-				max: 10
+				max: 20
 			}
         },
         mounted() {
