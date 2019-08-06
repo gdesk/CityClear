@@ -5,9 +5,15 @@
 				<img :src="photo" class="user-img"/>
 				<br><br><br>
                 <v-icon name="user"></v-icon>
-                {{name}} <br><br><br><br>
+                {{name}} <br><br>
+				<div>
+					<!-- Esprime in percentualle il livello di completamento del livello -->
+					<b-progress show-value striped :max="max" class="mb-3">
+						<b-progress-bar variant="primary" :value="values" animated show-progress></b-progress-bar>
+					</b-progress>
+				</div>
+				<br><br><br><br>
                 <h3>Livello: {{level}} <h4>Punti: {{point}}</h4></h3> &nbsp; 
-                <!-- <b-progress :value="value" :max="max" show-progress animated></b-progress> -->
 			</b-row>
 		</b-container>
   </div>
@@ -24,7 +30,9 @@
 				photo: require("../assets/user_profile.png"),
                 name: "Nome Cognome",
                 level: "1",
-                point: 0
+				point: 0, 
+				values: 0,
+				max: 10
 			}
         },
         mounted() {
@@ -40,9 +48,13 @@
 						if(response.data.photo != null) {
 							this.photo = response.data.photo
 						}
+						if(response.data.photo != null){
+							this.photo = response.data.photo
+						}
                         this.name = response.data.name,
                         this.level = response.data.level,
-                        this.point = response.data.point
+						this.point = response.data.point,
+						this.values = response.data.point
 					})
 			}
 		}
