@@ -3,7 +3,7 @@
 		<b-container fluid class ="login-form">
             <b-row>
 				<img :src="photo" class="user-img"/> &nbsp;
-				<input style="display: none" accept="image/*" type="file" @change="uploadImage" ref="input"> 
+				<input style="display: none" type="file" name="file" id="file" class="inputfile " ref="input" @change="uploadImage">
 				<b-button id="add-photo" @click="$refs.input.click()" pill variant="success">
 					<v-icon name="plus"></v-icon> 
 				</b-button>
@@ -62,8 +62,21 @@
             this.getUser();
         },
 		methods: {
-			uploadImage(event) {
-				const image = event.target.files[0];
+			uploadImage(e) {
+				let files = e.target.files || e.dataTransfer.files;
+				if (!files.length)
+					return;
+				let reader = new FileReader();
+				let self = this;
+
+				reader.onload = (e) => {
+					sessionStorage.photo = e.target.result;
+					sessionStorage.setItem(this.email, e.target.result);
+					self.photo = e.target.result;
+					//save to db
+				};
+				reader.readAsDataURL(event.target.files[0]);
+				/*const image = event.target.files[0];
 				const reader = new FileReader();
 				reader.readAsDataURL(image);
 				reader.onload = e =>{
@@ -81,7 +94,7 @@
 					})
 					.then(response =>{
 						console.log(response.data);
-					})
+					})*/
 			},
             getUser(){
                 axios
@@ -95,7 +108,8 @@
                         this.email = response.data.email,
                         this.name = response.data.name,
                         this.birtdate = response.data.birtdate,
-                        this.district = response.data.district
+						this.district = response.data.district
+						this.photo = sessionStorage.getItem(this.email) || require("../assets/user_profile.png")
 					})
 			},
 			onLogout(event) {

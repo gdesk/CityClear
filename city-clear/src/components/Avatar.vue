@@ -54,6 +54,7 @@
                         this.level = response.data.level,
 						this.point = response.data.point,
 						this.values = response.data.point
+						this.photo = sessionStorage.getItem(window.sessionStorage.getItem("user")) || require("../assets/user_profile.png")
 					})
 			}
 		}
