@@ -16,7 +16,6 @@
 						<option>Patrimonio culturale o artistico</option>
 						<option>Altro</option>
 					</select> <br>
-                    <input type="file" id="file" @change="previewFiles" multiple> <br>
                     <input id="place" v-model="place" type="text" placeholder="Inserire indirizzo" required/> 
 					&nbsp; 
 					<b-button id="find-button"  @click="getPosition" pill variant="success"><img src="../assets/find.png"/></b-button> <br>
@@ -42,7 +41,6 @@ export default {
   name: "LeafletMap",
   data() {
     return {
-		files: [],
 		location: null,
 		map: null,
 		tileLayer: null,
@@ -86,7 +84,6 @@ export default {
 				title: this.title,
 				description: this.description,
 				tag: this.tag,
-				// image
 				lat: this.location.lat,
 				lng: this.location.lng
 			})
@@ -95,7 +92,6 @@ export default {
 				this.title = "",
 				this.description = "",
 				this.tag = "",
-				// image
 				this.place = ""
 			})
 			.catch(error => {
@@ -109,23 +105,42 @@ export default {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude
 				};
+				
 				//TODO: SCRIVERE POS IN LABEL
-				document.getElementById('place').value = `${this.location.lat} ${this.location.lng}`;
-		}, function() {
-			console.log('Geolocalization failed.');
-		}, { 
-			enableHighAccuracy: false,
-			maximumAge: 1800000
-		}
-		);
+				axios
+					.post("http://www.mapquestapi.com/geocoding/v1/reverse?key=OeDlGkq72UToaVLbKavjUSdx2cUEXZui",
+						{
+							"location": {
+								"latLng": {
+									"lat": this.location.lat,
+									"lng": this.location.lng
+								}
+							},
+							"options": {
+								"thumbMaps": false
+							},
+							"includeNearestIntersection": true,
+							"includeRoadMetadata": true
+						})
+					.then(response => {
+						const info = response.data.results[0].locations[0];
+						console.log(info);
+						document.getElementById('place').value = ''+info.street+","+ info.adminArea5;
+						});      	
+			}, function() {
+				console.log('Geolocalization failed.');
+			}, { 
+				enableHighAccuracy: false,
+				maximumAge: 1800000
+			}
+			);
 		} else {
-		alert("Geolocation not supported by this browser.");
+			alert("Geolocation not supported by this browser.");
 		}
   },
     addMarker() {
       L.marker([this.location.lat, this.location.lng]).addTo(this.map)
-        .bindPopup('Sei qui.')
-        .openPopup();
+		.bindPopup('Sei qui.');
 	},
 	previewFiles() {
 		this.files = this.$refs.myFiles.files

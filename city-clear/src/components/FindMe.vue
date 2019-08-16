@@ -1,8 +1,8 @@
 <template>
   <div class="find-me">
-    <input type="text" placeholder="Inserisci il luogo"/>
+    <input  v-on:input="address = $event.target.value" type="text" placeholder="Inserisci il luogo"/>
       <div class="text-center mt-4">
-        <b-button pill variant="success" to="{ name: 'map', params: { address: 1234 } }"  > Cerca 
+        <b-button pill variant="success" :to=path  > Cerca 
           <v-icon name="search"></v-icon>
         </b-button>
         &ensp;
@@ -16,8 +16,17 @@
 <script>
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data(){
+    {
+      return{
+        address:""
+      }
+    }
+  },
+  computed: {
+    path: function() {
+        return '/map/ ' + this.address;
+      }
   }
 }
 </script>

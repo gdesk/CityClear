@@ -12,6 +12,9 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+const axios = require("axios");
+const BASE_PATH = "http://127.0.0.1:5051";
+const ALL_POINTS_PATH = `${BASE_PATH}/allPoints`;
 export default {
   name: "LeafletMap",
   data() {
@@ -30,9 +33,28 @@ export default {
     if(!this.location == null){
       this.addMarker();
     }
+    this.addAllMarkers();
   },
   created() {
-    if (navigator.geolocation) {
+    if(this.$route.params.address != undefined){
+      axios
+        .post("http://www.mapquestapi.com/geocoding/v1/address?key=OeDlGkq72UToaVLbKavjUSdx2cUEXZui",
+        {
+          "location": this.$route.params.address,
+          "options": {
+             "thumbMaps": false
+           }
+        })
+					.then(response => {
+            const coords = response.data.results[0].locations[0].displayLatLng
+            console.log(coords)
+            this.location = { 
+            lat: coords.lat,
+            lng: coords.lng
+          };
+          });           
+     
+    }else if (navigator.geolocation) {
       navigator.geolocation.watchPosition(position => {
         if (this.location && this.location.lat === position.coords.latitude && this.location.lng === position.coords.longitude) {
           console.log("Same position");
@@ -62,14 +84,31 @@ export default {
         doubleClickZoom: 'center',
         touchZoom:       'center'
       });
+   
       const point = this.location ? [this.location.lat, this.location.lng] : [44.1391000, 12.2431500];
       const zoom = this.location ? 5 : 15;
       this.map.setView(point, zoom);
     },
     addMarker() {
-      this.marker = L.marker([this.location.lat, this.location.lng]).addTo(this.map)
-        .bindPopup('Sei qui.')
-        .openPopup();
+     this.marker = L.marker([this.location.lat, this.location.lng]).addTo(this.map)
+      .bindPopup('Sei qui.');
+    },
+    addAllMarkers(){
+      axios
+						.put(ALL_POINTS_PATH)
+						.then(response => {
+            const data = response.data
+            var msg;
+              data.forEach(item => {
+                if(window.location.href.includes("map")){
+                  msg = ' <br> Per più dettagli, accedi.';
+                }else if (window.location.href.includes("urban-decore-tag")){
+                  msg = "<br>"+item.description + "<br> scritto da: "+item.user.split("@")[0] ;
+                }
+                L.marker([item.lat, item.lng]).addTo(this.map)
+                .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+              });
+						});
     }    
   },
    watch: {

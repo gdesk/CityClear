@@ -87,6 +87,7 @@ module.exports = (function() {
                 res.send(findOperation);
         });
     });
+    
 
     routers.put("/logout", function (req, res, next) {
         console.log("Receive logout request");
@@ -213,6 +214,18 @@ module.exports = (function() {
                     return next(boom.unauthorized(req.body.email + " Errore, dati non corretti"));
                 }
                 res.send(findOperation.email);
+        });
+    });
+
+    //all markers
+    routers.put("/allPoints", function(req, res, next) {
+        console.log("Receive get all hot point");
+
+        mongoConnection
+            .collection(POINT_COLLECTION)
+            .find().toArray((err, items) => {
+                if (err) return next(boom.unauthorized(err));
+                res.json(items);
         });
     });
 
