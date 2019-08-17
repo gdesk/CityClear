@@ -47,7 +47,6 @@ export default {
         })
 					.then(response => {
             const coords = response.data.results[0].locations[0].displayLatLng
-            console.log(coords)
             this.location = { 
             lat: coords.lat,
             lng: coords.lng

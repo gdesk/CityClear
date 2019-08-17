@@ -1,4 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
+const ObjectId = require('mongodb').ObjectID;
 const boom = require('boom');
 
 const URL = "mongodb://asw-19:asw-19@ds159963.mlab.com:59963/asw-19";
@@ -228,6 +229,76 @@ module.exports = (function() {
                 res.json(items);
         });
     });
+
+        //all discussions
+        routers.put("/allDiscussion", function(req, res, next) {
+            console.log("Receive get all discussions in the forum");
+    
+            mongoConnection
+                .collection("discussions")
+                .find().toArray((err, items) => {
+                    if (err) return next(boom.unauthorized(err));
+                    res.json(items);
+            });
+        });
+
+        //single discussion
+        routers.put("/singleDiscussion", function(req, res, next) {
+            console.log("Receive get single discussion --> "+ req.body.id);
+         
+            mongoConnection
+                .collection("discussions")
+                .find({_id: ObjectId(req.body.id)}).toArray((err, findOperation) => {
+                    console.log("res: " + findOperation);
+                    if (err) return next(boom.unauthorized(err));
+                    res.send(findOperation);
+            });
+        });
+
+         //add discussion
+         routers.put("/addDiscussion", function(req, res, next) {
+            console.log("Add discussion --> "+ req.body.id);
+         
+            mongoConnection
+                .collection("discussions")
+                .update({_id: ObjectId(req.body.id)},
+                {"$push": 
+                    {"comments": 
+                        {
+                            "user": req.body.user,
+                            "date": req.body.date, 
+                            "comment": req.body.comment
+                        }
+                    }
+                });
+        });
+
+        //all events
+        routers.put("/allEvent", function(req, res, next) {
+            console.log("Receive get all discussions in the forum");
+    
+            mongoConnection
+                .collection("events")
+                .find().toArray((err, items) => {
+                    if (err) return console.log(err);
+                    res.json(items);
+            });
+        });
+
+         //single event
+         routers.put("/singleEvent", function(req, res, next) {
+            console.log("Receive get single event --> "+ req.body.id);
+         
+            mongoConnection
+                .collection("events")
+                .find({_id: ObjectId(req.body.id)}).toArray((err, findOperation) => {
+                    console.log("res: " + findOperation);
+                    if (err) return next(boom.unauthorized(err));
+                    res.send(findOperation);
+            });
+        });
+
+        
 
     return routers
 })();

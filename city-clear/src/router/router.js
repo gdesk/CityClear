@@ -30,7 +30,7 @@ export default new Router({
     },
     {
       path: '/map/:address',
-      name: 'map',
+      name: 'mapAddress',
       component: () => import('../components/DecorMap.vue')
     },
     {
@@ -57,6 +57,15 @@ export default new Router({
       path: '/forum',
       name: 'forum',
       component: () => import('../components/Forum.vue')
+    },
+    {
+      path: '/forum/event/:id',
+      name: 'event',
+      component: () => import('../components/SingleEvent.vue')
+    }, {
+      path: '/forum/discussion/:id',
+      name: 'discussion',
+      component: () => import('../components/SingleDiscussion.vue')
     },
     {
       path: '/avatar',
