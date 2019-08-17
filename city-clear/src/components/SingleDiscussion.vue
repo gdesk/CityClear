@@ -36,6 +36,7 @@
 	const axios = require("axios");
 	const BASE_PATH = "http://127.0.0.1:5051";
 	const DISCUSSION_PATH = `${BASE_PATH}/singleDiscussion`;
+	const ADD_DISCUSSION_PATH = `${BASE_PATH}/addDiscussion`;
 	export default {
 		name: 'UserProfile',
 		props: ['logged', 'districtLogged'],
@@ -56,7 +57,7 @@
         },
         mounted() {
             this.getDiscussion();
-        },
+		},
 		methods: {
             getDiscussion(){
                 axios
@@ -77,8 +78,33 @@
                     })
 			},
 			sendComment(){
-				console.log("comment: "	+ comment)
+				axios
+                    .put(ADD_DISCUSSION_PATH, {
+						id: this.$route.params.id,
+						user: window.sessionStorage.getItem("user"),
+						date: this.formatDate(new Date()), 
+						comment: this.comment
+					})
+                    .then(response => {
+						console.log(response);
+					})
+				this.comment = "";
+				this.getDiscussion();
 
+			},
+			formatDate(date) {
+				var monthNames = [
+					"Gennaio", "Febbraio", "Marzo",
+					"Aprile", "Maggio", "Giugno", "Luglio",
+					"Agosto", "Settembre", "Ottobre",
+					"Novembre", "Decembre"
+				];
+
+				var day = date.getDate();
+				var monthIndex = date.getMonth();
+				var year = date.getFullYear();
+
+				return day + ' ' + monthNames[monthIndex] + ' ' + year;
 			}
         }
 	}
