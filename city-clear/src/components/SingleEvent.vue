@@ -2,11 +2,34 @@
   <div class="forum-discussion">
 		<b-container fluid class ="forum-container">
 			<b-row order="1">
-				<h1>{{this.title}}</h1>
+				<h2>{{this.title}}</h2>
+				<br>
+				<div class="flex-container">
+					<b-card :title="''+ this.eventDate+ ' alle '+this.hour" :sub-title=this.location>
+						<b-card-text>
+							{{this.description}}
+						</b-card-text>
+
+                        <b-card-text>
+							Numero Partecipanti: {{this.people}}
+						</b-card-text>
+
+					</b-card>
+					<div v-if="isPartecipant=='yes'">
+						<br> <br> <br>
+						<p>Non vuoi più partecipare? avvisaci.</p> 
+						<b-button @click="decPeople" pill variant="success"><v-icon name="minus"></v-icon></b-button>
+						<p>Porta con te chi vuoi. </p> 
+						<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
+					</div>
+					<div v-else>
+						<br> <br> <br>
+						<p>Partecipa anche tu.</p> 
+						<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
+					</div>
+                   
+				</div>				
 			</b-row>	
-			<b-row order="2">
-				<h1>{{this.title}} 222</h1>
-			</b-row>
 		</b-container>
   </div>
 </template>
@@ -15,6 +38,8 @@
 	const axios = require("axios");
 	const BASE_PATH = "http://127.0.0.1:5051";
 	const EVENT_PATH = `${BASE_PATH}/singleEvent`;
+	const ADD_PEOPLE_PATH = `${BASE_PATH}/addPeople`;
+	const DEC_PEOPLE_PATH = `${BASE_PATH}/decPeople`;
 	export default {
 		name: 'UserProfile',
 		props: ['logged', 'districtLogged'],
@@ -28,21 +53,25 @@
                 date:"",
                 eventDate:"",
                 hour:"",
-                location:""
+                location:"", 
+				people:"",
+				isPartecipant:""
 			}
         },
         mounted() {
-            this.getDiscussion();
+			this.isPartecipant = sessionStorage.getItem(this.$route.params.id)
+			this.getEvent();
         },
 		methods: {
-            getDiscussion(){
+            getEvent(){
                 axios
                     .put(EVENT_PATH, {
 						id: this.$route.params.id
 					})
                     .then(response => {
-                        console.log("response  "+ response.data.title)
-						this.title = response.data[0].title;
+                        console.log("response  "+ response)
+						this.id = this.$route.params.id;
+                        this.title = response.data[0].title;
                         this.description = response.data[0].description;
                         this.user = response.data[0].user;
                         this.fullname = response.data[0].fullname;
@@ -50,12 +79,43 @@
                         this.eventDate = response.data[0].eventDate;
                         this.hour = response.data[0].hour;
                         this.location = response.data[0].location;
+						this.people = response.data[0].people;
                     })
                     .then(err =>{
                         console.log("err:  " + err)
                     })
-            }
-        }
+            },
+            addPeople(){
+				this.people = parseInt(this.people)+1;
+				sessionStorage.setItem(this.id, "yes")
+				this.isPartecipant=sessionStorage.getItem(this.id)
+				console.log(" sotto  "+sessionStorage[this.id]);
+				
+				axios
+                    .put(ADD_PEOPLE_PATH, {
+						id: this.$route.params.id,
+						people: this.people
+					})
+                    .then(response => {
+                        console.log("response  "+ response)
+                    })
+			},
+			decPeople(){
+				this.people = parseInt(this.people)-1;
+				sessionStorage.setItem(this.id, "no")
+				this.isPartecipant=sessionStorage.getItem(this.id);
+				console.log(" sotto  "+sessionStorage[this.id]);
+
+				axios
+                    .put(DEC_PEOPLE_PATH, {
+						id: this.$route.params.id,
+						people: this.people
+					})
+                    .then(response => {
+                        console.log("response  "+ response)
+                    })
+			}
+		}
 	}
 </script>
 

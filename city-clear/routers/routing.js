@@ -255,9 +255,9 @@ module.exports = (function() {
             });
         });
 
-         //add discussion
-         routers.put("/addDiscussion", function(req, res, next) {
-            console.log("Add discussion --> "+ req.body.id);
+         //add comment
+        routers.put("/addComment", function(req, res, next) {
+            console.log("Add comment in single discussion");
          
             mongoConnection
                 .collection("discussions")
@@ -286,8 +286,8 @@ module.exports = (function() {
         });
 
          //single event
-         routers.put("/singleEvent", function(req, res, next) {
-            console.log("Receive get single event --> "+ req.body.id);
+        routers.put("/singleEvent", function(req, res, next) {
+            console.log("Receive get single event ");
          
             mongoConnection
                 .collection("events")
@@ -298,6 +298,33 @@ module.exports = (function() {
             });
         });
 
+        //increment people's number in single event
+        routers.put("/addPeople", function(req, res, next) {
+            console.log("Add people in single event");
+            
+            mongoConnection
+                .collection("events")
+                .update({_id: ObjectId(req.body.id)},
+                {"$set": 
+                    {
+                        "people": req.body.people 
+                    }
+                });
+        });
+
+        //decrement people's number in single event
+        routers.put("/decPeople", function(req, res, next) {
+            console.log("Decrement people in single event");
+            
+            mongoConnection
+                .collection("events")
+                .update({_id: ObjectId(req.body.id)},
+                {"$set": 
+                    {
+                        "people": req.body.people 
+                    }
+                });
+        });
         
 
     return routers

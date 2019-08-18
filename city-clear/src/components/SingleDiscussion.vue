@@ -36,7 +36,7 @@
 	const axios = require("axios");
 	const BASE_PATH = "http://127.0.0.1:5051";
 	const DISCUSSION_PATH = `${BASE_PATH}/singleDiscussion`;
-	const ADD_DISCUSSION_PATH = `${BASE_PATH}/addDiscussion`;
+	const ADD_DISCUSSION_PATH = `${BASE_PATH}/addComment`;
 	export default {
 		name: 'UserProfile',
 		props: ['logged', 'districtLogged'],
@@ -143,37 +143,12 @@
 		flex-wrap: wrap;
 		
 	}
-	
-    img {
-        width: 25%;
-        height: auto;
-    }
 
-	input {
-		outline: 0;
-		box-sizing: border-box;
-		font-size: 14px;
-		padding: 5px;
-		align-self: center;
-		width: 300px;
-		height: 40px;
-		margin-top: 15px;
-		margin-bottom: 1px;
-		border: 1px solid #cfd9db;
-		background-color: #ffffff;
-		border-radius: 0.25em;
-		color: black;
-	}
+
 
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;
-		}
-		input {
-			width: 270px;
-		}
-		img {
-			width: 30%;
 		}
 	}
 
@@ -184,16 +159,6 @@
 		justify-content: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
-	}
-
-	.icon{
-		width: 20px;
-		height: 100%;
-		text-align: center;
-	}
-
-	#add-photo{
-		width: 50px;
 	}
 
 	@media (max-width: 340px) {
