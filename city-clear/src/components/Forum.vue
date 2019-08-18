@@ -1,8 +1,13 @@
 <template>
   <div class="forum">
 		<b-container fluid class ="forum-container">
+			<div  class="flex-container">
+				<b-button href="/forum/add/discussion" pill variant="success">Crea discussione</b-button>&nbsp;&nbsp;	
+				<b-button href="/forum/add/event" pill variant="success">Crea evento</b-button>
+			</div>	
+			
 			<b-row order="1">
-				<span>Discussioni:</span>  <br> <br>
+				<br> <br> <br> <h3>Discussioni</h3>  <br> <br>
 				<div class="flex-container">
 					<div v-for="discussion in discussions" :key=discussion._id >
 						<b-card :title=discussion.title :sub-title=discussion.fullname>
@@ -16,7 +21,7 @@
 				</div>				
 			</b-row>	
 			<b-row order="2">
-				<br> <br> <span>Eventi:</span> <br> <br>
+				<br> <br> <br> <h3>Eventi</h3> <br> <br>
 				<div class="flex-container">
 					<div v-for="event in events" :key=event._id >
 						<b-card :title=event.title :sub-title=event.fullName>
@@ -90,16 +95,13 @@
 		display: inline-table;
 	}
 
-	span {
-		font-weight: bolder; 
-	}
-
 	.flex-container {
-		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: center;
 		background-color: transparent;
+		width: 90%;
+		align-content: center;
 	}
 
 

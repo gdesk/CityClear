@@ -59,6 +59,11 @@ export default new Router({
       component: () => import('../components/Forum.vue')
     },
     {
+      path: '/forum/add/:what',
+      name: 'add-forum',
+      component: () => import('../components/AddForum.vue')
+    },
+    {
       path: '/forum/event/:id',
       name: 'event',
       component: () => import('../components/SingleEvent.vue')

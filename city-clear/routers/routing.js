@@ -285,7 +285,7 @@ module.exports = (function() {
             });
         });
 
-         //single event
+        //single event
         routers.put("/singleEvent", function(req, res, next) {
             console.log("Receive get single event ");
          
@@ -297,6 +297,55 @@ module.exports = (function() {
                     res.send(findOperation);
             });
         });
+
+        //create event
+        routers.post("/createEvent", function(req, res, next) {
+            console.log("Create an event")
+
+            var newEvent= {
+                title: req.body.title,
+                description: req.body.description,
+                fullname: req.body.fullname,
+                username: req.body.username,
+                date: new Date().toLocaleDateString(),
+                eventDate: req.body.eventDate,
+                hour: req.body.hour,
+                location: req.body.location,
+                people: 1
+            }
+    
+            mongoConnection
+                .collection("events")
+                .insertOne(newEvent, function(err, insertOperation) {
+                    if(err) return next(boom.badImplementation(err));
+                    res.json(insertOperation);
+                });
+            
+        });
+    
+        
+        //create discussion
+        routers.post("/createDiscussion", function(req, res, next) {
+            console.log("Create a discussion")
+
+            var newEvent= {
+                title: req.body.title,
+                description: req.body.description,
+                fullname: req.body.fullname,
+                username: req.body.username,
+                date: new Date().toLocaleDateString(),
+                comments:[]
+            }
+    
+            mongoConnection
+                .collection("discussions")
+                .insertOne(newEvent, function(err, insertOperation) {
+                    if(err) return next(boom.badImplementation(err));
+                    res.json(insertOperation);
+                });
+            
+        });
+    
 
         //increment people's number in single event
         routers.put("/addPeople", function(req, res, next) {
