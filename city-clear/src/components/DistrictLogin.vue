@@ -21,8 +21,14 @@
 				<router-link to="/login" class="user-link">Sei un cittadino? Clicca qui per accedere</router-link><br><br>
 			</b-row>	
 			<b-row order="2">
-				<span>Crea un nuovo account:</span> <br>
-				Conattaci per creare un nuovo account comune, dopo che avremmo effettuato le dovute verifiche, procederemo a contattarla.
+				<span>Crea un nuovo account:</span> <br><br>
+				Conattaci per creare un nuovo account comune! <br><br> Per motivi di sicurezza lo staff di city clear dovrà procedere ad effettuare 
+				le dovute verifiche <br> di autenticità dei dati forniti prima di procedere all'inscrizione del comune sul canale.
+				<br><br><br>
+				Per maggiori informazioni contattare:
+				<br><br>
+				<v-icon name="phone"></v-icon>0544 203050<br>
+				<v-icon name="mail"></v-icon>cityclear@info.com
 			</b-row>
 		</b-container>
   </div>
