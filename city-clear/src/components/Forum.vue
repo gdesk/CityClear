@@ -65,6 +65,7 @@
 			getAllDiscussions(){
                 axios
                     .put(DISCUSSION_PATH, {
+						collection: sessionStorage.getItem("district").toLowerCase()+".discussions"
 					})
                     .then(response => {
 						console.log("response:   "+JSON.stringify(response.data[0]));

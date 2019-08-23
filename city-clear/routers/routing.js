@@ -88,7 +88,22 @@ module.exports = (function() {
                 res.send(findOperation);
         });
     });
-    
+
+    routers.put(DISTRICT_PATH, function(req, res, next) {
+        console.log("Receive get district info request");
+        console.log("session.user: " + req.session.user + " " + req.body.user);
+        console.log("session: " + req.session)
+        if(!req.body.user)
+            return next(boom.badData("Inerimento incompleto!"));
+
+        mongoConnection
+            .collection(DISTRICT_COLLECTION)
+            .findOne({"email": req.body.user}, function (err, findOperation) {
+                console.log("Dati: " + findOperation);
+                if (err) return next(boom.unauthorized(err));
+                res.send(findOperation);
+        });
+    });    
 
     routers.put("/logout", function (req, res, next) {
         console.log("Receive logout request");
@@ -124,6 +139,33 @@ module.exports = (function() {
             mongoConnection
                 .collection(USERS_COLLECTION)
                 .updateOne(userData, passwordData, function (err, updateOperation) {
+                    if (err) return next(boom.badImplementation(err));
+                    res.send("Password modificata correttamente.");
+            });
+        });
+    });
+
+    routers.patch(DISTRICT_PATH, function(req, res, next) {
+        console.log("Receive modifier user password request");
+        console.log("user " + req.body.user + " " + req.body.password);
+        /*if (req.session.user == null)
+            return next(boom.badImplementation("Errore nella sessione utente!"));*/
+        if(!req.body.user)
+            return next(boom.badData("Inerimento incompleto!"));
+        mongoConnection
+            .collection(DISTRICT_COLLECTION)
+            .findOne({ "email": req.body.user }, function (err, findOperation) {
+                if (err) return next(boom.badImplementation(err));
+                if (findOperation == null) {
+                    return next(boom.unauthorized( req.session.user + " Errore, dati non corretti"));
+                }
+            var districtData = {
+                email: req.body.user
+            }
+            var passwordData = {$set: { "password": req.body.password}};
+            mongoConnection
+                .collection(DISTRICT_COLLECTION)
+                .updateOne(districtData, passwordData, function (err, updateOperation) {
                     if (err) return next(boom.badImplementation(err));
                     res.send("Password modificata correttamente.");
             });
@@ -232,10 +274,11 @@ module.exports = (function() {
 
         //all discussions
         routers.put("/allDiscussion", function(req, res, next) {
-            console.log("Receive get all discussions in the forum");
+            console.log("Receive all discussions in the forum");
+            const discussion_collection = req.body.collection;
     
             mongoConnection
-                .collection("discussions")
+                .collection(discussion_collection)
                 .find().toArray((err, items) => {
                     if (err) return next(boom.unauthorized(err));
                     res.json(items);
@@ -245,9 +288,10 @@ module.exports = (function() {
         //single discussion
         routers.put("/singleDiscussion", function(req, res, next) {
             console.log("Receive get single discussion --> "+ req.body.id);
+            const discussion_collection = req.body.collection;
          
             mongoConnection
-                .collection("discussions")
+                .collection(discussion_collection)
                 .find({_id: ObjectId(req.body.id)}).toArray((err, findOperation) => {
                     console.log("res: " + findOperation);
                     if (err) return next(boom.unauthorized(err));
@@ -258,9 +302,10 @@ module.exports = (function() {
          //add comment
         routers.put("/addComment", function(req, res, next) {
             console.log("Add comment in single discussion");
+            const discussion_collection = req.body.collection;
          
             mongoConnection
-                .collection("discussions")
+                .collection(discussion_collection)
                 .update({_id: ObjectId(req.body.id)},
                 {"$push": 
                     {"comments": 
@@ -275,11 +320,11 @@ module.exports = (function() {
 
         //all events
         routers.put("/allEvent", function(req, res, next) {
-            console.log("Receive get all discussions in the forum");
+            console.log("Receive get all events in the forum");
     
             mongoConnection
                 .collection("events")
-                .find().toArray((err, items) => {
+                .find().sort({eventDate:1}).toArray((err, items) => {
                     if (err) return console.log(err);
                     res.json(items);
             });

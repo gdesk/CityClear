@@ -57,7 +57,9 @@
 					.then(response => {
 						currentObj.output = response.data;
 						EventBus.$emit("districtLogin");
+						window.sessionStorage.setItem("type", "district");
 						window.sessionStorage.setItem("user", response.data);
+						window.sessionStorage.setItem("district", this.loginDistrict);
 						currentObj.$router.push('./urban-decore-tag') 
 					})
 					.catch(error => {
