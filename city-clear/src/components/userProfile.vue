@@ -2,24 +2,40 @@
   <div class="user-profile">
 		<b-container fluid class ="login-form">
             <b-row>
-				<img :src="photo" class="user-img"/> &nbsp;
-				<input style="display: none" type="file" name="file" id="file" class="inputfile " ref="input" @change="uploadImage">
-				<b-button id="add-photo" @click="$refs.input.click()" pill variant="success">
-					<v-icon name="plus"></v-icon> 
-				</b-button>
-				<br><br><br>
-				<v-icon name="mail"></v-icon>
-                {{email}} <br>
-                <v-icon name="user"></v-icon>
-                {{name}} <br>
-                <v-icon name="gift"></v-icon>
-                {{birtdate}} <br>
-                <v-icon name="home"></v-icon>
-                {{district}} <br><br><br>
-				<b-button @click="onLogout" pill variant="success"> 
-					Logout &nbsp; 
-					<v-icon name="power"></v-icon>
-				</b-button>
+				<div v-if="this.typeUser=='district'">
+					<img :src="photo" class="user-img"/> &nbsp;
+					<br><br><br>
+					<v-icon name="mail"></v-icon>
+					{{this.email}} <br>
+					<v-icon name="home"></v-icon>
+					{{this.area}} <br>
+					<v-icon name="home"></v-icon>
+					{{this.province}} <br>
+					<v-icon name="home"></v-icon>
+					{{district}} <br>
+					<v-icon name="users"></v-icon>
+					{{this.cityPerson}} <br><br><br>
+					<b-button @click="onLogout" pill variant="success"> 
+						Logout &nbsp; 
+						<v-icon name="power"></v-icon>
+					</b-button>
+				</div>
+				<div v-else>
+					<img :src="photo" class="user-img"/> &nbsp;
+					<br><br><br>
+					<v-icon name="mail"></v-icon>
+					{{email}} <br>
+					<v-icon name="user"></v-icon>
+					{{name}} <br>
+					<v-icon name="gift"></v-icon>
+					{{birtdate}} <br>
+					<v-icon name="home"></v-icon>
+					{{district}} <br><br><br>
+					<b-button @click="onLogout" pill variant="success"> 
+						Logout &nbsp; 
+						<v-icon name="power"></v-icon>
+					</b-button>
+				</div>
 			</b-row>
 			<b-row>
 				<span>Modifica password</span>
@@ -43,6 +59,7 @@
 	const axios = require("axios");
 	const BASE_PATH = "http://127.0.0.1:5051";
 	const USER_PATH = `${BASE_PATH}/users`;
+	const DISTRICT_PATH = `${BASE_PATH}/district`;
 	export default {
 		name: 'UserProfile',
 		props: ['logged', 'districtLogged'],
@@ -53,13 +70,23 @@
 				name: "Nome Cognome",
 				birtdate: "Compleanno",
 				district: "Comune",
+				area:"",
+				province:"",
+				cityPerson:"",
 				modifierPassword: "",
 				modifierConfirmPassword: "",
-				output: ""
+				output: "",
+				typeUser : ""
 			}
         },
         mounted() {
-            this.getUser();
+			this.typeUser = window.sessionStorage.getItem("type");
+			if(this.typeUser =="district"){
+				this.getDistrict();
+			}else{
+				this.getUser();
+			}
+            
         },
 		methods: {
 			uploadImage(e) {
@@ -76,25 +103,6 @@
 					//save to db
 				};
 				reader.readAsDataURL(event.target.files[0]);
-				/*const image = event.target.files[0];
-				const reader = new FileReader();
-				reader.readAsDataURL(image);
-				reader.onload = e =>{
-					this.photo = e.target.result;
-					console.log(this.previewImage);
-				};
-				
-				// TODO: richiesta va bene ma photo in db = {}.
-				const storePhoto = new FormData();
-				storePhoto.append(this.image);
-				axios
-					.patch(`${USER_PATH}/uploadFile`, {
-						user: window.sessionStorage.getItem("user"),
-						photo: storePhoto
-					})
-					.then(response =>{
-						console.log(response.data);
-					})*/
 			},
             getUser(){
                 axios
@@ -109,7 +117,21 @@
                         this.name = response.data.name,
                         this.birtdate = response.data.birtdate,
 						this.district = response.data.district
-						this.photo = sessionStorage.getItem(this.email) || require("../assets/user_profile.png")
+						this.photo = require("../assets/"+window.sessionStorage.getItem("district")+".png")
+					})
+			},
+			getDistrict(){
+                axios
+                    .put(DISTRICT_PATH, {
+						user: window.sessionStorage.getItem("user")
+					})
+                    .then(response => {
+						this.email = response.data.email,
+                        this.area = response.data.area,
+                        this.province = response.data.province,
+						this.district = response.data.district,
+						this.cityPerson = response.data.cityPerson,
+						this.photo = require("../assets/"+window.sessionStorage.getItem("district")+".png")
 					})
 			},
 			onLogout(event) {
@@ -126,7 +148,24 @@
 			onModifierPassword(event){
 				event.preventDefault();
 				let currentObj = this;
-				if(this.checkPassword()) {
+				if(this.typeUser =="district"){
+					if(this.checkPassword()) {
+					axios
+						.patch(DISTRICT_PATH, {
+							user: window.sessionStorage.getItem("user"),
+							password: this.modifierPassword
+						})
+						.then(response => {
+							currentObj.output = response.data;
+							this.modifierPassword = "";
+							this.modifierConfirmPassword = "";
+						})
+						.catch(error => {
+							currentObj.output = error.message;
+					})
+				} else currentObj.output = "Le password non corrispondono";
+				}else{
+					if(this.checkPassword()) {
 					axios
 						.patch(USER_PATH, {
 							user: window.sessionStorage.getItem("user"),
@@ -141,6 +180,8 @@
 							currentObj.output = error.message;
 					})
 				} else currentObj.output = "Le password non corrispondono";
+				}
+				
 			}
 		}
 	}
@@ -168,7 +209,7 @@
 	}
 
     img {
-        width: 25%;
+        width: 35%;
         height: auto;
     }
 

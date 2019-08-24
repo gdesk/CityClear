@@ -78,6 +78,8 @@
 						//currentObj.outputLogin = response.data;
 						EventBus.$emit("login");
 						window.sessionStorage.setItem("user", response.data);
+						console.log(response.data.district);
+						this.setUserDistrict();
 						//currentObj.outputLogin = sessionStorage.user;
 						currentObj.$router.push('./urban-decore-tag') 
 					})
@@ -87,6 +89,7 @@
 						else
 							currentObj.outputLogin = error.message;
 					})
+				
 			},
 			checkPassword() {
 				return this.registerPassword === this.registerConfirmPassword;
@@ -119,6 +122,16 @@
 								currentObj.output = error.message;
 						})
 				} else currentObj.output = "Le password non corrispondono";
+			},
+			setUserDistrict(){
+                axios
+                    .put(USER_PATH, {
+						user: window.sessionStorage.getItem("user")
+					})
+                    .then(response => {
+						window.sessionStorage.setItem("district", response.data.district)
+						
+					})
 			}
 		}
 	}

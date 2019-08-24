@@ -62,7 +62,8 @@
             getDiscussion(){
                 axios
                     .put(DISCUSSION_PATH, {
-						id: this.$route.params.id
+						id: this.$route.params.id,
+						collection: sessionStorage.getItem("district").toLowerCase()+".discussions"
 					})
                     .then(response => {
 						this.id = this.$route.params.id;
@@ -83,7 +84,8 @@
 						id: this.$route.params.id,
 						user: window.sessionStorage.getItem("user"),
 						date: this.formatDate(new Date()), 
-						comment: this.comment
+						comment: this.comment,
+						collection: sessionStorage.getItem("district").toLowerCase()+".discussions"
 					})
                     .then(response => {
 						console.log(response);
