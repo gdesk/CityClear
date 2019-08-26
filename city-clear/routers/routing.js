@@ -267,7 +267,7 @@ module.exports = (function() {
         mongoConnection
             .collection(POINT_COLLECTION)
             .find().toArray((err, items) => {
-                if (err) return next(boom.unauthorized(err));
+                if (err) return next(boom.unauthorized(err))
                 res.json(items);
         });
     });

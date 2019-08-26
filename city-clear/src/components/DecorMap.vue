@@ -1,20 +1,40 @@
 <template>
   <div class="map-class" required>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-   crossorigin=""/>
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
      <div class="map">
       <div id=map-container></div>
     </div>
   </div>
 </template>
-
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+  crossorigin=""></script>
 <script>
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 const axios = require("axios");
 const BASE_PATH = "http://127.0.0.1:5051";
 const ALL_POINTS_PATH = `${BASE_PATH}/allPoints`;
+var trashIcon = new L.icon({
+	iconUrl: require('../assets/trash.png'),
+	iconSize: [35, 35],
+  iconAnchor: [13, 27],
+  popupAnchor:  [1, -24]
+}); 
+var roadIcon = new L.icon({
+	iconUrl: require('../assets/road.png'),
+	iconSize: [35, 35],
+  iconAnchor: [13, 27],
+  popupAnchor:  [1, -24]
+}); 
+var monumentIcon = new L.icon({
+	iconUrl: require('../assets/monument.png'),
+	iconSize: [35, 35],
+  iconAnchor: [13, 27],
+  popupAnchor:  [1, -24]
+}); 
 export default {
   name: "LeafletMap",
   data() {
@@ -104,8 +124,22 @@ export default {
                 }else if (window.location.href.includes("urban-decore-tag")){
                   msg = "<br>"+item.description + "<br> scritto da: "+item.user.split("@")[0] ;
                 }
-                L.marker([item.lat, item.lng]).addTo(this.map)
-                .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                if (item.tag === "Strada dissestata"){
+                  L.marker([item.lat, item.lng], {icon: roadIcon}).addTo(this.map)
+                  .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                }
+                else if (item.tag === "Spazzatura"){
+                  L.marker([item.lat, item.lng], {icon: trashIcon}).addTo(this.map)
+                  .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                }
+                else if (item.tag === "Patrimonio culturale o artistico "){
+                  L.marker([item.lat, item.lng], {icon: monumentIcon}).addTo(this.map)
+                  .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                }
+                else {
+                  L.marker([item.lat, item.lng]).addTo(this.map)
+                  .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                }
               });
 						});
     }    
