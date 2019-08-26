@@ -28,6 +28,7 @@
             <b-row order="2">
                 <div id=map-container></div>
             </b-row>
+			{{userLevel}}{{userPoint}}
 		</b-container>
   </div>
 </template>
@@ -37,6 +38,7 @@ import L from "leaflet";
 const axios = require("axios");
 const BASE_PATH = "http://127.0.0.1:5051";
 const MARKER_PATH = `${BASE_PATH}/point/add`;
+const POINT_PATH = `${BASE_PATH}/users/point`;
 export default {
   name: "LeafletMap",
   data() {
@@ -49,7 +51,6 @@ export default {
 		title:"",
 		description: "",
 		tag: "",
-		//image
 		place: ""
     };
   },
@@ -92,11 +93,45 @@ export default {
 				this.title = "",
 				this.description = "",
 				this.tag = "",
-				this.place = ""
+				this.place = "",
+				this.getPoint()
 			})
 			.catch(error => {
 				currentObj.output = error.message;
 			})
+	},
+	incPoint(){
+		axios
+			.patch(POINT_PATH, {
+				user: window.sessionStorage.getItem("user"),
+				point: this.userPoint + 1,
+				level: this.userLevel
+			}) 
+	},
+	getPoint(){
+		let currentObj = this;
+		axios
+			.put(POINT_PATH, {
+				user: window.sessionStorage.getItem("user"),
+			})
+			.then(response => {
+				//currentObj.output = response.data;
+				this.userPoint = response.data.point;
+				this.userLevel = response.data.level;
+				this.setLevel();
+				this.incPoint();
+			})
+			.catch(error => {
+				currentObj.output = error.message;
+			})
+	},
+	setLevel(){
+		if(this.userPoint < 20) 
+			return this.userLevel = 1;
+		else if(this.userPoint >= 20 && this.userPoint < 40)
+			return this.userLevel = 2;
+		else 
+			return this.userLevel = 3;
 	},
 	getPosition() {
 		if (navigator.geolocation) {

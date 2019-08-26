@@ -174,7 +174,6 @@ module.exports = (function() {
 
     routers.patch("/users/uploadFile", function(req, res, next) {
         console.log("Receive modifier user photo request");
-        console.log("Email: " + req.body.user + " photo: " + req.body.photo);
         /*if (req.session.user == null)
             return next(boom.badImplementation("Errore nella sessione utente!"));*/
         if(!req.body.user)
@@ -419,7 +418,40 @@ module.exports = (function() {
                     }
                 });
         });
-        
 
+        routers.patch("/users/point", function(req, res, next) {
+            console.log("Receive increment user poin request");
+            if(!req.body.user)
+                return next(boom.badData("Inerimento incompleto!"));
+            mongoConnection
+                .collection(USERS_COLLECTION)
+                .findOne({ "email": req.body.user }, function (err, findOperation) {
+                    if (err) return next(boom.badImplementation(err));
+                    if (findOperation == null) {
+                        return next(boom.unauthorized( req.session.user + " Errore, dati non corretti"));
+                    }
+                var userData = {
+                    email: req.body.user
+                }
+                var pointData = {$set: { "point": req.body.point, "level": req.body.level}};
+                mongoConnection
+                    .collection(USERS_COLLECTION)
+                    .updateOne(userData, pointData, function (err, updateOperation) {
+                        if (err) return next(boom.badImplementation(err));
+                        res.send("Punti modificati correttamente.");
+                });
+            });
+        });
+
+        routers.put("/users/point", function(req, res, next) {
+            if(!req.body.user)
+                return next(boom.badData("Inerimento incompleto!"));
+            mongoConnection
+                .collection(USERS_COLLECTION)
+                .findOne({ "email": req.body.user }, function (err, findOperation) {
+                    if (err) return next(boom.badImplementation(err));
+                    res.send(findOperation);
+            });
+        });
     return routers
 })();
