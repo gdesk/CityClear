@@ -70,9 +70,9 @@
 				name: "Nome Cognome",
 				birtdate: "Compleanno",
 				district: "Comune",
-				area:"",
-				province:"",
-				cityPerson:"",
+				area: "",
+				province: "",
+				cityPerson: "",
 				modifierPassword: "",
 				modifierConfirmPassword: "",
 				output: "",
@@ -117,7 +117,6 @@
                         this.name = response.data.name,
                         this.birtdate = response.data.birtdate,
 						this.district = response.data.district
-						this.photo = require("../assets/"+window.sessionStorage.getItem("district")+".png")
 					})
 			},
 			getDistrict(){
@@ -131,7 +130,7 @@
                         this.province = response.data.province,
 						this.district = response.data.district,
 						this.cityPerson = response.data.cityPerson,
-						this.photo = require("../assets/"+window.sessionStorage.getItem("district")+".png")
+						this.photo = require("../assets/" + window.sessionStorage.getItem("district") + ".png")
 					})
 			},
 			onLogout(event) {
