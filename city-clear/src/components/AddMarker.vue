@@ -4,7 +4,7 @@
 	integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 	crossorigin=""/>
 		<b-container fluid class ="add-marker-form">
-            <b-row order="1">
+			<b-row order="1">
 				<span>Aggiunta punto caldo:</span> <br>
 				<form @submit="onAddMarker">
 					<input v-model="title" type="text" placeholder="Titolo" required/> <br>
@@ -23,6 +23,9 @@
 				</form>
 				<span>
 					<br><p>{{output}}</p>
+				</span>
+				<span>
+					<br><p>{{pointOutput}}</p>
 				</span>
 			</b-row>
             <b-row order="2">
@@ -51,7 +54,8 @@ export default {
 		title:"",
 		description: "",
 		tag: "",
-		place: ""
+		place: "",
+		pointOutput: ""
     };
   },
   mounted() {
@@ -101,12 +105,16 @@ export default {
 			})
 	},
 	incPoint(){
+		let currentObj = this;
 		axios
 			.patch(POINT_PATH, {
 				user: window.sessionStorage.getItem("user"),
 				point: this.userPoint + 1,
 				level: this.userLevel
 			}) 
+			.then(
+				currentObj.pointOutput = "+1 punto game!"
+			)
 	},
 	getPoint(){
 		let currentObj = this;
