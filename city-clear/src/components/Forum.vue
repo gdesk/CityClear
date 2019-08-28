@@ -108,8 +108,8 @@
 		text-align: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
-		margin-left: 15%;
-		margin-right: 15%;
+		margin-left: 18%;
+		margin-right: 18%;
 	}
 	@media (max-width: 800px) {
 		.row {

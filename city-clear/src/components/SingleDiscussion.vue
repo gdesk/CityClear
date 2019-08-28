@@ -5,28 +5,21 @@
 				<h2>{{this.title}}</h2>
 				<p>{{this.description}}</p>
 				<br>
-				<div class="flex-container">
 					<div v-for="comment in comments" :key=comment._id >
 						<b-card :title=comment.comment :sub-title=comment.date>
 							<b-card-text>
 								{{comment.user}}
 							</b-card-text>
 						</b-card>
-					</div>
-				</div>				
+					</div>	
+					<br><br><br>			
 			</b-row>	
 			<b-row order="2">
-				<h5>Ora tocca a te. </h5><br><br><br>
-				<div class="text-content">
-					<textarea 
-						v-model=comment 
-						rows="10" 
-						cols="78" 
-						placeholder="Commenta anche tu">
-
-					</textarea>
-					<b-button type="submit" pill variant="success" @click="sendComment"> Invia</b-button>	
-				</div>
+				<h5>Ora tocca a te. </h5><br><br><br><br>
+				<form v-on:submit.prevent id="text-form" class="text-content" @submit.prevent="writeMessage">
+					<textarea form="text-form" v-model="comment" placeholder="Aggiungi un commento..."></textarea>
+				</form>
+				<b-button type="submit" pill variant="success" @click="sendComment">Pubblica</b-button>
 			</b-row>
 		</b-container>
   </div>
@@ -38,8 +31,7 @@
 	const DISCUSSION_PATH = `${BASE_PATH}/singleDiscussion`;
 	const ADD_DISCUSSION_PATH = `${BASE_PATH}/addComment`;
 	export default {
-		name: 'UserProfile',
-		props: ['logged', 'districtLogged'],
+		name: 'SigleDiscussion',
 		data() {
 			return{
                 id: "",
@@ -117,43 +109,32 @@
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
 
-	.row{
+	.row {
 		width: 50%;
 		height: auto;
 		display: inline-table;
-	}
-
-	.flex-container {
-		display: flex;
-		flex-direction: column;
-		flex-wrap: wrap;
-		background-color: transparent;
+		padding: 2%;
 	}
 	span {
 		font-weight: bolder; 
 	}
-
-	p{
+	p {
 		font-size: 15px;
 		color: #000000;
 	}
-
-	.text-comment{
-		width: 50%;
-		align-self: center;
+	form {
+		display: flex;
 		flex-direction: column;
-		flex-wrap: wrap;
-		
 	}
-
-
-
+	textarea {	
+		resize: none;
+		min-height: 150px
+  	}
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;
 		}
 	}
-
 	.btn {
 		width: 250px;
 		height: 40px;
@@ -162,16 +143,9 @@
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
-
-	@media (max-width: 340px) {
-		input {
-			width: 250px;
-		}
+	@media (max-width: 350px) {
 		.btn {
 			width: 120px;
-		}
-		.icon{
-			margin-top: 10px;
 		}
 	}
 
