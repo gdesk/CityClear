@@ -21,7 +21,7 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../components/Login.vue')
+      component: () => import('../components/UserLogin.vue')
     },
     {
       path: '/district-login',
@@ -46,7 +46,7 @@ export default new Router({
     {
       path: '/user-profile',
       name: 'user-profile',
-      component: () => import('../components/UserProfile.vue')
+      component: () => import('../components/Profile.vue')
     }, 
     {
       path: '/add',
@@ -76,6 +76,11 @@ export default new Router({
       path: '/avatar',
       name: 'avata',
       component: () => import('../components/Avatar.vue')
+    },
+    {
+      path: '/analysis',
+      name: 'analysis',
+      component: () => import('../components/Analysis.vue')
     }
   ]
 })
