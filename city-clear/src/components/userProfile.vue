@@ -4,6 +4,10 @@
             <b-row>
 				<div v-if="this.typeUser=='district'">
 					<img :src="photo" class="user-img"/> &nbsp;
+					<input style="display: none" accept="image/*" type="file" @change="uploadImage" ref="input"> 
+					<b-button id="add-photo" @click="$refs.input.click()" pill variant="success">
+						<v-icon name="plus"></v-icon> 
+					</b-button>
 					<br><br><br>
 					<v-icon name="mail"></v-icon>
 					{{this.email}} <br>
@@ -22,6 +26,10 @@
 				</div>
 				<div v-else>
 					<img :src="photo" class="user-img"/> &nbsp;
+					<input style="display: none" accept="image/*" type="file" @change="uploadImage" ref="input"> 
+					<b-button id="add-photo" @click="$refs.input.click()" pill variant="success">
+						<v-icon name="plus"></v-icon> 
+					</b-button>
 					<br><br><br>
 					<v-icon name="mail"></v-icon>
 					{{email}} <br>
@@ -40,9 +48,9 @@
 			<b-row>
 				<span>Modifica password</span>
 				<form @submit="onModifierPassword">
-                <v-icon name="lock"></v-icon>
+                <v-icon name="lock"></v-icon>  &nbsp;
                 <input v-model="modifierPassword" type="password" placeholder="nuova password" required/> <br>
-                <v-icon name="lock"></v-icon>
+                <v-icon name="lock"></v-icon>  &nbsp;
                 <input v-model="modifierConfirmPassword" type="password" placeholder="conferma password" required/><br>
                 <b-button type="submit" pill variant="success"> Modifica password</b-button>	
             </form>
@@ -110,13 +118,11 @@
 						user: window.sessionStorage.getItem("user")
 					})
                     .then(response => {
-						if(response.data.photo != null) {
-							this.photo = response.data.photo
-						}
-                        this.email = response.data.email,
+						this.email = response.data.email,
                         this.name = response.data.name,
                         this.birtdate = response.data.birtdate,
-						this.district = response.data.district
+						this.district = response.data.district,
+						this.photo = window.sessionStorage.getItem(this.email) || require("../assets/user_profile.png")
 					})
 			},
 			getDistrict(){
@@ -161,10 +167,10 @@
 						})
 						.catch(error => {
 							currentObj.output = error.message;
-					})
-				} else currentObj.output = "Le password non corrispondono";
-				}else{
-					if(this.checkPassword()) {
+						})
+					} else currentObj.output = "Le password non corrispondono";
+				} else {
+					if (this.checkPassword()) {
 					axios
 						.patch(USER_PATH, {
 							user: window.sessionStorage.getItem("user"),
