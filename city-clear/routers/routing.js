@@ -231,7 +231,6 @@ module.exports = (function() {
                     lat: req.body.lat,
                     lng: req.body.lng,
                     district: "Cesena" // TODO: METTERE A POSTO
-
                 }
 
                 mongoConnection
@@ -271,170 +270,177 @@ module.exports = (function() {
         });
     });
 
-        //all discussions
-        routers.put("/allDiscussion", function(req, res, next) {
-            console.log("Receive all discussions in the forum");
-            const discussion_collection = req.body.collection;
+    //all discussions
+    routers.put("/allDiscussion", function(req, res, next) {
+        console.log("Receive all discussions in the forum");
+        const discussion_collection = req.body.collection;
+
+        mongoConnection
+            .collection(discussion_collection)
+            .find().toArray((err, items) => {
+                if (err) return next(boom.unauthorized(err));
+                res.json(items);
+        });
+    });
+
+    //single discussion
+    routers.put("/singleDiscussion", function(req, res, next) {
+        console.log("Receive get single discussion --> "+ req.body.id);
+        const discussion_collection = req.body.collection;
     
-            mongoConnection
-                .collection(discussion_collection)
-                .find().toArray((err, items) => {
-                    if (err) return next(boom.unauthorized(err));
-                    res.json(items);
-            });
+        mongoConnection
+            .collection(discussion_collection)
+            .find({_id: ObjectId(req.body.id)}).toArray((err, findOperation) => {
+                console.log("res: " + findOperation);
+                if (err) return next(boom.unauthorized(err));
+                res.send(findOperation);
         });
+    });
 
-        //single discussion
-        routers.put("/singleDiscussion", function(req, res, next) {
-            console.log("Receive get single discussion --> "+ req.body.id);
-            const discussion_collection = req.body.collection;
-         
-            mongoConnection
-                .collection(discussion_collection)
-                .find({_id: ObjectId(req.body.id)}).toArray((err, findOperation) => {
-                    console.log("res: " + findOperation);
-                    if (err) return next(boom.unauthorized(err));
-                    res.send(findOperation);
-            });
-        });
-
-         //add comment
-        routers.put("/addComment", function(req, res, next) {
-            console.log("Add comment in single discussion");
-            const discussion_collection = req.body.collection;
-         
-            mongoConnection
-                .collection(discussion_collection)
-                .update({_id: ObjectId(req.body.id)},
-                {"$push": 
-                    {"comments": 
-                        {
-                            "user": req.body.user,
-                            "date": req.body.date, 
-                            "comment": req.body.comment
-                        }
-                    }
-                });
-        });
-
-        //all events
-        routers.put("/allEvent", function(req, res, next) {
-            console.log("Receive get all events in the forum");
-    
-            mongoConnection
-                .collection("events")
-                .find().sort({eventDate:1}).toArray((err, items) => {
-                    if (err) return console.log(err);
-                    res.json(items);
-            });
-        });
-
-        //single event
-        routers.put("/singleEvent", function(req, res, next) {
-            console.log("Receive get single event ");
-         
-            mongoConnection
-                .collection("events")
-                .find({_id: ObjectId(req.body.id)}).toArray((err, findOperation) => {
-                    console.log("res: " + findOperation);
-                    if (err) return next(boom.unauthorized(err));
-                    res.send(findOperation);
-            });
-        });
-
-        //create event
-        routers.post("/createEvent", function(req, res, next) {
-            console.log("Create an event")
-            var newEvent= {
-                title: req.body.title,
-                description: req.body.description,
-                fullname: req.body.fullname,
-                username: req.body.username,
-                date: new Date().toLocaleDateString(),
-                eventDate: req.body.eventDate,
-                hour: req.body.hour,
-                location: req.body.location,
-                people: 1
-            }
-            mongoConnection
-                .collection("events")
-                .insertOne(newEvent, function(err, insertOperation) {
-                    if(err) return next(boom.badImplementation(err));
-                    res.json(insertOperation);
-                });
-            
-        });
-    
+    //add comment
+    routers.put("/addComment", function(req, res, next) {
+        console.log("Add comment in single discussion");
+        const discussion_collection = req.body.collection;
         
-        //create discussion
-        routers.post("/createDiscussion", function(req, res, next) {
-            console.log("Create a discussion")
-            var newDiscussion= {
-                title: req.body.title,
-                description: req.body.description,
-                fullname: req.body.fullname,
-                username: req.body.username,
-                date: new Date().toLocaleDateString(),
-                comments:[]
-            }
-            mongoConnection
-                .collection("cesena.discussions")
-                .insertOne(newDiscussion, function(err, insertOperation) {
-                    if(err) return next(boom.badImplementation(err));
-                    res.json(insertOperation);
-                });
-            
-        });
-    
-
-        //increment people's number in single event
-        routers.patch("/modifiedPeople", function(req, res, next) {
-            console.log("Add people in single event");
-            
-            mongoConnection
-                .collection("events")
-                .updateOne({_id: ObjectId(req.body.id)},
-                {"$set": 
+        mongoConnection
+            .collection(discussion_collection)
+            .update({_id: ObjectId(req.body.id)},
+            {"$push": 
+                {"comments": 
                     {
-                        "people": req.body.people 
+                        "user": req.body.user,
+                        "date": req.body.date, 
+                        "comment": req.body.comment
                     }
-                });
-        });
-
-        routers.patch("/users/point", function(req, res, next) {
-            console.log("Receive increment user poin request");
-            if(!req.body.user)
-                return next(boom.badData("Inerimento incompleto!"));
-            mongoConnection
-                .collection(USERS_COLLECTION)
-                .findOne({ "email": req.body.user }, function (err, findOperation) {
-                    if (err) return next(boom.badImplementation(err));
-                    if (findOperation == null) {
-                        return next(boom.unauthorized( req.session.user + " Errore, dati non corretti"));
-                    }
-                var userData = {
-                    email: req.body.user
                 }
-                var pointData = {$set: { "point": req.body.point, "level": req.body.level}};
-                mongoConnection
-                    .collection(USERS_COLLECTION)
-                    .updateOne(userData, pointData, function (err, updateOperation) {
-                        if (err) return next(boom.badImplementation(err));
-                        res.send("Punti modificati correttamente.");
-                });
             });
-        });
+    });
 
-        routers.put("/users/point", function(req, res, next) {
-            console.log("Receive get user poin request");
-            if(!req.body.user)
-                return next(boom.badData("Inerimento incompleto!"));
+    //all events
+    routers.put("/allEvent", function(req, res, next) {
+        console.log("Receive get all events in the forum");
+
+        mongoConnection
+            .collection("events")
+            .find().sort({eventDate:1}).toArray((err, items) => {
+                if (err) return console.log(err);
+                res.json(items);
+        });
+    });
+
+    //single event
+    routers.put("/singleEvent", function(req, res, next) {
+        console.log("Receive get single event ");
+        
+        mongoConnection
+            .collection("events")
+            .find({_id: ObjectId(req.body.id)}).toArray((err, findOperation) => {
+                console.log("res: " + findOperation);
+                if (err) return next(boom.unauthorized(err));
+                res.send(findOperation);
+        });
+    });
+
+    //create event
+    routers.post("/createEvent", function(req, res, next) {
+        console.log("Create an event")
+        var newEvent= {
+            title: req.body.title,
+            description: req.body.description,
+            fullname: req.body.fullname,
+            username: req.body.username,
+            date: new Date().toLocaleDateString(),
+            eventDate: req.body.eventDate,
+            hour: req.body.hour,
+            location: req.body.location,
+            people: 1
+        }
+        mongoConnection
+            .collection("events")
+            .insertOne(newEvent, function(err, insertOperation) {
+                if(err) return next(boom.badImplementation(err));
+                res.json(insertOperation);
+            });
+        
+    });
+        
+    //create discussion
+    routers.post("/createDiscussion", function(req, res, next) {
+        console.log("Create a discussion")
+        var newDiscussion= {
+            title: req.body.title,
+            description: req.body.description,
+            fullname: req.body.fullname,
+            username: req.body.username,
+            date: new Date().toLocaleDateString(),
+            comments:[]
+        }
+        mongoConnection
+            .collection("cesena.discussions")
+            .insertOne(newDiscussion, function(err, insertOperation) {
+                if(err) return next(boom.badImplementation(err));
+                res.json(insertOperation);
+            });
+        
+    });
+
+    //increment people's number in single event
+    routers.patch("/modifiedPeople", function(req, res, next) {
+        console.log("Add people in single event");
+        
+        mongoConnection
+            .collection("events")
+            .updateOne({_id: ObjectId(req.body.id)},
+            {"$set": 
+                {
+                    "people": req.body.people 
+                }
+            });
+    });
+
+    routers.patch("/users/point", function(req, res, next) {
+        console.log("Receive increment user poin request");
+        if(!req.body.user)
+            return next(boom.badData("Inerimento incompleto!"));
+        mongoConnection
+            .collection(USERS_COLLECTION)
+            .findOne({ "email": req.body.user }, function (err, findOperation) {
+                if (err) return next(boom.badImplementation(err));
+                if (findOperation == null) {
+                    return next(boom.unauthorized( req.session.user + " Errore, dati non corretti"));
+                }
+            var userData = {
+                email: req.body.user
+            }
+            var pointData = {$set: { "point": req.body.point, "level": req.body.level}};
             mongoConnection
                 .collection(USERS_COLLECTION)
-                .findOne({ "email": req.body.user }, function (err, findOperation) {
+                .updateOne(userData, pointData, function (err, updateOperation) {
                     if (err) return next(boom.badImplementation(err));
-                    res.send(findOperation);
+                    res.send("Punti modificati correttamente.");
             });
         });
+    });
+
+    routers.put("/users/point", function(req, res, next) {
+        console.log("Receive get user poin request");
+        if(!req.body.user)
+            return next(boom.badData("Inerimento incompleto!"));
+        mongoConnection
+            .collection(USERS_COLLECTION)
+            .findOne({ "email": req.body.user }, function (err, findOperation) {
+                if (err) return next(boom.badImplementation(err));
+                res.send(findOperation);
+        });
+    });
+    routers.get(USERS_PATH, function(req, res, next) {
+        console.log("Receive count user in district request");
+        mongoConnection
+            .collection(USERS_COLLECTION)
+            .count(function (err, countOperation) {
+                if (err) return next(boom.badImplementation(err));
+                res.send(countOperation.toString());
+        });
+    });
     return routers
 })();

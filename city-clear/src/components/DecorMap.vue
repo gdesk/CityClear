@@ -81,7 +81,7 @@ export default {
           };
           });           
      
-    }else if (navigator.geolocation) {
+    } else if (navigator.geolocation) {
       navigator.geolocation.watchPosition(position => {
         if (this.location && this.location.lat === position.coords.latitude && this.location.lng === position.coords.longitude) {
           console.log("Same position");

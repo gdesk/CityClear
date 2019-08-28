@@ -1,5 +1,8 @@
 <template>
     <div class="analysis">
+        <h2> Comune di {{district}}</h2>
+        <h4>Provincia: {{province}}, Regione: {{area}}</h4>
+        <v-icon name="users"></v-icon> {{cityPerson}} <br><br>
         <b-container fluid class ="analysis-container">
            <b-row order="1">
                 <center>
@@ -21,90 +24,126 @@
 </template>
 
 <script>
-  import { mdbBarChart, mdbDoughnutChart, mdbHorizontalBarChart} from 'mdbvue';
-  export default {
-    name: 'Analysis',
-    components: {
-      mdbBarChart,
-      mdbDoughnutChart,
-      mdbHorizontalBarChart
+    import { mdbBarChart, mdbDoughnutChart, mdbHorizontalBarChart} from 'mdbvue';
+    const axios = require("axios");
+    const BASE_PATH = "http://127.0.0.1:5051";
+    const USER_PATH = `${BASE_PATH}/users`;
+	const DISTRICT_PATH = `${BASE_PATH}/district`;
+    export default {
+        name: 'Analysis',
+        components: {
+        mdbBarChart,
+        mdbDoughnutChart,
+        mdbHorizontalBarChart
     },
     data() {
-      return {
-        barChartData: {
-          labels: ["Spazzatura", "Strada dissestata", "Patrimonio", "Altro"],
-          datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)'
-            ],
-            borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1,
-          }]
-        },
-        barChartOptions: {
-          responsive: false,
-          maintainAspectRatio: false,
-          scales: {
-            xAxes: [{
-              barPercentage: 1,
-              gridLines: {
-                display: true,
-                color: "rgba(0, 0, 0, 0.1)"
-              }
-            }],
-            yAxes: [{
-              gridLines: {
-                display: true,
-                color: "rgba(0, 0, 0, 0.1)"
-              }
-            }]
-          }
-        },
-        doughnutChartData: {
-          labels: ["Utenti", "Persone non iscritte"],
-          datasets: [
-            {
-              data: [300, 50],
-              backgroundColor: ["#F7464A", "#46BFBD"],
-              hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+        return {
+            area: "",
+            province: "",
+            district: "",
+            cityPerson: "",
+            countUser: 0,
+            barChartData: {
+                labels: ["Spazzatura", "Strada dissestata", "Patrimonio", "Altro"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5],
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1,
+                }]
+            },
+            barChartOptions: {
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                    barPercentage: 1,
+                    gridLines: {
+                        display: true,
+                        color: "rgba(0, 0, 0, 0.1)"
+                    }
+                    }],
+                    yAxes: [{
+                    gridLines: {
+                        display: true,
+                        color: "rgba(0, 0, 0, 0.1)"
+                    }
+                    }]
+                }
+            },
+            doughnutChartData: {
+                labels: ["Utenti", "Persone non iscritte"],
+                datasets: [
+                    {
+                    data: [this.countUser, (this.cityPerson -  this.countUser)],
+                    backgroundColor: ["#F7464A", "#46BFBD"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+                    }
+                ]
+            },
+            doughnutChartOptions: {
+                responsive: false,
+                maintainAspectRatio: false
+            },
+            horizontalBarChartData: {
+                labels: ["Spazzatura", "Strada", "Patrimonio", "Altro"],
+                datasets: [{
+                    data: [12, 19, 3, 5],
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1,
+                }]
             }
-          ]
+        };
+    },
+    mounted() {
+        this.getDistrictInfo();
+        this.countMemers();
+    },
+    methods: {
+        getDistrictInfo() {
+            axios
+                .put(DISTRICT_PATH, {
+                    user: window.sessionStorage.getItem("user")
+                })
+                .then(response => {
+                    this.area = response.data.area,
+                    this.province = response.data.province,
+                    this.district = response.data.district
+                    this.cityPerson = response.data.cityPerson
+                })
         },
-        doughnutChartOptions: {
-          responsive: false,
-          maintainAspectRatio: false
-        },
-        horizontalBarChartData: {
-          labels: ["Spazzatura", "Strada", "Patrimonio", "Altro"],
-          datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)'
-            ],
-            borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1,
-          }]
+        countMemers() {
+            axios
+                .get(USER_PATH)
+                .then(response => {
+                    this.countUser = response.data 
+                })
         }
-      };
+    },
+    compute: {
+
     }
   }
 </script>
@@ -119,10 +158,11 @@
         background: #F4F4F4;
         border:1px solid black;
 	}
-    .container {
-        align-content: center;
-        margin-left: 25px;
-    }
+    .icon{
+		width: 20px;
+		height: 100%;
+		text-align: center;
+	}
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;
