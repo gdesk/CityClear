@@ -3,11 +3,7 @@
 		<b-container fluid class ="login-form">
             <b-row>
 				<div v-if="this.typeUser=='district'">
-					<img :src="photo" class="user-img"/> &nbsp;
-					<input style="display: none" accept="image/*" type="file" @change="uploadImage" ref="input"> 
-					<b-button id="add-photo" @click="$refs.input.click()" pill variant="success">
-						<v-icon name="plus"></v-icon> 
-					</b-button>
+					<img :src="photo" class="user-img"/>
 					<br><br><br>
 					<v-icon name="mail"></v-icon>
 					{{this.email}} <br>

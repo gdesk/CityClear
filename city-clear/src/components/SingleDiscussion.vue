@@ -129,7 +129,7 @@
 	textarea {	
 		resize: none;
 		min-height: 150px
-  	}
+	}
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;

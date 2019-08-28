@@ -1,8 +1,6 @@
 <template>
-  <div class="login">
-		<b-container id="login-form" fluid class ="login-form">
-		
-			<b-row order="1">
+  <div class="addForum">
+		<b-container id="add-forum-form" fluid class ="add-forum-form">
                 <div v-if="this.$route.params.what == 'event'" class="event-form">
                     <h3>Crea il tuo evento</h3> <br>
                     <form @submit="createEvent()" >
@@ -18,9 +16,11 @@
                         <input v-model="hour" type="time" required/> <br>
                         <v-icon name="home"></v-icon>
                         <input v-model="location" type="text" placeholder="luogo" required/> <br>
-            
-                        <b-button type="submit" pill variant="success"> Crea </b-button>	
+                        <b-button type="submit" pill variant="success">Crea</b-button>	
                     </form>
+					<span>
+						<p>{{eventOutput}}</p>
+					</span>
                 </div>
                 <div v-else> 
                    <h3>Crea la tua discussione</h3> <br>
@@ -31,12 +31,12 @@
                         <input v-model="description" type="text" placeholder="descrizione" required/> <br>
                         <v-icon name="user"></v-icon>
                         <input v-model="fullname" type="text" placeholder="nome cognome" /> <br>
-            
-                        <b-button type="submit" pill variant="success"> Crea </b-button>	
+                        <b-button type="submit" pill variant="success">Crea</b-button>
                     </form>
+					<span>
+						<p>{{discussionOutput}}</p>
+					</span>
                 </div>
-				
-			</b-row>	
 		</b-container>
   </div>
 </template>
@@ -46,9 +46,9 @@
 	const BASE_PATH = "http://127.0.0.1:5051";
 	const CREATE_EVENT_PATH = `${BASE_PATH}/createEvent`;
 	const CREATE_DISCUSSION_PATH = `${BASE_PATH}/createDiscussion`;
+	const POINT_PATH = `${BASE_PATH}/users/point`;
 	export default {
 		name: 'addForum',
-		props: ["logged"],
 		data() {
 			return{
 				title: "",
@@ -56,11 +56,14 @@
 				fullname: "",
 				eventDate: "",
 				hour: "",
-				location: ""
+				location: "",
+				eventOutput: "",
+				discussionOutput: ""
 			}
 		},
 		methods: {
 			createEvent() {	
+				let currentObj = this;
 				axios
 					.post(CREATE_EVENT_PATH, {
 						title: this.title,
@@ -72,10 +75,19 @@
 						location:this.location
 					})
 					.then(response => {
-						console.log(response.data);
+						console.log(response.data),
+						this.getPoint(),
+						currentObj.eventOutput = "Evento creato correttamente! + 10 punti Game! Torna nel forum per consultarlo.",
+						this.title = "",
+						this.description = "",
+						this.fullname = "",
+						this.eventDate = "",
+						this.hour = "",
+						this.location = ""
 					})				
 			},
 			createDiscussion(){
+				let currentObj = this;
 				axios
 					.post(CREATE_DISCUSSION_PATH, {
 						title: this.title,
@@ -84,35 +96,67 @@
 						fullname: this.fullname
 					})
 					.then(response => {
-						console.log(response.data);
+						console.log(response.data),
+						currentObj.discussionOutput = "Discussione creata correttamente! Torna nel forum per consultarla.",
+						this.title = "",
+						this.description = "",
+						this.fullname = ""
 					})				
+			},
+			incPoint(){
+				let currentObj = this;
+				axios
+				.patch(POINT_PATH, {
+					user: window.sessionStorage.getItem("user"),
+					point: this.userPoint + 10,
+					level: this.userLevel
+				}) 
+				.then(
+					currentObj.pointOutput = "+1 punto game!"
+				)
+			},
+			getPoint(){
+				let currentObj = this;
+				axios
+				.put(POINT_PATH, {
+					user: window.sessionStorage.getItem("user"),
+				})
+				.then(response => {
+					//currentObj.output = response.data;
+					this.userPoint = response.data.point;
+					this.userLevel = response.data.level;
+					this.setLevel();
+					this.incPoint();
+				})
+				.catch(error => {
+					currentObj.output = error.message;
+				})
+			},
+			setLevel(){
+				if(this.userPoint < 20) 
+					return this.userLevel = 1;
+				else if(this.userPoint >= 20 && this.userPoint < 40)
+					return this.userLevel = 2;
+				else 
+					return this.userLevel = 3;
 			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
-
-    .row{
-		width: 50%;
-		height: auto;
-		display: inline-table;
-	}
 
 	span {
 		font-weight: bolder; 
 	}
-
 	p, .district-link {
 		font-size: 15px;
 		font-weight: bolder; 
 		color: #000000;
 	}
-
-	input, select {
+	input {
 		outline: 0;
 		box-sizing: border-box;
 		font-size: 14px;
@@ -126,46 +170,34 @@
 		border-radius: 0.25em;
 		color: black;
 	}
-
 	input {
 		padding: 5px;
 	}
-
 	@media (max-width: 800px) {
-		.row {
-			width: 100%;
-			align-content: center;
-		}
-
-		input, select {
+		input {
 			width: 270px;
 		}
 	}
-
 	.btn {
-		width: 140px;
+		width: 240px;
 		height: 40px;
 		text-align: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
-
-	.icon{
+	.icon {
 		margin-right: 20px;
 		width: 20px;
 		height: 100%;
 		text-align: center;
 	}
-
 	@media (max-width: 340px) {
-		input, select {
+		input {
 			width: 250px;
 		}
-
 		.btn {
 			width: 120px;
 		}
-
 		.icon{
 			margin-top: 10px;
 		}
