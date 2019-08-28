@@ -14,7 +14,7 @@
       <router-link v-if="districtLogged === true" to="/urban-decore-tag"><img src="./assets/logo.png"/></router-link>
       <router-link v-if="districtLogged === true" to="/user-profile">Profilo</router-link>
       <router-link v-if="districtLogged === true" to="/forum">Forum</router-link>
-      <router-link v-if="districtLogged === true" to="/logout">Analisi</router-link>
+      <router-link v-if="districtLogged === true" to="/analysis">Analisi</router-link>
     </div>
     <router-view/>
   </div>
