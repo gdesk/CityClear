@@ -91,7 +91,6 @@
 					})
                     .then(response => {
 						console.log("response  "+ response)
-						//this.getPoint()
                     })
 			},
 			decPeople() {
@@ -105,7 +104,6 @@
 					})
                     .then(response => {
 						console.log("response  "+ response)
-						//this.getPoint();
                     })
 			},
 		}

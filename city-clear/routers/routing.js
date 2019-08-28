@@ -345,7 +345,6 @@ module.exports = (function() {
         //create event
         routers.post("/createEvent", function(req, res, next) {
             console.log("Create an event")
-
             var newEvent= {
                 title: req.body.title,
                 description: req.body.description,
@@ -357,7 +356,6 @@ module.exports = (function() {
                 location: req.body.location,
                 people: 1
             }
-    
             mongoConnection
                 .collection("events")
                 .insertOne(newEvent, function(err, insertOperation) {
@@ -371,8 +369,7 @@ module.exports = (function() {
         //create discussion
         routers.post("/createDiscussion", function(req, res, next) {
             console.log("Create a discussion")
-
-            var newEvent= {
+            var newDiscussion= {
                 title: req.body.title,
                 description: req.body.description,
                 fullname: req.body.fullname,
@@ -380,10 +377,9 @@ module.exports = (function() {
                 date: new Date().toLocaleDateString(),
                 comments:[]
             }
-    
             mongoConnection
-                .collection("discussions")
-                .insertOne(newEvent, function(err, insertOperation) {
+                .collection("cesena.discussions")
+                .insertOne(newDiscussion, function(err, insertOperation) {
                     if(err) return next(boom.badImplementation(err));
                     res.json(insertOperation);
                 });
