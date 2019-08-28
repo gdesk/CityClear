@@ -2,10 +2,9 @@
   <div class="forum">
 		<b-container fluid class ="forum-container">
 			<div  class="flex-container">
-				<b-button href="/forum/add/discussion" pill variant="success">Crea discussione</b-button>&nbsp;&nbsp;	
+				<b-button href="/forum/add/discussion" pill variant="success">Crea discussione</b-button>	
 				<b-button href="/forum/add/event" pill variant="success">Crea evento</b-button>
 			</div>	
-			
 			<b-row order="1">
 				<br> <br> <br> <h3>Discussioni</h3>  <br> <br>
 				<div class="flex-container">
@@ -94,20 +93,24 @@
 		width: 50%;
 		height: auto;
 		display: inline-table;
+		padding: 2%;
 	}
-
 	.flex-container {
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: center;
 		background-color: transparent;
-		width: 90%;
 		align-content: center;
 	}
-
-
-
-
+	.btn {
+		width: 180px;
+		height: 40px;
+		text-align: center;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		margin-left: 15%;
+		margin-right: 15%;
+	}
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;
