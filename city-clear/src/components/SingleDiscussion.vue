@@ -15,7 +15,7 @@
 					<br><br><br>			
 			</b-row>	
 			<b-row order="2">
-				<h5>Ora tocca a te. </h5><br><br><br><br>
+				<h5>Ora tocca a te. </h5><br><br><br>
 				<form v-on:submit.prevent id="text-form" class="text-content" @submit.prevent="writeMessage">
 					<textarea form="text-form" v-model="comment" placeholder="Aggiungi un commento..."></textarea>
 				</form>
