@@ -392,26 +392,12 @@ module.exports = (function() {
     
 
         //increment people's number in single event
-        routers.put("/addPeople", function(req, res, next) {
+        routers.patch("/modifiedPeople", function(req, res, next) {
             console.log("Add people in single event");
             
             mongoConnection
                 .collection("events")
-                .update({_id: ObjectId(req.body.id)},
-                {"$set": 
-                    {
-                        "people": req.body.people 
-                    }
-                });
-        });
-
-        //decrement people's number in single event
-        routers.put("/decPeople", function(req, res, next) {
-            console.log("Decrement people in single event");
-            
-            mongoConnection
-                .collection("events")
-                .update({_id: ObjectId(req.body.id)},
+                .updateOne({_id: ObjectId(req.body.id)},
                 {"$set": 
                     {
                         "people": req.body.people 
@@ -444,6 +430,7 @@ module.exports = (function() {
         });
 
         routers.put("/users/point", function(req, res, next) {
+            console.log("Receive get user poin request");
             if(!req.body.user)
                 return next(boom.badData("Inerimento incompleto!"));
             mongoConnection

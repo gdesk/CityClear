@@ -37,6 +37,7 @@
 						<p>{{discussionOutput}}</p>
 					</span>
                 </div>
+				{{userLevel}}{{userPoint}}
 		</b-container>
   </div>
 </template>
@@ -58,7 +59,9 @@
 				hour: "",
 				location: "",
 				eventOutput: "",
-				discussionOutput: ""
+				discussionOutput: "",
+				userLevel: "",
+				userPoint: ""
 			}
 		},
 		methods: {
@@ -103,18 +106,6 @@
 						this.fullname = ""
 					})				
 			},
-			incPoint(){
-				let currentObj = this;
-				axios
-				.patch(POINT_PATH, {
-					user: window.sessionStorage.getItem("user"),
-					point: this.userPoint + 10,
-					level: this.userLevel
-				}) 
-				.then(
-					currentObj.pointOutput = "+1 punto game!"
-				)
-			},
 			getPoint(){
 				let currentObj = this;
 				axios
@@ -131,6 +122,18 @@
 				.catch(error => {
 					currentObj.output = error.message;
 				})
+			},
+			incPoint(){
+				let currentObj = this;
+				axios
+				.patch(POINT_PATH, {
+					user: window.sessionStorage.getItem("user"),
+					point: this.userPoint + 10,
+					level: this.userLevel
+				}) 
+				.then(
+					currentObj.pointOutput = "+10 punti game!"
+				)
 			},
 			setLevel(){
 				if(this.userPoint < 20) 
@@ -151,7 +154,7 @@
 	span {
 		font-weight: bolder; 
 	}
-	p, .district-link {
+	p {
 		font-size: 15px;
 		font-weight: bolder; 
 		color: #000000;
