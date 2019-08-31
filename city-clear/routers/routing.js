@@ -451,5 +451,50 @@ module.exports = (function() {
                 res.send(countOperation.toString());
         });
     });
+
+    routers.get("/count/tag/spazzatura", function(req, res, next) {
+        console.log("Receive count spazzatura tag in district request");
+        mongoConnection
+            .collection(POINT_COLLECTION)
+            .find({"tag": "Spazzatura"})
+            .count(function (err, countOperation) {
+                if (err) return next(boom.badImplementation(err));
+                res.send(countOperation.toString());
+        });
+    });
+
+    routers.get("/count/tag/storico", function(req, res, next) {
+        console.log("Receive count patrimonio tag in district request");
+        mongoConnection
+            .collection(POINT_COLLECTION)
+            .find({"tag": "Patrimonio culturale o artistico"})
+            .count(function (err, countOperation) {
+                if (err) return next(boom.badImplementation(err));
+                res.send(countOperation.toString());
+        });
+    });
+    
+    routers.get("/count/tag/strada", function(req, res, next) {
+        console.log("Receive count strada tag in district request");
+        mongoConnection
+            .collection(POINT_COLLECTION)
+            .find({"tag": "Strada dissestata"})
+            .count(function (err, countOperation) {
+                if (err) return next(boom.badImplementation(err));
+                res.send(countOperation.toString());
+        });
+    });
+
+    routers.get("/count/tag/altro", function(req, res, next) {
+        console.log("Receive count altro tag in district request");
+        mongoConnection
+            .collection(POINT_COLLECTION)
+            .find({"tag": "Altro"})
+            .count(function (err, countOperation) {
+                if (err) return next(boom.badImplementation(err));
+                res.send(countOperation.toString());
+        });
+    });
+
     return routers
 })();
