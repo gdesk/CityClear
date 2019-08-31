@@ -83,7 +83,7 @@
                 }
             },
             doughnutChartData: {
-                labels: ["Utenti", "Persone non iscritte"],
+                labels: ["Utenti iscritti", "Persone non iscritte"],
                 datasets: [
                     {
                     data: [this.countUser, (this.cityPerson -  this.countUser)],
@@ -119,7 +119,6 @@
     },
     mounted() {
         this.getDistrictInfo();
-        this.countMemers();
     },
     methods: {
         getDistrictInfo() {
@@ -130,20 +129,28 @@
                 .then(response => {
                     this.area = response.data.area,
                     this.province = response.data.province,
-                    this.district = response.data.district
-                    this.cityPerson = response.data.cityPerson
+                    this.district = response.data.district,
+                    this.cityPerson = response.data.cityPerson,
+                    this.countMemers();
                 })
         },
         countMemers() {
             axios
                 .get(USER_PATH)
                 .then(response => {
-                    this.countUser = response.data 
+                    this.countUser = response.data,
+                    this.doughnutChartData = {
+                        labels: ["Utenti iscritti", "Persone non iscritte"],
+                        datasets: [
+                            {
+                            data: [this.countUser, (this.cityPerson -  this.countUser)],
+                            backgroundColor: ["#F7464A", "#46BFBD"],
+                            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+                            }
+                        ]
+                    }
                 })
         }
-    },
-    compute: {
-
     }
   }
 </script>
