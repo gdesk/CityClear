@@ -433,10 +433,19 @@ module.exports = (function() {
                 res.send(findOperation);
         });
     });
-    routers.get(USERS_PATH, function(req, res, next) {
+    routers.get("/count/members", function(req, res, next) {
         console.log("Receive count user in district request");
         mongoConnection
             .collection(USERS_COLLECTION)
+            .count(function (err, countOperation) {
+                if (err) return next(boom.badImplementation(err));
+                res.send(countOperation.toString());
+        });
+    });
+    routers.get("/count/tags", function(req, res, next) {
+        console.log("Receive count tag in district request");
+        mongoConnection
+            .collection(POINT_COLLECTION)
             .count(function (err, countOperation) {
                 if (err) return next(boom.badImplementation(err));
                 res.send(countOperation.toString());

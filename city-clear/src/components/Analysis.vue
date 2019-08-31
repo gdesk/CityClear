@@ -16,7 +16,7 @@
             </b-row>
            <b-row order="3">
                 <center>
-                    <mdb-horizontal-bar-chart :data="horizontalBarChartData" :options="barChartOptions" :width="auto" :height="300"></mdb-horizontal-bar-chart>
+                    <h2>Totale punti caldi in mappa: {{hotPoint}}</h2>
                 </center>
             </b-row>
         </b-container>
@@ -27,8 +27,9 @@
     import { mdbBarChart, mdbDoughnutChart, mdbHorizontalBarChart} from 'mdbvue';
     const axios = require("axios");
     const BASE_PATH = "http://127.0.0.1:5051";
-    const USER_PATH = `${BASE_PATH}/users`;
-	const DISTRICT_PATH = `${BASE_PATH}/district`;
+    const DISTRICT_PATH = `${BASE_PATH}/district`;
+    const COUNT_MEMBER_PATH = `${BASE_PATH}/count/members`;
+    const COUNT_TAG_PATH = `${BASE_PATH}/count/tags`;
     export default {
         name: 'Analysis',
         components: {
@@ -43,6 +44,7 @@
             district: "",
             cityPerson: "",
             countUser: 0,
+            hotPoint: "",
             barChartData: {
                 labels: ["Spazzatura", "Strada dissestata", "Patrimonio", "Altro"],
                 datasets: [{
@@ -119,6 +121,7 @@
     },
     mounted() {
         this.getDistrictInfo();
+        this.countTags();
     },
     methods: {
         getDistrictInfo() {
@@ -136,7 +139,7 @@
         },
         countMemers() {
             axios
-                .get(USER_PATH)
+                .get(COUNT_MEMBER_PATH)
                 .then(response => {
                     this.countUser = response.data,
                     this.doughnutChartData = {
@@ -149,6 +152,13 @@
                             }
                         ]
                     }
+                })
+        },
+        countTags() {
+            axios
+                .get(COUNT_TAG_PATH)
+                .then(response => {
+                    this.hotPoint = response.data
                 })
         }
     }
