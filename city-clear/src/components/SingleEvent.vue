@@ -26,7 +26,10 @@
 					<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
 				</div>
 				<!-- </div> -->	
-			</b-row>	
+			</b-row>
+			<span>
+				<br><p>{{output}}</p>
+			</span>	
 		</b-container>
   </div>
 </template>
@@ -36,6 +39,7 @@
 	const BASE_PATH = "http://127.0.0.1:5051";
 	const EVENT_PATH = `${BASE_PATH}/singleEvent`;
 	const MODIFIED_PEOPLE_PATH = `${BASE_PATH}/modifiedPeople`;
+	const POINT_PATH = `${BASE_PATH}/users/point`;
 	export default {
 		name: 'SingleEvent',
 		data() {
@@ -50,12 +54,15 @@
                 hour:"",
                 location:"", 
 				people:"",
-				isPartecipant:""
+				isPartecipant:"",
+				output: "",
+				userPoint: ""
 			}
         },
         mounted() {
 			this.isPartecipant = sessionStorage.getItem(this.$route.params.id)
 			this.getEvent();
+			this.getPoint();
         },
 		methods: {
             getEvent() {
@@ -91,7 +98,8 @@
 					})
                     .then(response => {
 						console.log("response  "+ response)
-                    })
+					})
+				this.checkStatus();
 			},
 			decPeople() {
 				this.people = parseInt(this.people)-1;
@@ -104,8 +112,51 @@
 					})
                     .then(response => {
 						console.log("response  "+ response)
-                    })
+					})
+				this.checkStatus();
 			},
+			getPoint(){
+				let currentObj = this;
+				axios
+					.put(POINT_PATH, {
+						user: window.sessionStorage.getItem("user"),
+					})
+					.then(response => {
+						//currentObj.output = response.data;
+						this.userPoint = response.data.point
+					})
+					.catch(error => {
+						currentObj.output = error.message;
+					})
+			},
+			checkStatus() {
+				if(this.isPartecipant === "yes") 
+					this.incPoint();
+				else
+					this.decPoint();
+			},
+			incPoint(){
+				let currentObj = this;
+				axios
+					.patch(POINT_PATH, {
+						user: window.sessionStorage.getItem("user"),
+						point: this.userPoint + 5
+					}) 
+					.then(
+						currentObj.output = "+5 punti game!"
+					)
+			},
+			decPoint(){
+				let currentObj = this;
+				axios
+					.patch(POINT_PATH, {
+						user: window.sessionStorage.getItem("user"),
+						point: this.userPoint - 5
+					}) 
+					.then(
+						currentObj.output = "-5 punti game!",
+					)
+			}
 		}
 	}
 </script>

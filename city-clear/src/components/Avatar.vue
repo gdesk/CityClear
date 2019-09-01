@@ -22,6 +22,7 @@
 	const axios = require("axios");
 	const BASE_PATH = "http://127.0.0.1:5051";
 	const USER_PATH = `${BASE_PATH}/users`;
+	const POINT_PATH = `${BASE_PATH}/users/point`;
 	export default {
 		name: 'Avatar',
 		data() {
@@ -44,19 +45,30 @@
 						user: window.sessionStorage.getItem("user")
 					})
                     .then(response => {
-						if(response.data.photo != null) {
-							this.photo = response.data.photo
-						}
-						if(response.data.photo != null){
-							this.photo = response.data.photo
-						}
                         this.name = response.data.name,
-                        this.level = response.data.level,
 						this.point = response.data.point,
-						this.values = response.data.point
-						this.photo = sessionStorage.getItem(window.sessionStorage.getItem("user")) || require("../assets/user_profile.png")
+						this.values = response.data.point,
+						this.photo = sessionStorage.getItem(window.sessionStorage.getItem("user")) || require("../assets/user_profile.png"),
+						this.level = this.checkLevel()
 					})
+			},
+			checkLevel() {
+				if(this.point < 20) 
+					return this.level = 1;
+				else if(this.point >= 20 && this.point < 40)
+					return this.level = 2;
+				else 
+					return this.userlevelLevel = 3;
+			},
+			setLevel() {
+				axios
+					.patch(POINT_PATH, {
+						user: window.sessionStorage.getItem("user"),
+						point: this.point,
+						level: this.level
+					}) 
 			}
+
 		}
 	}
 </script>

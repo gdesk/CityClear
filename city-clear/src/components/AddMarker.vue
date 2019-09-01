@@ -31,7 +31,6 @@
             <b-row order="2">
                 <div id=map-container></div>
             </b-row>
-			{{userLevel}}{{userPoint}}
 		</b-container>
   </div>
 </template>
@@ -55,7 +54,8 @@ export default {
 		description: "",
 		tag: "",
 		place: "",
-		pointOutput: ""
+		pointOutput: "",
+		userPoint: ""
     };
   },
   mounted() {
@@ -109,8 +109,7 @@ export default {
 		axios
 			.patch(POINT_PATH, {
 				user: window.sessionStorage.getItem("user"),
-				point: this.userPoint + 1,
-				level: this.userLevel
+				point: this.userPoint + 1
 			}) 
 			.then(
 				currentObj.pointOutput = "+1 punto game!"
@@ -124,22 +123,12 @@ export default {
 			})
 			.then(response => {
 				//currentObj.output = response.data;
-				this.userPoint = response.data.point;
-				this.userLevel = response.data.level;
-				this.setLevel();
+				this.userPoint = response.data.point,
 				this.incPoint();
 			})
 			.catch(error => {
 				currentObj.output = error.message;
 			})
-	},
-	setLevel(){
-		if(this.userPoint < 20) 
-			return this.userLevel = 1;
-		else if(this.userPoint >= 20 && this.userPoint < 40)
-			return this.userLevel = 2;
-		else 
-			return this.userLevel = 3;
 	},
 	getPosition() {
 		if (navigator.geolocation) {

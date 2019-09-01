@@ -37,7 +37,6 @@
 						<p>{{discussionOutput}}</p>
 					</span>
                 </div>
-				{{userLevel}}{{userPoint}}
 		</b-container>
   </div>
 </template>
@@ -60,7 +59,6 @@
 				location: "",
 				eventOutput: "",
 				discussionOutput: "",
-				userLevel: "",
 				userPoint: ""
 			}
 		},
@@ -109,39 +107,28 @@
 			getPoint(){
 				let currentObj = this;
 				axios
-				.put(POINT_PATH, {
-					user: window.sessionStorage.getItem("user"),
-				})
-				.then(response => {
-					//currentObj.output = response.data;
-					this.userPoint = response.data.point;
-					this.userLevel = response.data.level;
-					this.setLevel();
-					this.incPoint();
-				})
-				.catch(error => {
-					currentObj.output = error.message;
-				})
+					.put(POINT_PATH, {
+						user: window.sessionStorage.getItem("user"),
+					})
+					.then(response => {
+						//currentObj.output = response.data;
+						this.userPoint = response.data.point;
+						this.incPoint();
+					})
+					.catch(error => {
+						currentObj.output = error.message;
+					})
 			},
 			incPoint(){
 				let currentObj = this;
 				axios
-				.patch(POINT_PATH, {
-					user: window.sessionStorage.getItem("user"),
-					point: this.userPoint + 10,
-					level: this.userLevel
-				}) 
-				.then(
-					currentObj.pointOutput = "+10 punti game!"
-				)
-			},
-			setLevel(){
-				if(this.userPoint < 20) 
-					return this.userLevel = 1;
-				else if(this.userPoint >= 20 && this.userPoint < 40)
-					return this.userLevel = 2;
-				else 
-					return this.userLevel = 3;
+					.patch(POINT_PATH, {
+						user: window.sessionStorage.getItem("user"),
+						point: this.userPoint + 10
+					}) 
+					.then(
+						currentObj.pointOutput = "+10 punti game!",
+					)
 			}
 		}
 	}
