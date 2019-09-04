@@ -195,26 +195,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
-
 	.row{
 		width: 50%;
 		height: auto;
 		display: inline-table;
 	}
-
 	span {
 		font-weight: bolder; 
 	}
-
 	p {
 		font-size: 15px;
 		font-weight: bolder; 
 		color: #000000;
 	}
-
 	input, select {
 		outline: 0;
 		box-sizing: border-box;
@@ -229,21 +224,17 @@ export default {
 		border-radius: 0.25em;
 		color: black;
 	}
-
 	input {
 		padding: 5px;
 	}
-    
     #place {
         width: 240px;
     }
-
     #map-container {
         width: 40vw;
         height: 60vh;
         display: inline-table;
     }  
-
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;
@@ -260,7 +251,6 @@ export default {
             height: 40vh;
         }
 	}
-
 	.btn {
 		width: 140px;
 		height: 40px;
@@ -268,25 +258,21 @@ export default {
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
-
 	#find-button {
 		width: 50px;
 		height: 40px;
 		margin-left: 0%;
 	}
-
 	.icon{
 		margin-right: 20px;
 		width: 20px;
 		height: 100%;
 		text-align: center;
 	}
-
     img{
             width: 20px;
             height: 20px;
-        }
-
+    }
 	@media (max-width: 340px) {
 		input, select {
 			width: 250px;
