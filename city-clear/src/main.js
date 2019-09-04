@@ -14,6 +14,8 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  created(){},
+  created(){
+    sessionStorage.urlHost = "http://127.0.0.1:5051"
+  },
   render: h => h(App)
 }).$mount('#app')

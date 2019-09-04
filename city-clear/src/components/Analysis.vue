@@ -26,7 +26,7 @@
 <script>
     import { mdbBarChart, mdbDoughnutChart} from 'mdbvue';
     const axios = require("axios");
-    const BASE_PATH = "http://127.0.0.1:5051";
+    const BASE_PATH = sessionStorage.urlHost;
     const DISTRICT_PATH = `${BASE_PATH}/district`;
     const COUNT_MEMBER_PATH = `${BASE_PATH}/count/members`;
     const COUNT_TAG_PATH = `${BASE_PATH}/count/tags`;

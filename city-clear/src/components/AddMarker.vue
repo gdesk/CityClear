@@ -38,7 +38,7 @@
 <script>
 import L from "leaflet";
 const axios = require("axios");
-const BASE_PATH = "http://127.0.0.1:5051";
+const BASE_PATH = sessionStorage.urlHost;
 const MARKER_PATH = `${BASE_PATH}/point/add`;
 const POINT_PATH = `${BASE_PATH}/users/point`;
 export default {

@@ -192,28 +192,23 @@
 
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
-
 	.row{
 		width: 50%;
 		height: auto;
 		display: inline-table;
 	}
-
 	span {
 		font-weight: bolder; 
 	}
-
 	p {
 		font-size: 15px;
 		font-weight: bolder; 
 		color: #000000;
 	}
-
     img {
         width: 35%;
         height: auto;
     }
-
 	input {
 		outline: 0;
 		box-sizing: border-box;
@@ -229,7 +224,6 @@
 		border-radius: 0.25em;
 		color: black;
 	}
-
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;
@@ -241,7 +235,6 @@
 			width: 30%;
 		}
 	}
-
 	.btn {
 		width: 250px;
 		height: 40px;
@@ -250,17 +243,14 @@
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
-
 	.icon{
 		width: 20px;
 		height: 100%;
 		text-align: center;
 	}
-
 	#add-photo{
 		width: 50px;
 	}
-
 	@media (max-width: 340px) {
 		input {
 			width: 250px;

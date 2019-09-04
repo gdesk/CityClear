@@ -37,7 +37,7 @@
 <script>
 	import { EventBus } from "../main.js"
 	const axios = require("axios");
-	const BASE_PATH = "http://localhost:5051";
+	const BASE_PATH = sessionStorage.urlHost;
 	const DISTRICT_PATH = `${BASE_PATH}/loginDistrict`;
 	export default {
 		name: 'Login',
@@ -80,26 +80,21 @@
 </script>
 
 <style scoped lang="scss">
-
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
-
 	.row{
 		width: 50%;
 		height: auto;
 		display: inline-table;
 	}
-
 	span {
 		font-weight: bolder; 
 	}
-
 	p, .user-link {
 		font-size: 15px;
 		font-weight: bolder; 
 		color: #000000;
 	}
-
 	input, select {
 		outline: 0;
 		box-sizing: border-box;
@@ -114,11 +109,9 @@
 		border-radius: 0.25em;
 		color: black;
 	}
-
 	input {
 		padding: 5px;
 	}
-
 	@media (max-width: 800px) {
 		.row {
 			width: 100%;
@@ -128,7 +121,6 @@
 			width: 270px;
 		}
 	}
-
 	.btn {
 		width: 140px;
 		height: 40px;
@@ -136,14 +128,12 @@
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
-
 	.icon{
 		margin-right: 20px;
 		width: 20px;
 		height: 100%;
 		text-align: center;
 	}
-
 	@media (max-width: 340px) {
 		input, select {
 			width: 250px;
@@ -155,5 +145,4 @@
 			margin-top: 10px;
 		}
 	}
-
 </style>

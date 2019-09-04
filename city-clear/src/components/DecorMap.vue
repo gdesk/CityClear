@@ -15,7 +15,7 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 const axios = require("axios");
-const BASE_PATH = "http://127.0.0.1:5051";
+const BASE_PATH = sessionStorage.urlHost;
 const ALL_POINTS_PATH = `${BASE_PATH}/allPoints`;
 var trashIcon = new L.icon({
 	iconUrl: require('../assets/trash.png'),

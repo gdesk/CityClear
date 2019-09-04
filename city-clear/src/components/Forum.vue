@@ -45,7 +45,7 @@
 <script>
 	
 	const axios = require("axios");
-	const BASE_PATH = "http://127.0.0.1:5051";
+	const BASE_PATH = sessionStorage.urlHost;
 	const DISCUSSION_PATH = `${BASE_PATH}/allDiscussion`;
 	const EVENT_PATH = `${BASE_PATH}/allEvent`;
 	export default {
