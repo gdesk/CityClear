@@ -122,13 +122,13 @@
 			incPoint(){
 				let currentObj = this;
 				axios
-					.patch(POINT_PATH, {
-						user: window.sessionStorage.getItem("user"),
-						point: this.userPoint + 10
-					}) 
-					.then(
-						currentObj.pointOutput = "+10 punti game!",
-					)
+				.patch(POINT_PATH, {
+					user: window.sessionStorage.getItem("user"),
+					point: this.userPoint + 10
+				}) 
+				.then(
+					currentObj.pointOutput = "+10 punti game!",
+				)
 			}
 		}
 	}

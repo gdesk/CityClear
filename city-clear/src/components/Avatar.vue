@@ -7,7 +7,7 @@
                 <v-icon name="user"></v-icon>
                 {{name}} <br><br>
 				<div>
-					<b-progress show-value striped :max="max" class="mb-3">
+					<b-progress show-value striped height="20px" :max="max" class="mb-3">
 						<b-progress-bar variant="primary" :value="values" :label="`${values}`" animated show-progress></b-progress-bar>
 					</b-progress>
 				</div>
