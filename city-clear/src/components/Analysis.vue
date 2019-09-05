@@ -1,17 +1,17 @@
 <template>
     <div class="analysis">
-        <h2> Comune di {{district}}</h2>
+        <h2>Comune di {{district}}</h2>
         <h4>Provincia: {{province}}, Regione: {{area}}</h4>
         <v-icon name="users"></v-icon> {{cityPerson}} <br><br>
         <b-container fluid class ="analysis-container">
            <b-row order="1">
                 <center>
-                    <mdb-bar-chart :data="barChartData" :options="barChartOptions" :width="auto" :height="300"></mdb-bar-chart>
+                    <mdb-bar-chart :data="barChartData" :options="barChartOptions" :height="300"></mdb-bar-chart>
                 </center>
             </b-row>
             <b-row order="2">
                 <center>
-                    <mdb-doughnut-chart :data="doughnutChartData" :options="doughnutChartOptions" :width="auto" :height="300"></mdb-doughnut-chart>
+                    <mdb-doughnut-chart :data="doughnutChartData" :options="doughnutChartOptions" :height="300"></mdb-doughnut-chart>
                 </center>
             </b-row>
            <b-row order="3">
@@ -224,4 +224,9 @@
 			align-content: center;
 		}
 	}
+    @media (max-width: 350px) {
+		.mdb-bar-chart{
+            width: 20px;
+        }
+    }
 </style>
