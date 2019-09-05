@@ -4,15 +4,15 @@
             <b-row>
 				<img :src="photo" class="user-img"/>
 				<br><br><br>
-                <v-icon name="user"></v-icon>
-                {{name}} <br><br>
+                <img :src="avatar" class="avatar-img"/>
+                {{name}}<br><br>
 				<div>
 					<b-progress show-value striped height="20px" :max="max" class="mb-3">
 						<b-progress-bar variant="primary" :value="values" :label="`${values}`" animated show-progress></b-progress-bar>
 					</b-progress>
 				</div>
 				<br><br><br><br>
-                <h3>Livello: {{level}} <h4>Punti: {{point}}</h4></h3> &nbsp; 
+                <h3>Livello: {{level}} <h4>Punti: {{point}}</h4></h3> 
 			</b-row>
 		</b-container>
   </div>
@@ -32,7 +32,8 @@
                 level: "1",
 				point: 0, 
 				values: 0,
-				max: 60
+				max: 60,
+				avatar: require("../assets/bronze.png")
 			}
         },
         mounted() {
@@ -55,10 +56,14 @@
 			checkLevel() {
 				if(this.point < 20) 
 					return this.level = 1;
-				else if(this.point >= 20 && this.point < 40)
+				else if(this.point >= 20 && this.point < 40) {
+					this.avatar = require("../assets/silver.png");
 					return this.level = 2;
-				else 
+				}
+				else {
+					this.avatar = require("../assets/gold.png");
 					return this.userlevelLevel = 3;
+				}
 			},
 			setLevel() {
 				axios
@@ -77,38 +82,38 @@
 
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
-
 	.row{
 		width: 100%;
 		height: auto;
 		display: inline-table;
 	}
-
 	span {
 		font-weight: bolder; 
 	}
-
-    img {
-        width: 300px;
+    img.user-img{
+        width: 250px;
         height: auto;
     }
-
+	img.avatar-img{
+        width: 100px;
+        height: auto;
+    }
 	@media (max-width: 800px) {
-		img {
+		img.user-img {
 			width: 30%;
 		}
+		img.avatar-img {
+			width: 50px;
+		}
 	}
-
 	.icon{
 		width: 20px;
 		height: 100%;
 		text-align: center;
     }
-
 	@media (max-width: 340px) {
 		.icon{
 			margin-top: 10px;
 		}
 	}
-
 </style>
