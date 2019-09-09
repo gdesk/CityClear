@@ -35,6 +35,12 @@ var monumentIcon = new L.icon({
   iconAnchor: [13, 27],
   popupAnchor:  [1, -24]
 }); 
+var otherIcon = new L.Icon({
+  iconUrl: require('../assets/other.png'),
+	iconSize: [35, 35],
+  iconAnchor: [13, 27],
+  popupAnchor:  [1, -24]
+});
 var greenIcon = new L.Icon({
   iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -145,7 +151,7 @@ export default {
                   .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
                 }
                 else {
-                  L.marker([item.lat, item.lng]).addTo(this.map)
+                  L.marker([item.lat, item.lng], {icon: otherIcon}).addTo(this.map)
                   .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
                 }
               });
