@@ -103,6 +103,7 @@ export default {
 			.catch(error => {
 				currentObj.output = error.message;
 			})
+			
 	},
 	incPoint(){
 		let currentObj = this;
@@ -179,6 +180,23 @@ export default {
     }  
   },
    watch: {
+	place:function(val){
+		axios
+				.post("http://www.mapquestapi.com/geocoding/v1/address?key=OeDlGkq72UToaVLbKavjUSdx2cUEXZui",
+						{
+							"location": val,
+							"options": {
+								"thumbMaps": false
+							},
+							"includeNearestIntersection": true,
+							"includeRoadMetadata": true
+						})
+				.then(response => {
+					const info = response.data.results[0].locations[0].latLng; 	
+					this.location= info;
+			
+				});    	
+	},
     location: {
       handler() {
         if (this.marker == null) {
