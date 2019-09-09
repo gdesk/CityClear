@@ -8,7 +8,7 @@
       <router-link v-if="logged === true" to="/urban-decore-tag"><img src="./assets/logo.png"/></router-link>
       <router-link v-if="logged === true" to="/user-profile">Profilo</router-link>
       <router-link v-if="logged === true" to="/forum">Forum</router-link>
-      <router-link v-if="logged === true" to="/add">Aggiungi</router-link>
+      <router-link v-if="logged === true" to="/add">Segnala</router-link>
       <router-link v-if="logged === true" to="/avatar">Avatar</router-link>
 
       <router-link v-if="districtLogged === true" to="/urban-decore-tag"><img src="./assets/logo.png"/></router-link>
