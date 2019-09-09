@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router.js'
-import './registerServiceWorker'
 import feather from 'vue-icon'
 import 'leaflet/dist/leaflet.css'; 
 Vue.use(feather, 'v-icon')
