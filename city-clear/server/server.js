@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const serveStatic = require('serve-static');
+const path = require('path')
 const bodyParser = require('body-parser');
 //const multer = require('multer');
 
@@ -7,7 +9,7 @@ const TWO_HOURS = 1000*60*60*2;
 
 var app = express();
 
-//app.use(express.static(__dirname + '/image'));
+app.use(serveStatic(path.join(__dirname + '/dist')));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -15,8 +17,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-//var routesArray = ['/login', '/logout', '/user-profile'];
 
 app.use(session({
   secret: 'secret secret',
@@ -34,9 +34,9 @@ const routing = require('../routers/routing.js');
 app.use(routing);
 
 
-//app.all('/*', function(req, res) {
-//  res.sendFile('index.html', { root: __dirname + '/image' });
-//});
+app.all('/*', function(req, res) {
+  res.sendFile('index.html', { root: __dirname + '/dist' });
+});
 
 const port = process.env.PORT || 5051;
 app.listen(port, function() {

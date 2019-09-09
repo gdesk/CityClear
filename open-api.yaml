@@ -1,0 +1,451 @@
+openapi: 3.0.0
+
+info:
+  title: "City Clear API"
+  version: "1.0.0"
+  description: |
+    A RESTful API to interact with city clear web appliation.
+
+paths:
+  '/users':
+    post:
+      description: 'Create a new user profile.'
+      parameters:
+        - $ref: '#/components/parameters/email'
+        - $ref: '#/components/parameters/user'
+        - $ref: '#/components/parameters/birthday'
+        - $ref: '#/components/parameters/district'
+        - $ref: '#/components/parameters/password'
+      responses:
+        '201':
+          description: 'record successfully created'
+          content: 
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/email"
+        '400':
+          description: 'bad request'
+    put:
+      description: 'By passing in the user email, you can search user information.'
+      parameters:
+        - $ref: '#/components/parameters/email'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+    patch:
+      description: 'By passing in the user email, you can modifier password.'
+      parameters:
+        - $ref: '#/components/parameters/email'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/users/point':
+    patch:
+      description: 'By passing in the user email, you can modifier their games point.'
+      parameters:
+        - $ref: '#/components/parameters/email'
+        - $ref: '#/components/parameters/level'
+        - $ref: '#/components/parameters/point'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+    put:
+      description: 'By passing in the user email, you can search user game point.'
+      parameters:
+        - $ref: '#/components/parameters/email'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/login':
+    put:
+      description: 'By passing in the user/district email, you can search if it is present.'
+      parameters:
+        - $ref: '#/components/parameters/email'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/logout':
+    put:
+      description: 'By passing in the user/district email, you can search if it is present.'
+      parameters:
+        - $ref: '#/components/parameters/email'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+  '/district':
+    put:
+      description: 'By passing in the district email, you can search user information.'
+      parameters:
+        - $ref: '#/components/parameters/districtEmail'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+    patch:
+      description: 'By passing in the district email, you can modifier password.'
+      parameters:
+        - $ref: '#/components/parameters/districtEmail'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/point/add':
+    post:
+      description: 'By passing the information user can be create a new reporting.'
+      parameters:
+        - $ref: '#/components/parameters/title'
+        - $ref: '#/components/parameters/description'
+        - $ref: '#/components/parameters/tag'
+        - $ref: '#/components/parameters/address'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/allPoint':
+    put:
+      description: 'By passing in the district name, you can search all its hot point.'
+      parameters:
+        - $ref: '#/components/parameters/district'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/allDiscussion':
+    put:
+      description: 'By passing in the district name, you can search all its discussion in forum.'
+      parameters:
+        - $ref: '#/components/parameters/district'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/singleDiscussion':
+    put:
+      description: 'By passing in the discussion identifier, you can read all its comments in forum.'
+      parameters:
+        - $ref: '#/components/parameters/discussionId'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/allEvent':
+    put:
+      description: 'By passing in the district name, you can search all its event in forum.'
+      parameters:
+        - $ref: '#/components/parameters/district'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/singleEvent':
+    put:
+      description: 'By passing in the event identifier, you can read all its comments in forum.'
+      parameters:
+        - $ref: '#/components/parameters/discussionId'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/addComment':
+    put:
+      description: 'By passing in the discussion identifier, user can be add its comments in forum.'
+      parameters:
+        - $ref: '#/components/parameters/discussionId'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/createEvent':
+    post:
+      description: 'By passing the information  can by create new event.'
+      parameters:
+        - $ref: '#/components/parameters/title'
+        - $ref: '#/components/parameters/description'
+        - $ref: '#/components/parameters/user'
+        - $ref: '#/components/parameters/date'
+        - $ref: '#/components/parameters/time'
+        - $ref: '#/components/parameters/address'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/createDiscussion':
+    post:
+      description: 'By passing the information  can by create new discussion.'
+      parameters:
+        - $ref: '#/components/parameters/title'
+        - $ref: '#/components/parameters/description'
+        - $ref: '#/components/parameters/user'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/count/district/members':
+    get:
+      description: 'Counting users subscribers in a select district.'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/count/district/tags':
+    get:
+      description: 'Counting tags belonging in a select district.'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/count/district/tag/trash':
+    get:
+      description: 'Counting a trash tags belonging in a select district.'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/count/district/tag/historycally':
+    get:
+      description: 'Counting a historycally tags belonging in a select district.'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/count/district/tag/road':
+    get:
+      description: 'Counting a road tags belonging in a select district.'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+  '/count/district/tag/other':
+    get:
+      description: 'Counting a other tags belonging in a select district.'
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+        '400':
+          description: 'bad request'
+components:
+  parameters:
+    email:
+      in: query
+      name: "email"
+      description: "User personal email"
+      required: true
+      schema:
+        $ref: '#/components/schemas/email'
+    user:
+      in: query
+      name: "nameAndSurname"
+      description: "User name and surname"
+      required: true
+      schema:
+        $ref: '#/components/schemas/user'
+    birthday:
+      in: query
+      name: "birthday"
+      description: "User birthday"
+      required: true
+      schema:
+        $ref: '#/components/schemas/birthday'
+    district:
+      in: query
+      name: "districtName"
+      description: "User district"
+      required: true
+      schema:
+        $ref: '#/components/schemas/district'
+    password:
+      in: query
+      name: "password"
+      description: "User personal password"
+      required: true
+      schema:
+        $ref: '#/components/schemas/password'
+    districtEmail:
+      in: query
+      name: "district email"
+      description: "District personal password"
+      required: true
+      schema:
+        $ref: '#/components/schemas/districtEmail'
+    title:
+      in: query
+      name: "hot point title"
+      description: "The user insert the hot point title"
+      required: true
+      schema:
+        $ref: '#/components/schemas/title'
+    description:
+      in: query
+      name: "hot point description"
+      description: "The user insert the hot point description"
+      required: true
+      schema:
+        $ref: '#/components/schemas/description'
+    tag:
+      in: query
+      name: "hot point tag category"
+      description: "The user insert the hot point tag category"
+      required: true
+      schema:
+        $ref: '#/components/schemas/tag'
+    address:
+      in: query
+      name: "hot point address"
+      description: "The user insert the hot point place"
+      required: true
+      schema:
+        $ref: '#/components/schemas/address'
+    discussionId:
+      in: query
+      name: "discussion identifier"
+      description: "The single discussion identifier in a specific forum discussions."
+      required: true
+      schema:
+        $ref: '#/components/schemas/discussionId'
+    date:
+      in: query
+      name: "date"
+      description: "Event date"
+      required: true
+      schema:
+        $ref: '#/components/schemas/birthday'
+    time:
+      in: query
+      name: "time"
+      description: "Event time"
+      required: true
+      schema:
+        $ref: '#/components/schemas/time'
+    level:
+      in: query
+      name: "level"
+      description: "User personal game level"
+      required: true
+      schema:
+        $ref: '#/components/schemas/level'
+    point:
+      in: query
+      name: "point"
+      description: "User personal game point"
+      required: true
+      schema:
+        $ref: '#/components/schemas/point'
+  schemas:
+    email:
+      type: string
+      example: 'chiara@gmail.com'
+    user:
+      type: string
+      example: 'Chiara Vol'
+    birthday:
+      type: string
+      example: '22/03/1999'
+    time:
+      type: string
+      example: '09:10'
+    district:
+      type: string
+      example: 'Cesena'
+    password:
+      type: string
+      example: '********'
+    districtEmail: 
+      type: string
+      example: 'cesena.info@gmail.com'
+    title:
+      type: string
+      example: 'Degrado in strada'
+    description:
+      type: string
+      example: 'Nella statale che collega la città al vicino paesino di martorano é completamente dissestata e piena di buche.'
+    tag:
+      type: string
+      example: 'Strada dissestata'
+    address:
+      type: string
+      example: 'Via martorano, 2 Cesena'
+    discussionId:
+      type: string
+      example: '78907502979rhugbcyo7ygtihal98765986078685gdbui'
+    level:
+      type: integer
+      example: '1'
+    point:
+      type: integer
+      example: '19'
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/chiara.volonnino/city-clear/1.0.0
