@@ -5,7 +5,7 @@ https://www.unibo.it/en/teaching/course-unit-catalogue/course-unit/2019/412604
 
 ## Use Requirements
 
-In order to use in local the system all that is needed: 
+In order to use in ***local*** the system all that is needed: 
 
 
 ```
@@ -17,6 +17,23 @@ In order to use in local the system all that is needed:
 
 	# build for production with minification
 	npm run build
+```
+
+In order to use in ***Heroku*** the system all that is needed: 
+Create heroku account, create new application and download Heroku CLI. For deploy run:
+
+```
+	# If you haven't already, log in to your Heroku account and follow the prompts to create a new SSH public key.
+	heroku login
+
+	# clone the repository in local machine
+	heroku git:clone -a asw-19-city-clear
+	cd asw-19-city-clear
+
+	# Deploy your changes
+	git add .
+	git commit -am "make it better"
+	git push heroku master
 ```
 
 ## API Documentation
