@@ -19,7 +19,7 @@
                     <input id="place" v-model="place" type="text" placeholder="Inserire indirizzo" required/> 
 					&nbsp; 
 					<b-button id="find-button"  @click="getPosition" pill variant="success"><img src="../assets/find.png"/></b-button> <br>
-					<b-button type="submit" pill variant="success"> Aggiungi </b-button>	
+					<b-button type="submit" pill variant="success">Aggiungi</b-button>	
 				</form>
 				<span>
 					<br><p>{{output}}</p>
@@ -138,10 +138,8 @@ export default {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude
 				};
-				
-				//TODO: SCRIVERE POS IN LABEL
 				axios
-					.post("http://www.mapquestapi.com/geocoding/v1/reverse?key=OeDlGkq72UToaVLbKavjUSdx2cUEXZui",
+					.post("https://www.mapquestapi.com/geocoding/v1/reverse?key=OeDlGkq72UToaVLbKavjUSdx2cUEXZui",
 						{
 							"location": {
 								"latLng": {
@@ -159,18 +157,18 @@ export default {
 						const info = response.data.results[0].locations[0];
 						console.log(info);
 						document.getElementById('place').value = ''+info.street+","+ info.adminArea5;
-						});      	
+						});   	
 			}, function() {
 				console.log('Geolocalization failed.');
 			}, { 
-				enableHighAccuracy: false,
+				enableHighAccuracy: true,
 				maximumAge: 1800000
 			}
 			);
 		} else {
 			alert("Geolocation not supported by this browser.");
 		}
-  },
+  	},
     addMarker() {
       L.marker([this.location.lat, this.location.lng]).addTo(this.map)
 		.bindPopup('Sei qui.');
@@ -180,9 +178,9 @@ export default {
     }  
   },
    watch: {
-	place:function(val){
-		axios
-				.post("http://www.mapquestapi.com/geocoding/v1/address?key=OeDlGkq72UToaVLbKavjUSdx2cUEXZui",
+		place:function(val){
+			axios
+				.post("https://www.mapquestapi.com/geocoding/v1/address?key=OeDlGkq72UToaVLbKavjUSdx2cUEXZui",
 						{
 							"location": val,
 							"options": {

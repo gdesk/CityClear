@@ -78,9 +78,8 @@
 						//currentObj.outputLogin = response.data;
 						EventBus.$emit("login");
 						window.sessionStorage.setItem("user", response.data);
-						//console.log(response.data.district);
+						window.sessionStorage.setItem("type", "user");
 						this.setUserDistrict();
-						//currentObj.outputLogin = sessionStorage.user;
 						currentObj.$router.push('./urban-decore-tag') 
 					})
 					.catch(error => {

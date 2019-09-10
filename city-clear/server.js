@@ -30,7 +30,7 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const routing = require('../routers/routing.js');
+const routing = require('./routers/routing.js');
 app.use(routing);
 
 

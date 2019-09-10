@@ -1,9 +1,9 @@
 <template>
     <div class="analysis">
         <div  class="flex-container">
-        <h2>Comune di {{district}}</h2>
-        <h4>Provincia: {{province}}, Regione: {{area}}</h4>
-        <v-icon name="users"></v-icon> {{cityPerson}} <br><br>
+        <h2>Comune di {{this.district}}</h2>
+        <h4>Provincia: {{this.province}}, Regione: {{this.area}}</h4>
+        <v-icon name="users"></v-icon> {{this.cityPerson}} <br><br>
            <b-row order="1">
                 <center>
                     <mdb-bar-chart :data="barChartData" :options="barChartOptions" :height="300"></mdb-bar-chart>
@@ -16,7 +16,7 @@
             </b-row>
            <b-row order="3">
                 <center>
-                    <h2>Totale punti caldi in mappa: {{hotPoint}}</h2>
+                    <h2>Totale punti caldi in mappa: {{this.hotPoint}}</h2>
                 </center>
             </b-row>
         </div>

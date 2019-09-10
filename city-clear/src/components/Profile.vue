@@ -12,7 +12,7 @@
 					<v-icon name="home"></v-icon>
 					{{this.province}} <br>
 					<v-icon name="home"></v-icon>
-					{{district}} <br>
+					{{this.district}} <br>
 					<v-icon name="users"></v-icon>
 					{{this.cityPerson}} <br><br><br>
 					<b-button @click="onLogout" pill variant="success"> 
@@ -28,13 +28,13 @@
 					</b-button>
 					<br><br><br>
 					<v-icon name="mail"></v-icon>
-					{{email}} <br>
+					{{this.email}} <br>
 					<v-icon name="user"></v-icon>
-					{{name}} <br>
+					{{this.name}} <br>
 					<v-icon name="gift"></v-icon>
-					{{birtdate}} <br>
+					{{this.birtdate}} <br>
 					<v-icon name="home"></v-icon>
-					{{district}} <br><br><br>
+					{{this.district}} <br><br><br>
 					<b-button @click="onLogout" pill variant="success"> 
 						Logout &nbsp; 
 						<v-icon name="power"></v-icon>
@@ -51,7 +51,7 @@
                 <b-button type="submit" pill variant="success"> Modifica password</b-button>	
             </form>
             <span>
-                <br><p>{{output}}</p>
+                <br><p>{{this.output}}</p>
             </span>
 			</b-row>
 		</b-container>
@@ -61,7 +61,7 @@
 <script>
 	import { EventBus } from "../main.js"
 	const axios = require("axios");
-	const BASE_PATH = "http://127.0.0.1:5051";
+	const BASE_PATH = sessionStorage.urlHost;
 	const USER_PATH = `${BASE_PATH}/users`;
 	const DISTRICT_PATH = `${BASE_PATH}/district`;
 	export default {
@@ -85,12 +85,11 @@
         },
         mounted() {
 			this.typeUser = window.sessionStorage.getItem("type");
-			if(this.typeUser =="district"){
+			if(this.typeUser === "district"){
 				this.getDistrict();
-			}else{
+			} else {
 				this.getUser();
 			}
-            
         },
 		methods: {
 			uploadImage(e) {
@@ -101,8 +100,8 @@
 				let self = this;
 
 				reader.onload = (e) => {
-					sessionStorage.photo = e.target.result;
-					sessionStorage.setItem(this.email, e.target.result);
+					window.sessionStorage.photo = e.target.result;
+					window.sessionStorage.setItem(this.email, e.target.result);
 					self.photo = e.target.result;
 					//save to db
 				};
@@ -132,7 +131,7 @@
                         this.province = response.data.province,
 						this.district = response.data.district,
 						this.cityPerson = response.data.cityPerson,
-						this.photo = require("../assets/" + window.sessionStorage.getItem("district") + ".png")
+						this.photo = require("../assets/Cesena.png")
 					})
 			},
 			onLogout(event) {
@@ -149,7 +148,7 @@
 			onModifierPassword(event){
 				event.preventDefault();
 				let currentObj = this;
-				if(this.typeUser =="district"){
+				if(this.typeUser === "district"){
 					if(this.checkPassword()) {
 					axios
 						.patch(DISTRICT_PATH, {

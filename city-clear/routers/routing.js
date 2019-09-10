@@ -146,7 +146,7 @@ module.exports = (function() {
     });
 
     routers.patch(DISTRICT_PATH, function(req, res, next) {
-        console.log("Receive modifier user password request");
+        console.log("Receive modifier district password request");
         console.log("user " + req.body.user + " " + req.body.password);
         /*if (req.session.user == null)
             return next(boom.badImplementation("Errore nella sessione utente!"));*/

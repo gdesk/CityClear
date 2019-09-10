@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router.js'
+import './registerServiceWorker'
 import feather from 'vue-icon'
 import 'leaflet/dist/leaflet.css'; 
 Vue.use(feather, 'v-icon')
@@ -14,8 +15,7 @@ Vue.config.productionTip = false
 new Vue({
   router,
   created(){
-    window.sessionStorage.urlHost = "http://127.0.0.1:5051"
+    window.sessionStorage.urlHost = "https://asw-19-city-clear.herokuapp.com"
   },
   render: h => h(App)
 }).$mount('#app')
-
