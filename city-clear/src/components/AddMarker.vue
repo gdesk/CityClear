@@ -168,7 +168,7 @@ export default {
 		} else {
 			alert("Geolocation not supported by this browser.");
 		}
-  	},
+	},
     addMarker() {
       L.marker([this.location.lat, this.location.lng]).addTo(this.map)
 		.bindPopup('Sei qui.');

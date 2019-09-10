@@ -15,7 +15,7 @@ Vue.config.productionTip = false
 new Vue({
   router,
   created(){
-    window.sessionStorage.urlHost = "http://127.0.0.1:5051" //"https://asw-19-city-clear.herokuapp.com"
+    window.sessionStorage.urlHost = "http://" + window.location.hostname + ":5051" //"https://asw-19-city-clear.herokuapp.com"
   },
   render: h => h(App)
 }).$mount('#app')
