@@ -1,0 +1,11 @@
+FROM node
+
+RUN mkdir city-clear
+
+COPY ./city-clear /city-clear
+
+RUN cd /city-clear; npm install
+
+RUN cd /city-clear; npm run build
+
+CMD cd /city-clear; nohup npm run serve & node server.js
