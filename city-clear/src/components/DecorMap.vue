@@ -14,6 +14,7 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { isContext } from 'vm';
 const axios = require("axios");
 const BASE_PATH = sessionStorage.urlHost;
 const ALL_POINTS_PATH = `${BASE_PATH}/allPoints`;
@@ -128,34 +129,66 @@ export default {
     },
     addAllMarkers(){
       axios
-						.put(ALL_POINTS_PATH)
+            .put(ALL_POINTS_PATH)
 						.then(response => {
-            const data = response.data
-            var msg;
-              data.forEach(item => {
-                if(window.location.href.includes("map")){
-                  msg = ' <br> Per più dettagli, accedi.';
-                }else if (window.location.href.includes("urban-decore-tag")){
-                  msg = "<br>"+item.description + "<br> scritto da: "+item.user.split("@")[0] ;
-                }
-                if (item.tag === "Strada dissestata"){
-                  L.marker([item.lat, item.lng], {icon: roadIcon}).addTo(this.map)
-                  .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
-                }
-                else if (item.tag === "Spazzatura"){
-                  L.marker([item.lat, item.lng], {icon: trashIcon}).addTo(this.map)
-                  .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
-                }
-                else if (item.tag === "Patrimonio culturale o artistico"){
-                  L.marker([item.lat, item.lng], {icon: monumentIcon}).addTo(this.map)
-                  .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
-                }
-                else {
-                  L.marker([item.lat, item.lng], {icon: otherIcon}).addTo(this.map)
-                  .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
-                }
+                  const data = response.data
+                  var msg;
+                  this.typeUser = window.sessionStorage.getItem("type");
+                  data.forEach(item => {
+                    if(window.location.href.includes("map")){
+                      msg = ' <br> Per più dettagli, accedi.';
+                    }else if (window.location.href.includes("urban-decore-tag")){
+                      msg = "<br>"+item.description + "<br> scritto da: "+item.user.split("@")[0] ;
+                    }
+                    if(this.typeUser === "district") {
+                          if (item.tag === "Strada dissestata"){
+                                L.marker([item.lat, item.lng], {icon: roadIcon}).addTo(this.map)
+                                .bindPopup("<b>"
+                                        + item.title.toUpperCase() + "&nbsp; &nbsp;" 
+                                        + '<button type="button" class="btn btn-primary sidebar-open-button">Resolve</button>' + "</b> "
+                                        + msg);
+                                }
+                          else if (item.tag === "Spazzatura"){
+                                L.marker([item.lat, item.lng], {icon: trashIcon}).addTo(this.map)
+                                .bindPopup("<b>" 
+                                        + item.title.toUpperCase() + "&nbsp; &nbsp;" 
+                                        + '<button type="button" class="btn btn-primary sidebar-open-button">Resolve</button>' + "</b> "
+                                        + msg);
+                                }
+                          else if (item.tag === "Patrimonio culturale o artistico"){
+                              L.marker([item.lat, item.lng], {icon: monumentIcon}).addTo(this.map)
+                              .bindPopup("<b>"
+                                      + item.title.toUpperCase()  + "&nbsp; &nbsp;"
+                                      + '<button type="button" class="btn btn-primary sidebar-open-button">Resolve</button>' +"</b> "
+                                      + msg);
+                          }
+                          else {
+                              L.marker([item.lat, item.lng], {icon: otherIcon}).addTo(this.map)
+                              .bindPopup("<b>"
+                                      + item.title.toUpperCase() + "&nbsp; &nbsp;"
+                                      + '<button type="button" class="btn btn-primary sidebar-open-button">Resolve</button>' +"</b> "
+                                      + msg);
+                          }
+                    } else {
+                          if (item.tag === "Strada dissestata"){
+                            L.marker([item.lat, item.lng], {icon: roadIcon}).addTo(this.map)
+                            .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                          }
+                          else if (item.tag === "Spazzatura"){
+                            L.marker([item.lat, item.lng], {icon: trashIcon}).addTo(this.map)
+                            .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                          }
+                          else if (item.tag === "Patrimonio culturale o artistico"){
+                            L.marker([item.lat, item.lng], {icon: monumentIcon}).addTo(this.map)
+                            .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                          }
+                          else {
+                            L.marker([item.lat, item.lng], {icon: otherIcon}).addTo(this.map)
+                            .bindPopup("<b>"+item.title.toUpperCase()+"</b> "+ msg);
+                          }
+                    }
+                  });
               });
-						});
     }    
   },
    watch: {
@@ -179,7 +212,6 @@ export default {
     width: 99vw;
     height: 90vh;
   }
-
   @media (max-width: 800px) {
     #map-container {
       width: 98vw;
