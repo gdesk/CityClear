@@ -74,13 +74,18 @@ export default new Router({
     },
     {
       path: '/avatar',
-      name: 'avata',
+      name: 'avatar',
       component: () => import('../components/Avatar.vue')
     },
     {
       path: '/analysis',
       name: 'analysis',
       component: () => import('../components/Analysis.vue')
+    },
+    {
+      path: '/resolve-points',
+      name: 'resolve-points',
+      component: () => import('../components/ResolvePoints.vue')
     }
   ]
 })

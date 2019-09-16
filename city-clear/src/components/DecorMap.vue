@@ -145,28 +145,28 @@ export default {
                                 L.marker([item.lat, item.lng], {icon: roadIcon}).addTo(this.map)
                                 .bindPopup("<b>"
                                         + item.title.toUpperCase() + "&nbsp; &nbsp;" 
-                                        + '<button type="button" class="btn btn-primary sidebar-open-button">Resolve</button>' + "</b> "
+                                        + "</b> "
                                         + msg);
                                 }
                           else if (item.tag === "Spazzatura"){
                                 L.marker([item.lat, item.lng], {icon: trashIcon}).addTo(this.map)
                                 .bindPopup("<b>" 
                                         + item.title.toUpperCase() + "&nbsp; &nbsp;" 
-                                        + '<button type="button" class="btn btn-primary sidebar-open-button">Resolve</button>' + "</b> "
+                                        + "</b> "
                                         + msg);
                                 }
                           else if (item.tag === "Patrimonio culturale o artistico"){
                               L.marker([item.lat, item.lng], {icon: monumentIcon}).addTo(this.map)
                               .bindPopup("<b>"
                                       + item.title.toUpperCase()  + "&nbsp; &nbsp;"
-                                      + '<button type="button" class="btn btn-primary sidebar-open-button">Resolve</button>' +"</b> "
+                                      + "</b> "
                                       + msg);
                           }
                           else {
                               L.marker([item.lat, item.lng], {icon: otherIcon}).addTo(this.map)
                               .bindPopup("<b>"
                                       + item.title.toUpperCase() + "&nbsp; &nbsp;"
-                                      + '<button type="button" class="btn btn-primary sidebar-open-button">Resolve</button>' +"</b> "
+                                      + "</b> "
                                       + msg);
                           }
                     } else {
