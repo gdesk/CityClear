@@ -496,5 +496,17 @@ module.exports = (function() {
         });
     });
 
+    //resolve point
+    routers.put("/resolvePoint", function(req, res, next){
+        console.log("Resolve Problems  "+ req.body.id);
+
+        mongoConnection
+            .collection(POINT_COLLECTION)
+            .deleteOne({_id: ObjectId(req.body.id) }, function(err, operation){
+                res.send(operation.toString())
+            
+            });
+    });
+
     return routers
 })();

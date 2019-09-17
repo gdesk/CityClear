@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="alldisp">
         <b-container fluid class ="forum-container">
 			<b-row order="1">
 				<br> <br> <br> <h3>PUNTI CALDI DA RISOLVERE</h3>  <br> <br>
@@ -8,7 +8,10 @@
 						<b-card no-body class="mb-1">
                         <b-card-header header-tag="header" class="p-1" role="tab">
                             <b-button pill block v-b-toggle="'accordion-' + index" variant="transparent">{{(point.title).toUpperCase()}}
-                                <b-img v-bind="mainProps" left alt="Left image"></b-img>
+                                <b-img v-if="point.tag=='Strada dissestata'"  v-bind="roadProps" left alt="Left image"></b-img>
+								<b-img v-if="point.tag=='Spazzatura'"  v-bind="trashProps" left alt="Left image"></b-img>
+								<b-img v-if="point.tag=='Patrimonio culturale o artistico'"  v-bind="monumentProps" left alt="Left image"></b-img>
+								<b-img v-if="point.tag=='Altro'"  v-bind="otherProps" left alt="Left image"></b-img>
                             </b-button>
                         </b-card-header>
                         <b-collapse :id="'accordion-' + index" accordion="my-accordion" role="tabpanel">
@@ -16,10 +19,7 @@
                                 <b-card-text><b>Description</b>: {{ point.description }}</b-card-text>
                                 <b-card-text><b>Scritto da</b>: {{point.user}} </b-card-text>
                 
-                                <b-button v-b-modal="'modal-'+index" pill variant="success" style="float: right">Risolvi</b-button>
-                                    <b-modal :id="'modal-'+index" title="Bootstrap-Vue">
-                                        <p class="my-4">Hello from modal!</p>
-                                    </b-modal>
+                                <b-button pill variant="success" style="float: right" @click="areSure(point._id)">Risolvi</b-button>
                                 <br><br>
 
                             </b-card-body>
@@ -36,13 +36,17 @@
 const axios = require("axios");
 const BASE_PATH = sessionStorage.urlHost;
 const POINTS_PATH = `${BASE_PATH}/allPoints`;
+const RESOLVE_PATH = `${BASE_PATH}/resolvePoint`
 
 export default {
-	name: 'Forum',
+	name: 'ResolvePoints',
 	data() {
 		return{
             points:[],
-            mainProps: { blank: false, width: 28, height: 28, class: 'm1', src:require("../assets/road.png") }
+			roadProps: { blank: false, width: 28, height: 28, class: 'm1', src:require("../assets/road.png") },
+			trashProps: { blank: false, width: 28, height: 28, class: 'm1', src:require("../assets/trash.png") },
+			monumentProps: { blank: false, width: 28, height: 28, class: 'm1', src:require("../assets/monument.png") },
+			otherProps: { blank: false, width: 28, height: 28, class: 'm1', src:require("../assets/other.png") }
 		}
     },
     mounted() {
@@ -55,7 +59,25 @@ export default {
                 .then(response => {
 					console.log("response:   "+JSON.stringify(response.data));
 					this.points = response.data;
-			    })
+			})
+		},
+		resolvePoint(pointId){
+			axios
+				.put(RESOLVE_PATH, {
+					id: pointId
+				})
+				.then(response =>{
+					console.log("response:   "+JSON.stringify(response.data));
+					this.getPoints()
+			})
+		},
+		areSure(pointId){
+			var result = confirm("Hai davvero risolto il problema?");
+			
+			if(result){
+				this.resolvePoint(pointId);
+			}
+
 		}
     }
 }

@@ -54,7 +54,6 @@ export default {
 </script>
 
 <style lang="scss">
-
   :root:only-child{
     background-image: url('./assets/init_background.jpg');
     background-position: bottom;
