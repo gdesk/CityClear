@@ -178,7 +178,7 @@
 					});
 			}, 
 			scanQR(){
-				
+				this.$router.push('../../QRscan')
 			}
 		}
 	}

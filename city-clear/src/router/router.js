@@ -86,6 +86,11 @@ export default new Router({
       path: '/resolve-points',
       name: 'resolve-points',
       component: () => import('../components/ResolvePoints.vue')
+    },
+    {
+      path: '/QRscan',
+      name: 'QRscan',
+      component: () => import('../components/QRscan.vue')
     }
   ]
 })
