@@ -1,10 +1,9 @@
 <template>
-  <div class="forum-discussion">
+	<div class="forum-discussion">
 		<b-container fluid class ="forum-container">
 			<b-row order="1">
 				<h2>{{this.title}}</h2>
 				<br>
-				<!-- <div class="flex-container"> -->
 				<b-card :title="''+ this.eventDate+ ' alle '+this.hour" :sub-title=this.location>
 					<b-card-text>
 						{{this.description}}
@@ -13,28 +12,45 @@
 						Numero Partecipanti: {{this.people}}
 					</b-card-text>
 				</b-card>
-				<div v-if="isPartecipant=='yes'">
+				<div v-if="isOwner==true">
 					<br> <br> <br>
-					<p>Non vuoi più partecipare? avvisaci.</p> 
-					<b-button @click="decPeople" pill variant="success"><v-icon name="minus"></v-icon></b-button>
-					<p>Porta con te chi vuoi. </p> 
-					<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
+					<p> Per poter permettere agli altri utenti di guaganare i propri punti game: <br><br>
+						1. Scarica il QRCode, <br> 
+						2. stapalo <br>
+						3. rendilo diponibile
+					</p> 
+					<br> <br>
+					<div ref="child" id="QRcode" class="hide">
+						<qrcode-vue :value="value" :size="size" level="H"></qrcode-vue>
+					</div>
+					<b-button @click="downloadQRCode" pill variant="success"><v-icon name="download"></v-icon>&nbsp;Download QRcode</b-button>
 				</div>
 				<div v-else>
-					<br> <br> <br>
-					<p>Partecipa anche tu.</p> 
-					<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
+					<div v-if="isPartecipant=='yes'">
+						<br> <br> <br>
+						<p>Non vuoi più partecipare? avvisaci.</p> 
+						<b-button @click="decPeople" pill variant="success"><v-icon name="minus"></v-icon></b-button> <br>
+						<b-button @click="scanQR" pill variant="success"><img src="../assets/qrcode.png">Scanner QRcode</b-button>
+						<p>Porta con te chi vuoi. </p> 
+						<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
+					</div>
+					<div v-else>
+						<br> <br> <br>
+						<p>Partecipa anche tu.</p> 
+						<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
+					</div>
 				</div>
-				<!-- </div> -->	
 			</b-row>
 			<span>
 				<br><p>{{output}}</p>
 			</span>	
 		</b-container>
-  </div>
+	</div>
 </template>
 
 <script>
+	import QrcodeVue from 'qrcode.vue'
+	import domtoimage from 'dom-to-image'
 	const axios = require("axios");
 	const BASE_PATH = sessionStorage.urlHost;
 	const EVENT_PATH = `${BASE_PATH}/singleEvent`;
@@ -47,7 +63,7 @@
                 id: "",
                 title:"",
                 description:"",
-                user:"",
+                user: "",
                 fullname:"",
                 date:"",
                 eventDate:"",
@@ -56,14 +72,19 @@
 				people:"",
 				isPartecipant:"",
 				output: "",
-				userPoint: ""
+				userPoint: "",
+				isOwner: false,
+				value: 'https://example.com',
 			}
         },
         mounted() {
 			this.isPartecipant = sessionStorage.getItem(this.$route.params.id)
 			this.getEvent();
 			this.getPoint();
-        },
+		},
+		components: {
+			QrcodeVue,
+		},
 		methods: {
             getEvent() {
                 axios
@@ -75,13 +96,17 @@
 						this.id = this.$route.params.id;
                         this.title = response.data[0].title;
                         this.description = response.data[0].description;
-                        this.user = response.data[0].user;
+                        this.user = response.data[0].username;
                         this.fullname = response.data[0].fullname;
                         this.date = response.data[0].date;
                         this.eventDate = response.data[0].eventDate;
                         this.hour = response.data[0].hour;
                         this.location = response.data[0].location;
 						this.people = response.data[0].people;
+						if(this.user === window.sessionStorage.getItem("user")){
+							this.isOwner = true;
+							document.getElementById('QRcode').style.visibility="visible";
+						}
                     })
                     .then(err =>{
                         console.log("err:  " + err)
@@ -92,11 +117,11 @@
 				sessionStorage.setItem(this.id, "yes")
 				this.isPartecipant=sessionStorage.getItem(this.id)
 				axios
-                    .patch(MODIFIED_PEOPLE_PATH, {
+					.patch(MODIFIED_PEOPLE_PATH, {
 						id: this.$route.params.id,
 						people: this.people
 					})
-                    .then(response => {
+					.then(response => {
 						console.log("response  "+ response)
 					})
 				this.checkStatus();
@@ -130,10 +155,6 @@
 					})
 			},
 			checkStatus() {
-				if(this.isPartecipant === "yes") 
-					this.incPoint();
-				else
-					this.decPoint();
 			},
 			incPoint(){
 				let currentObj = this;
@@ -146,16 +167,18 @@
 						currentObj.output = "+5 punti game!"
 					)
 			},
-			decPoint(){
-				let currentObj = this;
-				axios
-					.patch(POINT_PATH, {
-						user: window.sessionStorage.getItem("user"),
-						point: this.userPoint - 5
-					}) 
-					.then(
-						currentObj.output = "-5 punti game!",
-					)
+			downloadQRCode(){
+				//document.getElementById('QRcode').style.visibility="visible";
+				domtoimage.toJpeg(document.getElementById('QRcode'), { quality: 0.5, bgcolor: "white" })
+					.then(function (dataUrl) {
+						var link = document.createElement('a');
+						link.download = 'eventQRcode.jpeg';
+						link.href = dataUrl;
+						link.click();
+					});
+			}, 
+			scanQR(){
+				
 			}
 		}
 	}
@@ -164,6 +187,11 @@
 <style scoped lang="scss">
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
+	img {
+		width: 10%;
+		height: auto;
+		margin-right: 3%;
+	}
 	.row{
 		width: 50%;
 		height: auto;

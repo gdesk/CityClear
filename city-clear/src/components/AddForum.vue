@@ -1,9 +1,5 @@
 <template>
   <div class="addForum">
-	<div ref="child" id="QRcode" class="hide">
-		<qrcode-vue :value="value" :size="size" level="H"></qrcode-vue>
-	</div>
-	<button class="btn btn-primary" @click="print()"><span class="glyphicon glyphicon-print">PRINT QR CODE</span></button>
 		<b-container id="add-forum-form" fluid class ="add-forum-form">
                 <div v-if="this.$route.params.what == 'event'" class="event-form">
                     <h3>Crea il tuo evento</h3> <br>
@@ -46,10 +42,6 @@
 </template>
 
 <script>
-	import Vue from 'vue'
-	import QrcodeVue from 'qrcode.vue'
-	import domtoimage from 'dom-to-image'
-	
 	const axios = require("axios");
 	const BASE_PATH = sessionStorage.urlHost;
 	const CREATE_EVENT_PATH = `${BASE_PATH}/createEvent`;
@@ -67,13 +59,9 @@
 				location: "",
 				eventOutput: "",
 				discussionOutput: "",
-				userPoint: "",
-				value: 'https://example.com',
+				userPoint: ""
 			}
 		},
-		components: {
-    		QrcodeVue,
-  		},
 		methods: {
 			createEvent() {	
 				let currentObj = this;
@@ -88,19 +76,9 @@
 						location:this.location
 					})
 					.then(response => {
-						console.log(response.data)
-						this.print();
-
-						sleep(2000);
-						document.getElementById('QRcode').style.visibility="hidden";
-						/*this.getPoint(),
-						currentObj.eventOutput = "Evento creato correttamente! + 10 punti Game! Torna nel forum per consultarlo.",
-						this.title = "",
-						this.description = "",
-						this.fullname = "",
-						this.eventDate = "",
-						this.hour = "",
-						this.location = ""*/
+						console.log(response.data),
+						this.getPoint(),
+						currentObj.eventOutput = "Evento creato correttamente! + 10 punti Game! Torna nel forum per consultarlo."
 					})				
 			},
 			createDiscussion(){
@@ -145,20 +123,7 @@
 				.then(
 					currentObj.pointOutput = "+10 punti game!",
 				)
-			},
-			print(){
-				document.getElementById('QRcode').style.visibility="visible";
-				domtoimage.toJpeg(document.getElementById('QRcode'), { quality: 0.5, bgcolor: "white" })
-					.then(function (dataUrl) {
-						var link = document.createElement('a');
-						link.download = 'eventQRcode.jpeg';
-						link.href = dataUrl;
-						link.click();  
-	
-					});
-				
-    
-			},
+			}
 		}
 	}
 </script>
@@ -166,10 +131,6 @@
 <style scoped lang="scss">
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
-
-	.hide{
-		visibility: hidden;
-	}
 
 	span {
 		font-weight: bolder; 
