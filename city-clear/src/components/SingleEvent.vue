@@ -55,7 +55,6 @@
 	const BASE_PATH = sessionStorage.urlHost;
 	const EVENT_PATH = `${BASE_PATH}/singleEvent`;
 	const MODIFIED_PEOPLE_PATH = `${BASE_PATH}/modifiedPeople`;
-	const POINT_PATH = `${BASE_PATH}/users/point`;
 	export default {
 		name: 'SingleEvent',
 		data() {
@@ -72,15 +71,13 @@
 				people:"",
 				isPartecipant:"",
 				output: "",
-				userPoint: "",
 				isOwner: false,
-				value: 'https://example.com',
+				value: ''
 			}
         },
         mounted() {
 			this.isPartecipant = sessionStorage.getItem(this.$route.params.id)
 			this.getEvent();
-			this.getPoint();
 		},
 		components: {
 			QrcodeVue,
@@ -105,6 +102,7 @@
 						this.people = response.data[0].people;
 						if(this.user === window.sessionStorage.getItem("user")){
 							this.isOwner = true;
+							this.value = this.id;
 							document.getElementById('QRcode').style.visibility="visible";
 						}
                     })
@@ -124,7 +122,6 @@
 					.then(response => {
 						console.log("response  "+ response)
 					})
-				this.checkStatus();
 			},
 			decPeople() {
 				this.people = parseInt(this.people)-1;
@@ -138,34 +135,6 @@
                     .then(response => {
 						console.log("response  "+ response)
 					})
-				this.checkStatus();
-			},
-			getPoint(){
-				let currentObj = this;
-				axios
-					.put(POINT_PATH, {
-						user: window.sessionStorage.getItem("user"),
-					})
-					.then(response => {
-						//currentObj.output = response.data;
-						this.userPoint = response.data.point
-					})
-					.catch(error => {
-						currentObj.output = error.message;
-					})
-			},
-			checkStatus() {
-			},
-			incPoint(){
-				let currentObj = this;
-				axios
-					.patch(POINT_PATH, {
-						user: window.sessionStorage.getItem("user"),
-						point: this.userPoint + 5
-					}) 
-					.then(
-						currentObj.output = "+5 punti game!"
-					)
 			},
 			downloadQRCode(){
 				//document.getElementById('QRcode').style.visibility="visible";
@@ -178,7 +147,7 @@
 					});
 			}, 
 			scanQR(){
-				this.$router.push('../../QRscan')
+				this.$router.push('../../QRscan/' + this.title + '/' + this.id)
 			}
 		}
 	}

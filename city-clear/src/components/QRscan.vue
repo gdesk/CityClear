@@ -1,32 +1,61 @@
 <template>
   <div>
+    <h2>{{this.$route.params.title}}</h2>
     <p class="error">{{ error }}</p>
-
-    <p class="decode-result">Last result: <b>{{ result }}</b></p>
-
+    <p><br>{{ output }} </p>
     <qrcode-stream @decode="onDecode" @init="onInit" />
   </div>
 </template>
 
 <script>
-import { QrcodeStream } from 'vue-qrcode-reader'
-
-export default {
-
-  components: { QrcodeStream },
-
-  data () {
-    return {
-      result: '',
-      error: ''
-    }
+  import { QrcodeStream } from 'vue-qrcode-reader'
+  const axios = require("axios");
+	const BASE_PATH = sessionStorage.urlHost;
+	const POINT_PATH = `${BASE_PATH}/users/point`;
+  export default {
+    components: { QrcodeStream },
+    data () {
+      return {
+        result: '',
+        error: '',
+        output: ''
+      }
   },
-
+  mounted() {
+    this.getPoint()
+  },
   methods: {
     onDecode (result) {
       this.result = result
+      if(this.result === this.$route.params.id) {
+        this.incPoint();
+      }
     },
-
+    getPoint(){
+				let currentObj = this;
+				axios
+					.put(POINT_PATH, {
+						user: window.sessionStorage.getItem("user"),
+					})
+					.then(response => {
+						//currentObj.output = response.data;
+						this.userPoint = response.data.point
+					})
+					.catch(error => {
+						currentObj.output = error.message;
+					})
+		},
+    incPoint(){
+      let currentObj = this;
+      axios
+        .patch(POINT_PATH, {
+          user: window.sessionStorage.getItem("user"),
+          point: this.userPoint + 5
+        }) 
+        .then(
+          currentObj.output = "+5 punti game!"
+        )
+    },
     async onInit (promise) {
       try {
         await promise
@@ -50,9 +79,16 @@ export default {
 }
 </script>
 
-<style scoped>
-.error {
-  font-weight: bold;
-  color: red;
-}
+<style scoped lang="scss">
+  @import 'node_modules/bootstrap/scss/bootstrap';
+	@import 'node_modules/bootstrap-vue/src/index.scss';
+
+  .error {
+    font-weight: bold;
+    color: red;
+  }
+  p {
+		font-size: 15px; 
+		color: #000000;
+	}
 </style>
