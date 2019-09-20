@@ -30,7 +30,7 @@
 						<br> <br> <br>
 						<p>Non vuoi più partecipare? avvisaci.</p> 
 						<b-button @click="decPeople" pill variant="success"><v-icon name="minus"></v-icon></b-button> <br>
-						<b-button @click="scanQR" pill variant="success"><img src="../assets/qrcode.png">Scanner QRcode</b-button>
+						<b-button id="scanBtn" @click="scanQR" pill variant="success"><img src="../assets/qrcode.png">Scanner QRcode</b-button>
 						<p>Porta con te chi vuoi. </p> 
 						<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
 					</div>
@@ -72,6 +72,7 @@
 				isPartecipant:"",
 				output: "",
 				isOwner: false,
+				partecipants:[],
 				value: ''
 			}
         },
@@ -100,11 +101,14 @@
                         this.hour = response.data[0].hour;
                         this.location = response.data[0].location;
 						this.people = response.data[0].people;
+						this.partecipants = response.data[0].partecipants;
+
 						if(this.user === window.sessionStorage.getItem("user")){
 							this.isOwner = true;
 							this.value = this.id;
 							document.getElementById('QRcode').style.visibility="visible";
 						}
+						this.checkScan();
                     })
                     .then(err =>{
                         console.log("err:  " + err)
@@ -148,6 +152,14 @@
 			}, 
 			scanQR(){
 				this.$router.push('../../QRscan/' + this.title + '/' + this.id)
+			},
+			checkScan(){
+				console.log(this.partecipants.includes(window.sessionStorage.getItem("user")))
+				if(this.partecipants.includes(window.sessionStorage.getItem("user"))){
+					document.getElementById('scanBtn').disabled = true;
+				} else {
+					document.getElementById('scanBtn').disabled = false;
+				}
 			}
 		}
 	}
