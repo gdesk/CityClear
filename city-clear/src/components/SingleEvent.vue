@@ -16,8 +16,8 @@
 					<br> <br> <br>
 					<p> Per poter permettere agli altri utenti di guaganare i propri punti game: <br><br>
 						1. Scarica il QRCode, <br> 
-						2. stapalo <br>
-						3. rendilo diponibile
+						2. stampalo <br>
+						3. rendilo disponibile per il giorno dell'evento.
 					</p> 
 					<br> <br>
 					<div ref="child" id="QRcode" class="hide">
