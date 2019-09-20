@@ -2,16 +2,19 @@
   <div>
     <h2>{{this.$route.params.title}}</h2>
     <p class="error">{{ error }}</p>
-    <p><br>{{ output }} </p>
+
     <qrcode-stream @decode="onDecode" @init="onInit" />
   </div>
 </template>
 
 <script>
   import { QrcodeStream } from 'vue-qrcode-reader'
+import Swal from 'sweetalert2'
   const axios = require("axios");
 	const BASE_PATH = sessionStorage.urlHost;
-	const POINT_PATH = `${BASE_PATH}/users/point`;
+  const POINT_PATH = `${BASE_PATH}/users/point`;
+  const ADD_PARTECIPANT_PATH = `${BASE_PATH}/users/addPartecipant`;
+
   export default {
     components: { QrcodeStream },
     data () {
@@ -26,10 +29,30 @@
   },
   methods: {
     onDecode (result) {
+      let currentObj = this;
       this.result = result
       if(this.result === this.$route.params.id) {
         this.incPoint();
+        Swal.fire({
+          title: 'Complimenti!',
+          text: 'Hai guadagnato 5 PUNTI GAME',
+          type: 'success'
+        }).then(function(){
+          currentObj.addPartecipant();
+        });
       }
+    },
+    addPartecipant(){
+      let currentObj = this;
+      axios
+        .patch(ADD_PARTECIPANT_PATH,{
+          id: this.$route.params.id,
+          user: window.sessionStorage.getItem('user')
+        })
+        .then(response =>{
+          console.log(response.data)
+          currentObj.$router.push('../../forum')
+        })
     },
     getPoint(){
 				let currentObj = this;

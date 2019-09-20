@@ -341,6 +341,26 @@ module.exports = (function() {
         });
     });
 
+    routers.patch("/users/addPartecipant", function(req, res, next) {
+        console.log("add Partecipant Request  "+ req.body.user +"    "+ req.body.id);
+
+        mongoConnection
+            .collection("events")
+            .findOne({_id: ObjectId(req.body.id)},(err, findOperation) => {
+                console.log("res: " + findOperation.data);
+                if (err) return next(boom.unauthorized(err));
+
+                var partecipantData = {"$push": {"partecipants": req.body.user}};
+
+                mongoConnection
+                    .collection("events")
+                    .update({_id: ObjectId(req.body.id)}, partecipantData, function (err, updateOperation) {
+                    if (err) return next(boom.badImplementation(err));
+                    res.send("Add partecipant");
+            });
+        });
+    });
+
     //create event
     routers.post("/createEvent", function(req, res, next) {
         console.log("Create an event")
