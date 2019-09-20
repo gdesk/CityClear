@@ -9,7 +9,7 @@
 
 <script>
   import { QrcodeStream } from 'vue-qrcode-reader'
-import Swal from 'sweetalert2'
+  import Swal from 'sweetalert2'
   const axios = require("axios");
 	const BASE_PATH = sessionStorage.urlHost;
   const POINT_PATH = `${BASE_PATH}/users/point`;

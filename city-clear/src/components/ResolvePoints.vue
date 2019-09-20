@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 const axios = require("axios");
 const BASE_PATH = sessionStorage.urlHost;
 const POINTS_PATH = `${BASE_PATH}/allPoints`;
@@ -72,12 +73,22 @@ export default {
 			})
 		},
 		areSure(pointId){
-			var result = confirm("Hai davvero risolto il problema?");
-			
-			if(result){
-				this.resolvePoint(pointId);
-			}
-
+			let currentObj = this;
+			Swal.fire({
+				title: 'Sei sicuro?',
+				text: 'Hai davvero risolto il problema?',
+				showCancelButton: true,
+				cancelButtonText: 'Annulla',   
+				type: 'question'
+			}).then((res) => {
+                    if(res.value){
+						console.log('confirmed');
+						currentObj.resolvePoint(pointId);
+                    }else if(res.dismiss == 'cancel'){
+                        console.log('cancel');
+                    }
+            });
+		
 		}
     }
 }
