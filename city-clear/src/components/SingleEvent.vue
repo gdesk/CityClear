@@ -12,6 +12,8 @@
 						Numero Partecipanti: {{this.people}}
 					</b-card-text>
 				</b-card>
+				<div id="message"></div>
+				<div id="all" class="all" >
 				<div v-if="isOwner==true">
 					<br> <br> <br>
 					<p> Per poter permettere agli altri utenti di guaganare i propri punti game: <br><br>
@@ -39,6 +41,7 @@
 						<p>Partecipa anche tu.</p> 
 						<b-button @click="addPeople" pill variant="success"><v-icon name="plus"></v-icon></b-button>
 					</div>
+				</div>
 				</div>
 			</b-row>
 			<span>
@@ -79,6 +82,7 @@
         mounted() {
 			this.isPartecipant = sessionStorage.getItem(this.$route.params.id)
 			this.getEvent();
+			
 		},
 		components: {
 			QrcodeVue,
@@ -103,6 +107,12 @@
 						this.people = response.data[0].people;
 						this.partecipants = response.data[0].partecipants;
 
+						if(this.partecipants.includes(window.sessionStorage.getItem("user"))){
+							document.getElementById("all").style.display = "none"
+							document.getElementById("message").innerHTML = "<br><br><br><br><h3> Hai già partecipato all'evento. <br> GRAZIE DELLA COLLABORAZIONE!</h3>"
+						}else{
+							document.getElementById("all").style.display = "initial"
+						}
 						if(this.user === window.sessionStorage.getItem("user")){
 							this.isOwner = true;
 							this.value = this.id;
@@ -168,6 +178,11 @@
 <style scoped lang="scss">
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
+
+	.all{
+		display:none;
+	}
+
 	img {
 		width: 10%;
 		height: auto;
