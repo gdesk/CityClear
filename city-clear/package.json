@@ -23,6 +23,7 @@
         "mongodb": "^3.3.0-beta2",
         "qrcode.vue": "^1.6.3",
         "register-service-worker": "^1.6.2",
+        "sweetalert2": "^8.17.6",
         "vue": "^2.6.10",
         "vue-axios": "^2.1.4",
         "vue-icon": "^2.1.1",

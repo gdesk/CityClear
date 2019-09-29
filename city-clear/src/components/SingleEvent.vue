@@ -107,16 +107,15 @@
 						this.people = response.data[0].people;
 						this.partecipants = response.data[0].partecipants;
 
-						if(this.partecipants.includes(window.sessionStorage.getItem("user"))){
-							document.getElementById("all").style.display = "none"
-							document.getElementById("message").innerHTML = "<br><br><br><br><h3> Hai già partecipato all'evento. <br> GRAZIE DELLA COLLABORAZIONE!</h3>"
-						}else{
-							document.getElementById("all").style.display = "initial"
-						}
 						if(this.user === window.sessionStorage.getItem("user")){
 							this.isOwner = true;
 							this.value = this.id;
 							document.getElementById('QRcode').style.visibility="visible";
+						} else if(this.partecipants.includes(window.sessionStorage.getItem("user"))){
+							document.getElementById("all").style.display = "none"
+							document.getElementById("message").innerHTML = "<br><br><br><br><h3> Hai già partecipato all'evento. <br> GRAZIE DELLA COLLABORAZIONE!</h3>"
+						} else{
+							document.getElementById("all").style.display = "initial"
 						}
 						this.checkScan();
                     })
@@ -178,10 +177,6 @@
 <style scoped lang="scss">
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
-
-	.all{
-		display:none;
-	}
 
 	img {
 		width: 10%;
