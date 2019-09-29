@@ -12,7 +12,8 @@
 						Numero Partecipanti: {{this.people}}
 					</b-card-text>
 				</b-card>
-				<div id="message"></div>
+				<br>
+				<div class="message" id="message"></div>
 				<div id="all" class="all" >
 				<div v-if="isOwner==true">
 					<br> <br> <br>
@@ -113,7 +114,7 @@
 							document.getElementById('QRcode').style.visibility="visible";
 						} else if(this.partecipants.includes(window.sessionStorage.getItem("user"))){
 							document.getElementById("all").style.display = "none"
-							document.getElementById("message").innerHTML = "<br><br><br><br><h3> Hai già partecipato all'evento. <br> GRAZIE DELLA COLLABORAZIONE!</h3>"
+							document.getElementById("message").innerHTML = "<h3> Hai già partecipato all'evento. <br> GRAZIE DELLA COLLABORAZIONE!</h3>"
 						} else{
 							document.getElementById("all").style.display = "initial"
 						}
@@ -177,6 +178,11 @@
 <style scoped lang="scss">
 	@import 'node_modules/bootstrap/scss/bootstrap';
 	@import 'node_modules/bootstrap-vue/src/index.scss';
+
+	.message{
+		background: white;
+    	opacity: 0.8;
+	}
 
 	img {
 		width: 10%;
