@@ -1,7 +1,9 @@
 # City-Clear
-## A Web Services and Applications Project
+This project is creted to the course of "Web Services and Applications Project" AA.2018/2019, available from the following link https://www.unibo.it/en/teaching/course-unit-catalogue/course-unit/2019/412604.
 
-https://www.unibo.it/en/teaching/course-unit-catalogue/course-unit/2019/412604
+This project lies in the context of environmental sustainability, in particular with regard to urban decor in the region
+of Emilia Romagna and in detail for the Municipality of Cesena. The aim of our work is to improve our city, to 
+raise public awareness, to notify cities' problem and  to encourage collaboration between citizens.
 
 ## Use Requirements
 
@@ -50,14 +52,10 @@ For deploy run:
 	sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ID
 ```
 
-## API Documentation
-All the API documentation, concenring the available REST calls can be viewed at the following link:  
-https://app.swaggerhub.com/apis/chiara.volonnino/city-clear/1.0.0 
+## Presentation and documentation
 
-
-## Presentation
-A brief presentation of the project can be found in downloads: 
-https://bitbucket.org/cvglteam/asw-19/downloads/
+- [A brief presentation in Italian language](presentation.pdf)  
+- [A complete API documentation, concerning the available REST calls](report.pdf)  
 
 ## Team members
 Chiara Volonnino (chiara.volonnino@studio.unibo.it)  
